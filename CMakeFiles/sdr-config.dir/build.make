@@ -69,32 +69,48 @@ include CMakeFiles/sdr-config.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/sdr-config.dir/flags.make
 
-CMakeFiles/sdr-config.dir/main.cpp.o: CMakeFiles/sdr-config.dir/flags.make
-CMakeFiles/sdr-config.dir/main.cpp.o: main.cpp
-CMakeFiles/sdr-config.dir/main.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sdr-config.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/main.cpp.o -MF CMakeFiles/sdr-config.dir/main.cpp.o.d -o CMakeFiles/sdr-config.dir/main.cpp.o -c /home/murray/sdr-config/main.cpp
+CMakeFiles/sdr-config.dir/src/main.cpp.o: CMakeFiles/sdr-config.dir/flags.make
+CMakeFiles/sdr-config.dir/src/main.cpp.o: src/main.cpp
+CMakeFiles/sdr-config.dir/src/main.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sdr-config.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/src/main.cpp.o -MF CMakeFiles/sdr-config.dir/src/main.cpp.o.d -o CMakeFiles/sdr-config.dir/src/main.cpp.o -c /home/murray/sdr-config/src/main.cpp
 
-CMakeFiles/sdr-config.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdr-config.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/murray/sdr-config/main.cpp > CMakeFiles/sdr-config.dir/main.cpp.i
+CMakeFiles/sdr-config.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdr-config.dir/src/main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/murray/sdr-config/src/main.cpp > CMakeFiles/sdr-config.dir/src/main.cpp.i
 
-CMakeFiles/sdr-config.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdr-config.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/murray/sdr-config/main.cpp -o CMakeFiles/sdr-config.dir/main.cpp.s
+CMakeFiles/sdr-config.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdr-config.dir/src/main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/murray/sdr-config/src/main.cpp -o CMakeFiles/sdr-config.dir/src/main.cpp.s
+
+CMakeFiles/sdr-config.dir/src/parser.cpp.o: CMakeFiles/sdr-config.dir/flags.make
+CMakeFiles/sdr-config.dir/src/parser.cpp.o: src/parser.cpp
+CMakeFiles/sdr-config.dir/src/parser.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/sdr-config.dir/src/parser.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/src/parser.cpp.o -MF CMakeFiles/sdr-config.dir/src/parser.cpp.o.d -o CMakeFiles/sdr-config.dir/src/parser.cpp.o -c /home/murray/sdr-config/src/parser.cpp
+
+CMakeFiles/sdr-config.dir/src/parser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdr-config.dir/src/parser.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/murray/sdr-config/src/parser.cpp > CMakeFiles/sdr-config.dir/src/parser.cpp.i
+
+CMakeFiles/sdr-config.dir/src/parser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdr-config.dir/src/parser.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/murray/sdr-config/src/parser.cpp -o CMakeFiles/sdr-config.dir/src/parser.cpp.s
 
 # Object files for target sdr-config
 sdr__config_OBJECTS = \
-"CMakeFiles/sdr-config.dir/main.cpp.o"
+"CMakeFiles/sdr-config.dir/src/main.cpp.o" \
+"CMakeFiles/sdr-config.dir/src/parser.cpp.o"
 
 # External object files for target sdr-config
 sdr__config_EXTERNAL_OBJECTS =
 
-sdr-config: CMakeFiles/sdr-config.dir/main.cpp.o
+sdr-config: CMakeFiles/sdr-config.dir/src/main.cpp.o
+sdr-config: CMakeFiles/sdr-config.dir/src/parser.cpp.o
 sdr-config: CMakeFiles/sdr-config.dir/build.make
 sdr-config: /home/murray/pugixml-1.14/libpugixml.a
 sdr-config: CMakeFiles/sdr-config.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable sdr-config"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable sdr-config"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sdr-config.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

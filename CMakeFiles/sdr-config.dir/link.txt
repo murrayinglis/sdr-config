@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/sdr-config.dir/main.cpp.o -o sdr-config  /home/murray/pugixml-1.14/libpugixml.a 
+/usr/bin/c++ CMakeFiles/sdr-config.dir/src/main.cpp.o CMakeFiles/sdr-config.dir/src/parser.cpp.o -o sdr-config  /home/murray/pugixml-1.14/libpugixml.a 
