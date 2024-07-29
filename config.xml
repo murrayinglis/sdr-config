@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <device>
-    <name>USRP</name>
+    <name>USRP Device</name>
     <id>2</id>
 </device>
 <config>
