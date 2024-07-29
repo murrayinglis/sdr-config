@@ -3,3 +3,9 @@
     <name>USRP</name>
     <id>2</id>
 </device>
+<config>
+    <centre_frequency>10</centre_frequency>
+    <sample_rate>100</sample_rate>
+    <gain>30</gain>
+    <waveform_path></waveform_path>
+</config>

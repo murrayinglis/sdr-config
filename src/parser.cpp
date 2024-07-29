@@ -22,7 +22,10 @@ Parser::Parser(const std::string& xmlFile)
 
 void Parser::parse()
 {
+    // Identify device
     uhd::device_addr_t hint; //an empty hint discovers all devices
     uhd::device_addrs_t dev_addrs = uhd::device::find(hint);
     std::cout << "Devices found: " << dev_addrs.size() << std::endl;
+
+    // Propogate settings to device
 }
