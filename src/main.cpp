@@ -7,7 +7,7 @@ int main()
 {
     const std::string& configFileName = "config.xml";
     Parser parser = Parser(configFileName); // Parse config file
-
+    parser.parse();
 
     return 0;
 }

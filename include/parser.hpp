@@ -11,7 +11,7 @@ class Parser
 public:
     Parser();
     Parser(const std::string& xmlFile);
-    static void parse(Parser parser);
+    void parse();
 
 private:
     pugi::xml_document doc;

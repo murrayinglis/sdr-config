@@ -1,4 +1,6 @@
 #include "parser.hpp"
+#include <uhd/types/device_addr.hpp>
+#include <uhd/device.hpp>
 
 Parser::Parser()
 {
@@ -18,7 +20,9 @@ Parser::Parser(const std::string& xmlFile)
     std::cout << "Load result: " << result.description() << std::endl;
 }
 
-void Parser::parse(Parser parse)
+void Parser::parse()
 {
-    
+    uhd::device_addr_t hint; //an empty hint discovers all devices
+    uhd::device_addrs_t dev_addrs = uhd::device::find(hint);
+    std::cout << "Devices found: " << dev_addrs.size() << std::endl;
 }

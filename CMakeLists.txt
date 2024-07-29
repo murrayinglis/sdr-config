@@ -13,5 +13,7 @@ add_executable(sdr-config ${SOURCES})
 
 # include path
 include_directories(include/)
+include_directories(/usr/include/uhd)
 
 target_link_libraries(sdr-config /home/murray/pugixml-1.14/libpugixml.a)
+target_link_libraries(sdr-config /usr/lib/x86_64-linux-gnu/libuhd.so)

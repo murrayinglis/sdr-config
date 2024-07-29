@@ -109,6 +109,7 @@ sdr-config: CMakeFiles/sdr-config.dir/src/main.cpp.o
 sdr-config: CMakeFiles/sdr-config.dir/src/parser.cpp.o
 sdr-config: CMakeFiles/sdr-config.dir/build.make
 sdr-config: /home/murray/pugixml-1.14/libpugixml.a
+sdr-config: /usr/lib/x86_64-linux-gnu/libuhd.so
 sdr-config: CMakeFiles/sdr-config.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable sdr-config"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sdr-config.dir/link.txt --verbose=$(VERBOSE)
