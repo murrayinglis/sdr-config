@@ -1,12 +1,12 @@
-#ifndef PARSER_HPP
-#define PARSER_HPP
+#ifndef CONFIG_HPP
+#define CONFIG_HPP
 
 #include "pugixml.hpp" 
 #include <string>
 #include <iostream>
 #include <vector>
 
-namespace parser
+namespace config
 {
     extern std::string SDR_IP;
     extern std::string TX_SUBDEV;

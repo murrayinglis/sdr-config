@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/sdr-config.dir/src/config.cpp.o"
+  "CMakeFiles/sdr-config.dir/src/config.cpp.o.d"
   "CMakeFiles/sdr-config.dir/src/main.cpp.o"
   "CMakeFiles/sdr-config.dir/src/main.cpp.o.d"
-  "CMakeFiles/sdr-config.dir/src/parser.cpp.o"
-  "CMakeFiles/sdr-config.dir/src/parser.cpp.o.d"
   "sdr-config"
   "sdr-config.pdb"
 )

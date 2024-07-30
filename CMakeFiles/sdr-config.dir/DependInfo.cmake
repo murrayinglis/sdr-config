@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/murray/sdr-config/src/config.cpp" "CMakeFiles/sdr-config.dir/src/config.cpp.o" "gcc" "CMakeFiles/sdr-config.dir/src/config.cpp.o.d"
   "/home/murray/sdr-config/src/main.cpp" "CMakeFiles/sdr-config.dir/src/main.cpp.o" "gcc" "CMakeFiles/sdr-config.dir/src/main.cpp.o.d"
-  "/home/murray/sdr-config/src/parser.cpp" "CMakeFiles/sdr-config.dir/src/parser.cpp.o" "gcc" "CMakeFiles/sdr-config.dir/src/parser.cpp.o.d"
   )
 
 # Targets to which this target links.

@@ -1,13 +1,13 @@
 #include "pugixml.hpp" 
-#include "parser.hpp"
+#include "config.hpp"
 #include <iostream>
 #include <string>
 
 int main()
 {
     const std::string& configFileName = "config.xml";
-    parser::readFile(configFileName);
-    parser::load();
+    config::readFile(configFileName);
+    config::load();
 
 
     return 0;

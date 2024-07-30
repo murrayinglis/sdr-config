@@ -137,7 +137,7 @@ CMakeFiles/sdr-config.dir/src/main.cpp.o: \
  /usr/include/c++/11/system_error \
  /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
  /usr/include/c++/11/stdexcept /usr/include/c++/11/bits/streambuf.tcc \
- /home/murray/sdr-config/include/parser.hpp \
+ /home/murray/sdr-config/include/config.hpp \
  /home/murray/sdr-config/include/pugixml.hpp /usr/include/c++/11/iostream \
  /usr/include/c++/11/ostream /usr/include/c++/11/ios \
  /usr/include/c++/11/bits/basic_ios.h \

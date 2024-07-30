@@ -1,10 +1,10 @@
-#include "parser.hpp"
+#include "config.hpp"
 #include <uhd/types/device_addr.hpp>
 #include <uhd/device.hpp>
 #include <string>
 #include <sstream>
 
-namespace parser
+namespace config
 {
     std::string SDR_IP;
     std::string TX_SUBDEV;
@@ -118,6 +118,7 @@ namespace parser
         return 0;
     }
 }
+
 
 
 
