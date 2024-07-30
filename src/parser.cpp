@@ -6,6 +6,26 @@
 
 namespace parser
 {
+    std::string SDR_IP;
+    std::string TX_SUBDEV;
+    std::string RX_SUBDEV;
+    std::string REF_CLOCK;
+    std::string TX_ANTENNA;
+    std::string RX_ANTENNA;
+    std::string TEST_TYPE;
+    std::string WAVEFORM_FILE;
+    //
+    double TX_FREQ;
+    double TX_RATE;
+    double TX_BW;
+    double TX_GAIN;
+    double RX_FREQ;
+    double RX_RATE;
+    double RX_BW;
+    double RX_GAIN;
+    //
+    std::string OUTPUT_FILE;
+    bool VERBOSE;
     pugi::xml_document doc;
 
     int readFile(const std::string& xmlFile)
@@ -22,7 +42,7 @@ namespace parser
         return 0;
     }
 
-    int load(config& config)
+    int load()
     {
         pugi::xml_node root = doc.child("root");
         pugi::xml_node deviceNode = root.child("device");
@@ -67,51 +87,33 @@ namespace parser
         // Propogate settings to device
         // Device config
         pugi::xml_node configNode = root.child("config");
-        std::string TX_SUBDEV = configNode.child_value("TX_SUBDEV");
-        std::string RX_SUBDEV = configNode.child_value("RX_SUBDEV");
-        std::string REF_CLOCK = configNode.child_value("REF_CLOCK");
-        std::string TX_ANTENNA = configNode.child_value("TX_ANTENNA");
-        std::string RX_ANTENNA = configNode.child_value("RX_ANTENNA");
-        std::string TEST_TYPE = configNode.child_value("TEST_TYPE");
-        std::string WAVEFORM_FILE = configNode.child_value("WAVEFORM_FILE");
+        TX_SUBDEV = configNode.child_value("TX_SUBDEV");
+        RX_SUBDEV = configNode.child_value("RX_SUBDEV");
+        REF_CLOCK = configNode.child_value("REF_CLOCK");
+        TX_ANTENNA = configNode.child_value("TX_ANTENNA");
+        RX_ANTENNA = configNode.child_value("RX_ANTENNA");
+        TEST_TYPE = configNode.child_value("TEST_TYPE");
+        WAVEFORM_FILE = configNode.child_value("WAVEFORM_FILE");
         // Frequency params
         pugi::xml_node freqNode = root.child("frequency");
-        double TX_FREQ = std::stod(freqNode.child_value("TX_FREQ"));
-        double TX_RATE = std::stod(freqNode.child_value("TX_RATE"));
-        double TX_BW = std::stod(freqNode.child_value("TX_BW"));
-        double TX_GAIN = std::stod(freqNode.child_value("TX_GAIN"));
-        double RX_FREQ = std::stod(freqNode.child_value("RX_FREQ"));
-        double RX_RATE = std::stod(freqNode.child_value("RX_RATE"));
-        double RX_BW = std::stod(freqNode.child_value("RX_BW"));
-        double RX_GAIN = std::stod(freqNode.child_value("RX_GAIN"));
+        TX_FREQ = std::stod(freqNode.child_value("TX_FREQ"));
+        TX_RATE = std::stod(freqNode.child_value("TX_RATE"));
+        TX_BW = std::stod(freqNode.child_value("TX_BW"));
+        TX_GAIN = std::stod(freqNode.child_value("TX_GAIN"));
+        RX_FREQ = std::stod(freqNode.child_value("RX_FREQ"));
+        RX_RATE = std::stod(freqNode.child_value("RX_RATE"));
+        RX_BW = std::stod(freqNode.child_value("RX_BW"));
+        RX_GAIN = std::stod(freqNode.child_value("RX_GAIN"));
         // Options
         pugi::xml_node optionsNode = root.child("options");
-        std::string OUTPUT_FILE = optionsNode.child_value("OUTPUT_FILE");
+        OUTPUT_FILE = optionsNode.child_value("OUTPUT_FILE");
         std::stringstream ss(optionsNode.child_value("VERBOSE"));
         bool b;
         if(!(ss >> std::boolalpha >> b)) {
             std::cerr << "Verbose bool error" << std::endl;
             return -1;
         }
-        bool VERBOSE = b;
-
-        config.TX_SUBDEV = TX_SUBDEV;
-        config.RX_SUBDEV = RX_SUBDEV;
-        config.REF_CLOCK = REF_CLOCK;
-        config.TX_ANTENNA = TX_ANTENNA;
-        config.RX_ANTENNA = RX_ANTENNA;
-        config.TEST_TYPE = TEST_TYPE;
-        config.WAVEFORM_FILE = WAVEFORM_FILE;
-        config.TX_FREQ = TX_FREQ;
-        config.TX_RATE = TX_RATE;
-        config.TX_BW = TX_BW;
-        config.TX_GAIN = TX_GAIN;
-        config.RX_FREQ = RX_FREQ;
-        config.RX_RATE = RX_RATE;
-        config.RX_BW = RX_BW;
-        config.RX_GAIN = RX_GAIN;
-        config.OUTPUT_FILE = OUTPUT_FILE;
-        config.VERBOSE = VERBOSE;
+        VERBOSE = b;
 
         return 0;
     }
