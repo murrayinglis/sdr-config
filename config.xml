@@ -1,11 +1,30 @@
 <?xml version="1.0"?>
-<device>
-    <name>USRP Device</name>
-    <id>2</id>
-</device>
-<config>
-    <centre_frequency>10</centre_frequency>
-    <sample_rate>100</sample_rate>
-    <gain>30</gain>
-    <waveform_path></waveform_path>
-</config>
+<root>
+    <device>
+        <name>USRP Device</name>
+        <IP>192.168.101.1</IP>
+    </device>
+    <config>
+        <TX_SUBDEV></TX_SUBDEV>
+        <RX_SUBDEV></RX_SUBDEV>
+        <REF_CLOCK></REF_CLOCK>
+        <TX_ANTENNA></TX_ANTENNA>
+        <RX_ANTENNA></RX_ANTENNA>
+        <TEST_TYPE></TEST_TYPE>
+        <WAVEFORM_FILE></WAVEFORM_FILE>
+    </config>
+    <frequency>
+        <TX_FREQ>410e6</TX_FREQ>
+        <RX_FREQ>410e6</RX_FREQ>
+        <TX_RATE>410e6</TX_RATE>
+        <RX_RATE>410e6</RX_RATE>
+        <TX_BW>410e6</TX_BW>
+        <RX_BW>410e6</RX_BW>
+        <TX_GAIN>410e6</TX_GAIN>
+        <RX_GAIN>410e6</RX_GAIN>
+    </frequency>
+    <options>
+        <OUTPUT_FILE></OUTPUT_FILE>
+        <VERBOSE>true</VERBOSE>
+    </options>
+</root>

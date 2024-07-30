@@ -18,6 +18,7 @@ private:
     pugi::xml_node device;
     pugi::xml_node name;
 
+    int checkMissingNodes();
 };
 
 #endif
