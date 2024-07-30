@@ -6,8 +6,11 @@
 int main()
 {
     const std::string& configFileName = "config.xml";
-    Parser parser = Parser(configFileName); // Parse config file
-    parser.parse();
+    parser::readFile(configFileName);
+    parser::config config;
+    parser::load(config);
+
+    std::cout << config.RX_FREQ << std::endl;
 
     return 0;
 }
