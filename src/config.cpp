@@ -26,9 +26,11 @@ namespace config
     //
     std::string OUTPUT_FILE;
     bool VERBOSE;
+
+    USRP_MODE device_mode;
     pugi::xml_document doc;
 
-    int readFile(const std::string& xmlFile)
+    int configFromFile(const std::string& xmlFile)
     {
         
         pugi::xml_parse_result result = doc.load_file("config.xml");
@@ -39,6 +41,10 @@ namespace config
             return -1;
         }
         std::cout << "Load result: " << result.description() << std::endl;
+
+        load();
+        setUSRP_mode_from_config();
+
         return 0;
     }
 
@@ -115,15 +121,46 @@ namespace config
         }
         VERBOSE = b;
 
+
+        return 0;
+    }
+
+    bool setUSRP_mode_from_config()
+    {
+        // check for invalid modes
+        if(TX_ANTENNA==""&&RX_ANTENNA==""){ //at least one antenna is defined
+            std::cerr<<"No antennas specified"<<std::endl;
+            device_mode=INVALID_MODE;
+            return false;
+        }
+        if(TX_ANTENNA==RX_ANTENNA){
+            std::cerr<<"Config is attempting to TX and RX on same channel:"<<std::endl;
+            std::cerr<<TX_ANTENNA<<"&"<<RX_ANTENNA<<std::endl;
+            device_mode=INVALID_MODE;
+            return false;    
+        }
+
+        // check for valid modes
+        if(TX_ANTENNA==""&&RX_ANTENNA!=""){ // RX only mode
+            std::cout<<"Device configured as RX only"<<std::endl;
+            device_mode=RX_ONLY_MODE;
+        }
+        if(TX_ANTENNA!=""&&RX_ANTENNA==""){ // RX only mode
+            std::cout<<"Device configured as TX only"<<std::endl;
+            device_mode=TX_AND_RX_MODE;
+        }
+        if(TX_ANTENNA!=""&&RX_ANTENNA!=""){ // RX only mode
+            std::cout<<"Device configured as TX and RX"<<std::endl;
+            device_mode=TX_AND_RX_MODE;
+        }
+        return true;
+    }
+
+
+    // TODO:
+    int checkMissingNodes()
+    {
         return 0;
     }
 }
 
-
-
-
-// TODO:
-int checkMissingNodes()
-{
-    return 0;
-}
