@@ -90,7 +90,7 @@ namespace hardware{
         }
         
         auto currentTime=std::chrono::high_resolution_clock::now();
-        std::chrono::duration duration =currentTime-startTime;
+        std::chrono::high_resolution_clock::duration duration = currentTime-startTime;
         return duration.count();
 
     }

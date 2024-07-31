@@ -28,7 +28,6 @@ int main(int argc, char *argv[]) {
         ("help,h", "Display help message")
         ("find", "Finds and displays the address of all devices connected")
         ("dump,", po::value<std::string>(&option_dump), "Dump the config of a specified device to an xml file")
-        ("config", "Configure the device at default config.xml")
         ("config", po::value<std::string>(&option_config), "Configure the device at a specific address based on a config xml file");
 
     // Parse the command line arguments

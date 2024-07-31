@@ -1,6 +1,11 @@
 #include "config.hpp"
+#include "hardware.hpp"
 #include <uhd/types/device_addr.hpp>
 #include <uhd/device.hpp>
+#include <uhd/utils/thread.hpp>
+#include <uhd/utils/safe_main.hpp>
+#include <uhd/usrp/multi_usrp.hpp>
+#include <uhd/exception.hpp>
 #include <string>
 #include <sstream>
 
@@ -26,6 +31,9 @@ namespace config
     //
     std::string OUTPUT_FILE;
     bool VERBOSE;
+    //
+    double MIN_FREQ;
+    double MAX_FREQ;
 
     USRP_MODE device_mode;
     pugi::xml_document doc;
@@ -44,6 +52,7 @@ namespace config
 
         load();
         setUSRP_mode_from_config();
+        connect();
 
         return 0;
     }
@@ -59,10 +68,10 @@ namespace config
         }
 
         pugi::xml_node deviceName = deviceNode.child("name");
-        pugi::xml_node deviceIP = deviceNode.child("IP");
+        pugi::xml_node SDR_IP = deviceNode.child("IP");
 
         // Device to find
-        std::cout << "Searching for device: " << deviceName.child_value() << ", with IP: " << deviceIP.child_value() << std::endl;
+        std::cout << "Searching for device: " << deviceName.child_value() << ", with IP: " << SDR_IP.child_value() << std::endl;
 
         // This is the same as running uhd_find_devices from command line
         uhd::device_addr_t hint; //an empty hint discovers all devices
@@ -74,7 +83,7 @@ namespace config
 
         // Check if desired IP is in found IPs
         // TODO: check for name? X300 etc
-        uhd::device_addr_t desiredIP((std::string)("addr=") += (std::string)(deviceIP.child_value()));
+        uhd::device_addr_t desiredIP((std::string)("addr=") += (std::string)(SDR_IP.child_value()));
         bool found;
         for (uhd::device_addr_t addr : dev_addrs)
         {
@@ -156,6 +165,45 @@ namespace config
         return true;
     }
 
+    int connect()
+    {
+        uhd::usrp::multi_usrp::sptr usrp;
+        try
+        {
+            usrp = uhd::usrp::multi_usrp::make(std::string("addr=") += config::SDR_IP);
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+            return -1;
+        }
+        
+        
+        std::cout << "Default (current) clock source: " << usrp->get_clock_source(0) << "\n";
+        std::cout << "Default (current) time source: " << usrp->get_time_source(0) << "\n";
+        // usrp->set_clock_source(CONFIG::REF_CLOCK);
+        // usrp->set_time_source(CONFIG::REF_CLOCK);
+        usrp->set_time_now(uhd::time_spec_t(0.0)); //! Need to remove once I have proper global timing set up
+        //uint64_t zero_time_ms = UTIL::getCurrentEpochTime_ms();
+
+        switch (config::device_mode)
+        {
+        case config::USRP_MODE::TX_ONLY_MODE:
+            hardware::setupTransmitter(usrp);
+            break;
+        case config::USRP_MODE::RX_ONLY_MODE:
+            hardware::setupReceiever(usrp);
+            break;
+        case config::USRP_MODE::TX_AND_RX_MODE:
+            hardware::setupTransmitter(usrp);
+            hardware::setupReceiever(usrp);
+            break;
+        default:
+            std::cout << "Hit default case, mode not set correctly" << std::endl;
+            break;
+        }
+        return 0;
+    }
 
     // TODO:
     int checkMissingNodes()

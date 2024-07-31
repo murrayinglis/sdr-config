@@ -61,6 +61,7 @@ namespace config
      * Load the config file into a config object
      */
     int load();
+    int connect();
     bool setUSRP_mode_from_config();
 
     extern pugi::xml_document doc;

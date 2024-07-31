@@ -153,6 +153,126 @@ src/config.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/config.cpp.s
 .PHONY : src/config.cpp.s
 
+src/hardware/RX_config.o: src/hardware/RX_config.cpp.o
+.PHONY : src/hardware/RX_config.o
+
+# target to build an object file
+src/hardware/RX_config.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.o
+.PHONY : src/hardware/RX_config.cpp.o
+
+src/hardware/RX_config.i: src/hardware/RX_config.cpp.i
+.PHONY : src/hardware/RX_config.i
+
+# target to preprocess a source file
+src/hardware/RX_config.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.i
+.PHONY : src/hardware/RX_config.cpp.i
+
+src/hardware/RX_config.s: src/hardware/RX_config.cpp.s
+.PHONY : src/hardware/RX_config.s
+
+# target to generate assembly for a file
+src/hardware/RX_config.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.s
+.PHONY : src/hardware/RX_config.cpp.s
+
+src/hardware/RX_funcs.o: src/hardware/RX_funcs.cpp.o
+.PHONY : src/hardware/RX_funcs.o
+
+# target to build an object file
+src/hardware/RX_funcs.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.o
+.PHONY : src/hardware/RX_funcs.cpp.o
+
+src/hardware/RX_funcs.i: src/hardware/RX_funcs.cpp.i
+.PHONY : src/hardware/RX_funcs.i
+
+# target to preprocess a source file
+src/hardware/RX_funcs.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.i
+.PHONY : src/hardware/RX_funcs.cpp.i
+
+src/hardware/RX_funcs.s: src/hardware/RX_funcs.cpp.s
+.PHONY : src/hardware/RX_funcs.s
+
+# target to generate assembly for a file
+src/hardware/RX_funcs.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.s
+.PHONY : src/hardware/RX_funcs.cpp.s
+
+src/hardware/TXRX_config.o: src/hardware/TXRX_config.cpp.o
+.PHONY : src/hardware/TXRX_config.o
+
+# target to build an object file
+src/hardware/TXRX_config.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.o
+.PHONY : src/hardware/TXRX_config.cpp.o
+
+src/hardware/TXRX_config.i: src/hardware/TXRX_config.cpp.i
+.PHONY : src/hardware/TXRX_config.i
+
+# target to preprocess a source file
+src/hardware/TXRX_config.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.i
+.PHONY : src/hardware/TXRX_config.cpp.i
+
+src/hardware/TXRX_config.s: src/hardware/TXRX_config.cpp.s
+.PHONY : src/hardware/TXRX_config.s
+
+# target to generate assembly for a file
+src/hardware/TXRX_config.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.s
+.PHONY : src/hardware/TXRX_config.cpp.s
+
+src/hardware/TX_Funcs.o: src/hardware/TX_Funcs.cpp.o
+.PHONY : src/hardware/TX_Funcs.o
+
+# target to build an object file
+src/hardware/TX_Funcs.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.o
+.PHONY : src/hardware/TX_Funcs.cpp.o
+
+src/hardware/TX_Funcs.i: src/hardware/TX_Funcs.cpp.i
+.PHONY : src/hardware/TX_Funcs.i
+
+# target to preprocess a source file
+src/hardware/TX_Funcs.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.i
+.PHONY : src/hardware/TX_Funcs.cpp.i
+
+src/hardware/TX_Funcs.s: src/hardware/TX_Funcs.cpp.s
+.PHONY : src/hardware/TX_Funcs.s
+
+# target to generate assembly for a file
+src/hardware/TX_Funcs.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.s
+.PHONY : src/hardware/TX_Funcs.cpp.s
+
+src/hardware/TX_config.o: src/hardware/TX_config.cpp.o
+.PHONY : src/hardware/TX_config.o
+
+# target to build an object file
+src/hardware/TX_config.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.o
+.PHONY : src/hardware/TX_config.cpp.o
+
+src/hardware/TX_config.i: src/hardware/TX_config.cpp.i
+.PHONY : src/hardware/TX_config.i
+
+# target to preprocess a source file
+src/hardware/TX_config.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.i
+.PHONY : src/hardware/TX_config.cpp.i
+
+src/hardware/TX_config.s: src/hardware/TX_config.cpp.s
+.PHONY : src/hardware/TX_config.s
+
+# target to generate assembly for a file
+src/hardware/TX_config.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.s
+.PHONY : src/hardware/TX_config.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -189,6 +309,21 @@ help:
 	@echo "... src/config.o"
 	@echo "... src/config.i"
 	@echo "... src/config.s"
+	@echo "... src/hardware/RX_config.o"
+	@echo "... src/hardware/RX_config.i"
+	@echo "... src/hardware/RX_config.s"
+	@echo "... src/hardware/RX_funcs.o"
+	@echo "... src/hardware/RX_funcs.i"
+	@echo "... src/hardware/RX_funcs.s"
+	@echo "... src/hardware/TXRX_config.o"
+	@echo "... src/hardware/TXRX_config.i"
+	@echo "... src/hardware/TXRX_config.s"
+	@echo "... src/hardware/TX_Funcs.o"
+	@echo "... src/hardware/TX_Funcs.i"
+	@echo "... src/hardware/TX_Funcs.s"
+	@echo "... src/hardware/TX_config.o"
+	@echo "... src/hardware/TX_config.i"
+	@echo "... src/hardware/TX_config.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
