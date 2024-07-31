@@ -60,16 +60,8 @@ int main(int argc, char *argv[]) {
         std::cout << "TODO: implement dumping config from addr. " << option_dump << std::endl;
     }
     if (vm.count("config")) {
-        if (option_config == "") 
-        {
-            std::cout << "Now configuring from: config.xml" << std::endl;
-            option_config = "config.xml";
-        }
-        else 
-        {
-            std::cout << "Now configuring from: " << option_config << std::endl;
-        }
-        config::configFromFile(option_config);
+        std::cout << "Now configuring from: " << option_config << std::endl;
+        config::configFromFile(option_config.c_str());
     }
 
     return 0;

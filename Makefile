@@ -129,30 +129,6 @@ sdr-config/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/build
 .PHONY : sdr-config/fast
 
-src/config.o: src/config.cpp.o
-.PHONY : src/config.o
-
-# target to build an object file
-src/config.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/config.cpp.o
-.PHONY : src/config.cpp.o
-
-src/config.i: src/config.cpp.i
-.PHONY : src/config.i
-
-# target to preprocess a source file
-src/config.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/config.cpp.i
-.PHONY : src/config.cpp.i
-
-src/config.s: src/config.cpp.s
-.PHONY : src/config.s
-
-# target to generate assembly for a file
-src/config.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/config.cpp.s
-.PHONY : src/config.cpp.s
-
 src/hardware/RX_config.o: src/hardware/RX_config.cpp.o
 .PHONY : src/hardware/RX_config.o
 
@@ -297,6 +273,54 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/utilities/config.o: src/utilities/config.cpp.o
+.PHONY : src/utilities/config.o
+
+# target to build an object file
+src/utilities/config.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o
+.PHONY : src/utilities/config.cpp.o
+
+src/utilities/config.i: src/utilities/config.cpp.i
+.PHONY : src/utilities/config.i
+
+# target to preprocess a source file
+src/utilities/config.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/utilities/config.cpp.i
+.PHONY : src/utilities/config.cpp.i
+
+src/utilities/config.s: src/utilities/config.cpp.s
+.PHONY : src/utilities/config.s
+
+# target to generate assembly for a file
+src/utilities/config.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/utilities/config.cpp.s
+.PHONY : src/utilities/config.cpp.s
+
+src/utilities/utils.o: src/utilities/utils.cpp.o
+.PHONY : src/utilities/utils.o
+
+# target to build an object file
+src/utilities/utils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o
+.PHONY : src/utilities/utils.cpp.o
+
+src/utilities/utils.i: src/utilities/utils.cpp.i
+.PHONY : src/utilities/utils.i
+
+# target to preprocess a source file
+src/utilities/utils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.i
+.PHONY : src/utilities/utils.cpp.i
+
+src/utilities/utils.s: src/utilities/utils.cpp.s
+.PHONY : src/utilities/utils.s
+
+# target to generate assembly for a file
+src/utilities/utils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.s
+.PHONY : src/utilities/utils.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -306,9 +330,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... sdr-config"
-	@echo "... src/config.o"
-	@echo "... src/config.i"
-	@echo "... src/config.s"
 	@echo "... src/hardware/RX_config.o"
 	@echo "... src/hardware/RX_config.i"
 	@echo "... src/hardware/RX_config.s"
@@ -327,6 +348,12 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/utilities/config.o"
+	@echo "... src/utilities/config.i"
+	@echo "... src/utilities/config.s"
+	@echo "... src/utilities/utils.o"
+	@echo "... src/utilities/utils.i"
+	@echo "... src/utilities/utils.s"
 .PHONY : help
 
 

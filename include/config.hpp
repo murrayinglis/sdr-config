@@ -53,10 +53,12 @@ namespace config
     extern double MIN_FREQ;
     extern double MAX_FREQ;
 
+    extern uint64_t experimentZeroTime;
+
     /**
      * Read the config xml file into memory
      */
-    int configFromFile(const std::string& xmlFile);
+    int configFromFile(const char* xmlFile);
     /**
      * Load the config file into a config object
      */

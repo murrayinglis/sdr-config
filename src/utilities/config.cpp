@@ -36,12 +36,15 @@ namespace config
     double MAX_FREQ;
 
     USRP_MODE device_mode;
+
+    uint64_t experimentZeroTime;
+    
     pugi::xml_document doc;
 
-    int configFromFile(const std::string& xmlFile)
+    int configFromFile(const char* xmlFile)
     {
         
-        pugi::xml_parse_result result = doc.load_file("config.xml");
+        pugi::xml_parse_result result = doc.load_file(xmlFile);
 
         if (!result)
         {
@@ -50,7 +53,10 @@ namespace config
         }
         std::cout << "Load result: " << result.description() << std::endl;
 
-        load();
+        if (load() == -1)
+        {
+            return -1;
+        }
         setUSRP_mode_from_config();
         connect();
 
@@ -76,10 +82,10 @@ namespace config
         // This is the same as running uhd_find_devices from command line
         uhd::device_addr_t hint; //an empty hint discovers all devices
         uhd::device_addrs_t dev_addrs = uhd::device::find(hint); // vector of device addresses
-        // TEMP
-        uhd::device_addr_t temp(std::string("addr=192.168.101.1"));
-        dev_addrs.push_back(temp);
-        std::cout << "Devices found: " << dev_addrs.size() << std::endl;
+        // TEMP force an IP to be in the vector to continue
+        //uhd::device_addr_t temp(std::string("addr=192.168.101.1"));
+        //dev_addrs.push_back(temp);
+        //std::cout << "Devices found: " << dev_addrs.size() << std::endl;
 
         // Check if desired IP is in found IPs
         // TODO: check for name? X300 etc

@@ -1,6 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/sdr-config.dir/src/config.cpp.o"
-  "CMakeFiles/sdr-config.dir/src/config.cpp.o.d"
   "CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.o"
   "CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.o.d"
   "CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.o"
@@ -13,6 +11,10 @@ file(REMOVE_RECURSE
   "CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.o.d"
   "CMakeFiles/sdr-config.dir/src/main.cpp.o"
   "CMakeFiles/sdr-config.dir/src/main.cpp.o.d"
+  "CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o"
+  "CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o.d"
+  "CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o"
+  "CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o.d"
   "sdr-config"
   "sdr-config.pdb"
 )

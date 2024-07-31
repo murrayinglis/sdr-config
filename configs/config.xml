@@ -10,7 +10,7 @@
         <REF_CLOCK></REF_CLOCK>
         <TX_ANTENNA></TX_ANTENNA>
         <RX_ANTENNA></RX_ANTENNA>
-        <TEST_TYPE></TEST_TYPE>
+        <TEST_TYPE>SFCW</TEST_TYPE>
         <WAVEFORM_FILE></WAVEFORM_FILE>
     </config>
     <frequency>
@@ -23,6 +23,9 @@
         <TX_GAIN>410e6</TX_GAIN>
         <RX_GAIN>410e6</RX_GAIN>
     </frequency>
+    <test>
+
+    </test>
     <options>
         <OUTPUT_FILE></OUTPUT_FILE>
         <VERBOSE>true</VERBOSE>
