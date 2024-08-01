@@ -1,7 +1,8 @@
 # sdr-config
 
 This project provides an interface to configure an Ettus USRP device from an xml file.\
-Tests for SFCW, FMCW, Pulse, Compressed Pulse
+Tests for SFCW, FMCW, Pulse, Compressed Pulse.\
+Submodules not setup. CMakeLists.txt has lines which are system specific.
 
 ## Command line interface usage:
 ### Flags:
