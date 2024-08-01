@@ -6,12 +6,12 @@ Tests for SFCW, FMCW, Pulse, Compressed Pulse
 ## Command line interface usage:
 ### Flags:
 
-* `-find` : finds and displays the address of all devices connected. 
-* `-dump`: dump the config of a specified device to an xml file. 
+* `--find` : finds and displays the address of all devices connected. 
+* `--dump`: dump the config of a specified device to an xml file. 
 Additionally, specify  the dump path with. 
-* `-configure` : configure the device at a specific address based on a config xml file *(by default config.xml)*. 
+* `--configure` : configure the device at a specific address based on a config xml file *(by default config.xml)*. 
 Additionally, specify the config file path. 
-* `-test` : run one of the tests.
+* `--test` : run one of the tests.
 
 
 
@@ -21,14 +21,17 @@ Additionally, specify the config file path.
     * Antenna
     * Sample rate
     * Bandwidth
-    * Centre frequency
+    * Centre frequency - tune request for setting. NOTE: Set frequency and then check afterwards.
     * Gain
+    * Analog frontend filter bandwidth
 * The hardware RX_funcs.cpp and TX_funcs.cpp have methods for creating RX/TX streamers and transmitting their buffer/ receiver buffer and writing to a file. \
 For now it has only been configured to use 1 channel? 1 streamer is configured per channel?
 * Oscillator: 
     * Check for external or local (LO)
     * Check for oscillator locked (synchronised to precise frequency). This can take time.
 * TODO mboard: find more info
+    * Also have to synch oscillators
+    * Sync times for RX USRP to mboard
 * Wave considerations:
     * Check for out of Nyquist rate (wave frequency > TX rate/2)
     * Frequency too small for buffer
@@ -42,4 +45,7 @@ For now it has only been configured to use 1 channel? 1 streamer is configured p
 * Transmitter thread has a streamer which sends buffer until the receiver sets *stop signal* flag (static bool check). Receiver writes buffer to file.
 * End of burst packet sent when stop signal received?
 * Streamers shut down
+
+### Proposed:
+* Range resolution: SFCW v FMCW v ...
 
