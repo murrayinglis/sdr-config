@@ -69,10 +69,80 @@ include CMakeFiles/sdr-config.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/sdr-config.dir/flags.make
 
+CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.o: CMakeFiles/sdr-config.dir/flags.make
+CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.o: src/hardware/RX_config.cpp
+CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.o -MF CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.o.d -o CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.o -c /home/murray/sdr-config/src/hardware/RX_config.cpp
+
+CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/murray/sdr-config/src/hardware/RX_config.cpp > CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.i
+
+CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/murray/sdr-config/src/hardware/RX_config.cpp -o CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.s
+
+CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.o: CMakeFiles/sdr-config.dir/flags.make
+CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.o: src/hardware/RX_funcs.cpp
+CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.o -MF CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.o.d -o CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.o -c /home/murray/sdr-config/src/hardware/RX_funcs.cpp
+
+CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/murray/sdr-config/src/hardware/RX_funcs.cpp > CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.i
+
+CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/murray/sdr-config/src/hardware/RX_funcs.cpp -o CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.s
+
+CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.o: CMakeFiles/sdr-config.dir/flags.make
+CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.o: src/hardware/TXRX_config.cpp
+CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.o -MF CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.o.d -o CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.o -c /home/murray/sdr-config/src/hardware/TXRX_config.cpp
+
+CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/murray/sdr-config/src/hardware/TXRX_config.cpp > CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.i
+
+CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/murray/sdr-config/src/hardware/TXRX_config.cpp -o CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.s
+
+CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.o: CMakeFiles/sdr-config.dir/flags.make
+CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.o: src/hardware/TX_Funcs.cpp
+CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.o -MF CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.o.d -o CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.o -c /home/murray/sdr-config/src/hardware/TX_Funcs.cpp
+
+CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/murray/sdr-config/src/hardware/TX_Funcs.cpp > CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.i
+
+CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/murray/sdr-config/src/hardware/TX_Funcs.cpp -o CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.s
+
+CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.o: CMakeFiles/sdr-config.dir/flags.make
+CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.o: src/hardware/TX_config.cpp
+CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.o -MF CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.o.d -o CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.o -c /home/murray/sdr-config/src/hardware/TX_config.cpp
+
+CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/murray/sdr-config/src/hardware/TX_config.cpp > CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.i
+
+CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/murray/sdr-config/src/hardware/TX_config.cpp -o CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.s
+
 CMakeFiles/sdr-config.dir/src/main.cpp.o: CMakeFiles/sdr-config.dir/flags.make
 CMakeFiles/sdr-config.dir/src/main.cpp.o: src/main.cpp
 CMakeFiles/sdr-config.dir/src/main.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sdr-config.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/sdr-config.dir/src/main.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/src/main.cpp.o -MF CMakeFiles/sdr-config.dir/src/main.cpp.o.d -o CMakeFiles/sdr-config.dir/src/main.cpp.o -c /home/murray/sdr-config/src/main.cpp
 
 CMakeFiles/sdr-config.dir/src/main.cpp.i: cmake_force
@@ -83,35 +153,141 @@ CMakeFiles/sdr-config.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdr-config.dir/src/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/murray/sdr-config/src/main.cpp -o CMakeFiles/sdr-config.dir/src/main.cpp.s
 
-CMakeFiles/sdr-config.dir/src/parser.cpp.o: CMakeFiles/sdr-config.dir/flags.make
-CMakeFiles/sdr-config.dir/src/parser.cpp.o: src/parser.cpp
-CMakeFiles/sdr-config.dir/src/parser.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/sdr-config.dir/src/parser.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/src/parser.cpp.o -MF CMakeFiles/sdr-config.dir/src/parser.cpp.o.d -o CMakeFiles/sdr-config.dir/src/parser.cpp.o -c /home/murray/sdr-config/src/parser.cpp
+CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o: CMakeFiles/sdr-config.dir/flags.make
+CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o: src/utilities/config.cpp
+CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o -MF CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o.d -o CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o -c /home/murray/sdr-config/src/utilities/config.cpp
 
-CMakeFiles/sdr-config.dir/src/parser.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdr-config.dir/src/parser.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/murray/sdr-config/src/parser.cpp > CMakeFiles/sdr-config.dir/src/parser.cpp.i
+CMakeFiles/sdr-config.dir/src/utilities/config.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdr-config.dir/src/utilities/config.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/murray/sdr-config/src/utilities/config.cpp > CMakeFiles/sdr-config.dir/src/utilities/config.cpp.i
 
-CMakeFiles/sdr-config.dir/src/parser.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdr-config.dir/src/parser.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/murray/sdr-config/src/parser.cpp -o CMakeFiles/sdr-config.dir/src/parser.cpp.s
+CMakeFiles/sdr-config.dir/src/utilities/config.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdr-config.dir/src/utilities/config.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/murray/sdr-config/src/utilities/config.cpp -o CMakeFiles/sdr-config.dir/src/utilities/config.cpp.s
+
+CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o: CMakeFiles/sdr-config.dir/flags.make
+CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o: src/utilities/utils.cpp
+CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o -MF CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o.d -o CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o -c /home/murray/sdr-config/src/utilities/utils.cpp
+
+CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/murray/sdr-config/src/utilities/utils.cpp > CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.i
+
+CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/murray/sdr-config/src/utilities/utils.cpp -o CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.s
 
 # Object files for target sdr-config
 sdr__config_OBJECTS = \
+"CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.o" \
+"CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.o" \
+"CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.o" \
+"CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.o" \
+"CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.o" \
 "CMakeFiles/sdr-config.dir/src/main.cpp.o" \
-"CMakeFiles/sdr-config.dir/src/parser.cpp.o"
+"CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o" \
+"CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o"
 
 # External object files for target sdr-config
 sdr__config_EXTERNAL_OBJECTS =
 
+sdr-config: CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.o
+sdr-config: CMakeFiles/sdr-config.dir/src/hardware/RX_funcs.cpp.o
+sdr-config: CMakeFiles/sdr-config.dir/src/hardware/TXRX_config.cpp.o
+sdr-config: CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.o
+sdr-config: CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.o
 sdr-config: CMakeFiles/sdr-config.dir/src/main.cpp.o
-sdr-config: CMakeFiles/sdr-config.dir/src/parser.cpp.o
+sdr-config: CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o
+sdr-config: CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o
 sdr-config: CMakeFiles/sdr-config.dir/build.make
 sdr-config: /home/murray/pugixml-1.14/libpugixml.a
 sdr-config: /usr/lib/x86_64-linux-gnu/libuhd.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_atomic.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_atomic.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_chrono.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_chrono.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_container.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_container.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_context.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_context.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_contract.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_contract.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_coroutine.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_coroutine.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_date_time.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_date_time.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_exception.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_fiber.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_fiber.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_filesystem.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_filesystem.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_graph.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_graph.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_iostreams.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_iostreams.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_json.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_json.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_locale.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_locale.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_log.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_log.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_log_setup.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_log_setup.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_math_c99.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_math_c99.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_math_c99f.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_math_c99f.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_math_c99l.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_math_c99l.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_math_tr1.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_math_tr1.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_math_tr1f.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_math_tr1f.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_math_tr1l.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_math_tr1l.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_nowide.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_nowide.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_prg_exec_monitor.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_prg_exec_monitor.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_program_options.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_program_options.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_random.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_random.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_regex.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_regex.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_serialization.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_serialization.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_stacktrace_addr2line.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_stacktrace_addr2line.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_stacktrace_backtrace.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_stacktrace_backtrace.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_stacktrace_basic.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_stacktrace_basic.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_stacktrace_noop.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_stacktrace_noop.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_system.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_system.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_test_exec_monitor.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_thread.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_thread.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_timer.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_timer.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_type_erasure.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_type_erasure.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_unit_test_framework.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_unit_test_framework.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_url.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_url.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_wave.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_wave.so
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_wserialization.a
+sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_wserialization.so
 sdr-config: CMakeFiles/sdr-config.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable sdr-config"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable sdr-config"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sdr-config.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

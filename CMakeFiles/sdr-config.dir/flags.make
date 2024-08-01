@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/murray/sdr-config/include -I/usr/include/uhd
+CXX_INCLUDES = -I/home/murray/sdr-config/include -I/usr/include/uhd -I/home/murray/boost_1_82_0
 
 CXX_FLAGS = -std=gnu++11
 
