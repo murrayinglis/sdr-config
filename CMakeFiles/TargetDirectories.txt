@@ -1,0 +1,3 @@
+/home/murray/sdr-config/CMakeFiles/sdr-config.dir
+/home/murray/sdr-config/CMakeFiles/edit_cache.dir
+/home/murray/sdr-config/CMakeFiles/rebuild_cache.dir

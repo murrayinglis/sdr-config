@@ -81,6 +81,7 @@ namespace tests{
     namespace misc
     {
         void writeLinearSweepToFile(double sampleRate, int signalLength, double startFrequency, double endFrequency, const std::string& filename);
+        int hello_world(std::string addr);
     }
 
 }// namespace tests
