@@ -10,6 +10,8 @@
 #include <iostream>
 #include <string>
 
+#include "tests.hpp"
+
 namespace po = boost::program_options;
 
 void print_help(const po::options_description &desc) 
@@ -74,8 +76,13 @@ int main(int argc, char *argv[])
     if (vm.count("test"))
     {
         // TODO: check if test is valid
-
-        std::cout << "Performing test: " << option_test << std::endl;
+        // TODO: enum switch
+        
+        if (option_test == "gen_sweep") 
+        {
+            std::cout << "Performing test: " << option_test << std::endl;
+            tests::misc::writeLinearSweepToFile(1000000,3000,1,20000,"sweep.csv");
+        }
     }
 
     return 0;

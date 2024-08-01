@@ -23,6 +23,10 @@ namespace hardware{
         return true;
     }
 
+    /**
+     * Confirm LO, MIMO and REF clock sources locked
+     * 
+     */
     bool confirmRxOscillatorsLocked(uhd::usrp::multi_usrp::sptr usrp_object, std::string ref_source,bool printing){
         std::string clock_source = ref_source;
         std::vector<std::string> rx_sensor_names;

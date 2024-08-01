@@ -195,10 +195,24 @@ CMakeFiles/sdr-config.dir/src/tests/TX_tests.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdr-config.dir/src/tests/TX_tests.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/murray/sdr-config/src/tests/TX_tests.cpp -o CMakeFiles/sdr-config.dir/src/tests/TX_tests.cpp.s
 
+CMakeFiles/sdr-config.dir/src/tests/misc.cpp.o: CMakeFiles/sdr-config.dir/flags.make
+CMakeFiles/sdr-config.dir/src/tests/misc.cpp.o: src/tests/misc.cpp
+CMakeFiles/sdr-config.dir/src/tests/misc.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/sdr-config.dir/src/tests/misc.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/src/tests/misc.cpp.o -MF CMakeFiles/sdr-config.dir/src/tests/misc.cpp.o.d -o CMakeFiles/sdr-config.dir/src/tests/misc.cpp.o -c /home/murray/sdr-config/src/tests/misc.cpp
+
+CMakeFiles/sdr-config.dir/src/tests/misc.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdr-config.dir/src/tests/misc.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/murray/sdr-config/src/tests/misc.cpp > CMakeFiles/sdr-config.dir/src/tests/misc.cpp.i
+
+CMakeFiles/sdr-config.dir/src/tests/misc.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdr-config.dir/src/tests/misc.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/murray/sdr-config/src/tests/misc.cpp -o CMakeFiles/sdr-config.dir/src/tests/misc.cpp.s
+
 CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o: CMakeFiles/sdr-config.dir/flags.make
 CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o: src/utilities/config.cpp
 CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o -MF CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o.d -o CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o -c /home/murray/sdr-config/src/utilities/config.cpp
 
 CMakeFiles/sdr-config.dir/src/utilities/config.cpp.i: cmake_force
@@ -212,7 +226,7 @@ CMakeFiles/sdr-config.dir/src/utilities/config.cpp.s: cmake_force
 CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o: CMakeFiles/sdr-config.dir/flags.make
 CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o: src/utilities/utils.cpp
 CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o: CMakeFiles/sdr-config.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o -MF CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o.d -o CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o -c /home/murray/sdr-config/src/utilities/utils.cpp
 
 CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.i: cmake_force
@@ -234,6 +248,7 @@ sdr__config_OBJECTS = \
 "CMakeFiles/sdr-config.dir/src/tests/RX_tests.cpp.o" \
 "CMakeFiles/sdr-config.dir/src/tests/SFCW_tests.cpp.o" \
 "CMakeFiles/sdr-config.dir/src/tests/TX_tests.cpp.o" \
+"CMakeFiles/sdr-config.dir/src/tests/misc.cpp.o" \
 "CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o" \
 "CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o"
 
@@ -249,6 +264,7 @@ sdr-config: CMakeFiles/sdr-config.dir/src/main.cpp.o
 sdr-config: CMakeFiles/sdr-config.dir/src/tests/RX_tests.cpp.o
 sdr-config: CMakeFiles/sdr-config.dir/src/tests/SFCW_tests.cpp.o
 sdr-config: CMakeFiles/sdr-config.dir/src/tests/TX_tests.cpp.o
+sdr-config: CMakeFiles/sdr-config.dir/src/tests/misc.cpp.o
 sdr-config: CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o
 sdr-config: CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o
 sdr-config: CMakeFiles/sdr-config.dir/build.make
@@ -335,7 +351,7 @@ sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_wave.so
 sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_wserialization.a
 sdr-config: /home/murray/boost_1_82_0/stage/lib/libboost_wserialization.so
 sdr-config: CMakeFiles/sdr-config.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable sdr-config"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/murray/sdr-config/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable sdr-config"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sdr-config.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

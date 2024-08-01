@@ -24,11 +24,13 @@ Additionally, specify the config file path.
     * Centre frequency - tune request for setting. NOTE: Set frequency and then check afterwards.
     * Gain
     * Analog frontend filter bandwidth
-* The hardware RX_funcs.cpp and TX_funcs.cpp have methods for creating RX/TX streamers and transmitting their buffer/ receiver buffer and writing to a file. \
+* The hardware RX_funcs.cpp and TX_funcs.cpp have methods for creating RX/TX streamers and transmitting their buffer/ receiver buffer and writing to a file. Buffer is in time domain. \
 For now it has only been configured to use 1 channel? 1 streamer is configured per channel?
 * Oscillator: 
     * Check for external or local (LO)
     * Check for oscillator locked (synchronised to precise frequency). This can take time.
+    * TODO: mimo clock source?
+    * Modulating/baseband signal mixed up to centre frequency by oscillator
 * TODO mboard: find more info
     * Also have to synch oscillators
     * Sync times for RX USRP to mboard

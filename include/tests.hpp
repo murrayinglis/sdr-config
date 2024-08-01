@@ -78,6 +78,11 @@ namespace tests{
         void timeFreqSwitch(uhd::usrp::multi_usrp::sptr tx_usrp,int signalLength, int freqIncHz, int numIncrements);
     }
 
+    namespace misc
+    {
+        void writeLinearSweepToFile(double sampleRate, int signalLength, double startFrequency, double endFrequency, const std::string& filename);
+    }
+
 }// namespace tests
 
 

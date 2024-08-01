@@ -1580,4 +1580,5 @@ CMakeFiles/sdr-config.dir/src/main.cpp.o: \
  /home/murray/sdr-config/include/pugixml.hpp \
  /home/murray/sdr-config/include/pugiconfig.hpp \
  /home/murray/sdr-config/include/config.hpp \
- /home/murray/sdr-config/include/pugixml.hpp
+ /home/murray/sdr-config/include/pugixml.hpp \
+ /home/murray/sdr-config/include/tests.hpp

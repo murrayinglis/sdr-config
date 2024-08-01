@@ -17,6 +17,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/murray/sdr-config/src/tests/RX_tests.cpp" "CMakeFiles/sdr-config.dir/src/tests/RX_tests.cpp.o" "gcc" "CMakeFiles/sdr-config.dir/src/tests/RX_tests.cpp.o.d"
   "/home/murray/sdr-config/src/tests/SFCW_tests.cpp" "CMakeFiles/sdr-config.dir/src/tests/SFCW_tests.cpp.o" "gcc" "CMakeFiles/sdr-config.dir/src/tests/SFCW_tests.cpp.o.d"
   "/home/murray/sdr-config/src/tests/TX_tests.cpp" "CMakeFiles/sdr-config.dir/src/tests/TX_tests.cpp.o" "gcc" "CMakeFiles/sdr-config.dir/src/tests/TX_tests.cpp.o.d"
+  "/home/murray/sdr-config/src/tests/misc.cpp" "CMakeFiles/sdr-config.dir/src/tests/misc.cpp.o" "gcc" "CMakeFiles/sdr-config.dir/src/tests/misc.cpp.o.d"
   "/home/murray/sdr-config/src/utilities/config.cpp" "CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o" "gcc" "CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o.d"
   "/home/murray/sdr-config/src/utilities/utils.cpp" "CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o" "gcc" "CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o.d"
   )
