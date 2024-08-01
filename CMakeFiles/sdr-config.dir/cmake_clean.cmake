@@ -11,6 +11,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.o.d"
   "CMakeFiles/sdr-config.dir/src/main.cpp.o"
   "CMakeFiles/sdr-config.dir/src/main.cpp.o.d"
+  "CMakeFiles/sdr-config.dir/src/tests/SFCW_tests.cpp.o"
+  "CMakeFiles/sdr-config.dir/src/tests/SFCW_tests.cpp.o.d"
   "CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o"
   "CMakeFiles/sdr-config.dir/src/utilities/config.cpp.o.d"
   "CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.o"

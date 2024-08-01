@@ -273,6 +273,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/tests/SFCW_tests.o: src/tests/SFCW_tests.cpp.o
+.PHONY : src/tests/SFCW_tests.o
+
+# target to build an object file
+src/tests/SFCW_tests.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/SFCW_tests.cpp.o
+.PHONY : src/tests/SFCW_tests.cpp.o
+
+src/tests/SFCW_tests.i: src/tests/SFCW_tests.cpp.i
+.PHONY : src/tests/SFCW_tests.i
+
+# target to preprocess a source file
+src/tests/SFCW_tests.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/SFCW_tests.cpp.i
+.PHONY : src/tests/SFCW_tests.cpp.i
+
+src/tests/SFCW_tests.s: src/tests/SFCW_tests.cpp.s
+.PHONY : src/tests/SFCW_tests.s
+
+# target to generate assembly for a file
+src/tests/SFCW_tests.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/SFCW_tests.cpp.s
+.PHONY : src/tests/SFCW_tests.cpp.s
+
 src/utilities/config.o: src/utilities/config.cpp.o
 .PHONY : src/utilities/config.o
 
@@ -348,6 +372,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/tests/SFCW_tests.o"
+	@echo "... src/tests/SFCW_tests.i"
+	@echo "... src/tests/SFCW_tests.s"
 	@echo "... src/utilities/config.o"
 	@echo "... src/utilities/config.i"
 	@echo "... src/utilities/config.s"
