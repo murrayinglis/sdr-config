@@ -14,7 +14,7 @@
 
 namespace utils{
     
-    /*
+    
     bool fileAlreadyExists(std::string *pfilename, std::string extensionNoDot)
     {
         std::string fullpath=*pfilename+"."+extensionNoDot;
@@ -26,8 +26,11 @@ namespace utils{
         } else {
             return true;
         } 
+
+        
+        return false;
     }
-    */
+    
 
 
     std::vector<std::complex<double>> generateComplexExp(double sampleRate, int signalLength, double frequency, double amplitude){

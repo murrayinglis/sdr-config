@@ -12,7 +12,7 @@
 
 
 /// @brief 
-namespace UTIL{    
+namespace utils{    
     
     bool fileAlreadyExists(std::string *pfilename, std::string extensionNoDot);
 

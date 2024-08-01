@@ -11,4 +11,35 @@ Tests for SFCW, FMCW, Pulse, Compressed Pulse
 Additionally, specify  the dump path with. 
 * `-configure` : configure the device at a specific address based on a config xml file *(by default config.xml)*. 
 Additionally, specify the config file path. 
+* `-test` : run one of the tests.
+
+
+
+## About
+* The hardware RX_config.cpp and TX_config.cpp have methods for setting the:
+    * Subdevice
+    * Antenna
+    * Sample rate
+    * Bandwidth
+    * Centre frequency
+    * Gain
+* The hardware RX_funcs.cpp and TX_funcs.cpp have methods for creating RX/TX streamers and transmitting their buffer/ receiver buffer and writing to a file. \
+For now it has only been configured to use 1 channel? 1 streamer is configured per channel?
+* Oscillator: 
+    * Check for external or local (LO)
+    * Check for oscillator locked (synchronised to precise frequency). This can take time.
+* TODO mboard: find more info
+* Wave considerations:
+    * Check for out of Nyquist rate (wave frequency > TX rate/2)
+    * Frequency too small for buffer
+    * The waveform file should therefore have metadata containing freq, sample rate etc... to allow for these calculations
+    * Uses an included waveform table class for generating specified waveforms AND should be able to read in arbitrary waveforms
+
+## Tests
+### Loopback
+* Setup transmitter and receiver frequency and antenna parameters.
+* Setup transmitter and receiver streamers
+* Transmitter thread has a streamer which sends buffer until the receiver sets *stop signal* flag (static bool check). Receiver writes buffer to file.
+* End of burst packet sent when stop signal received?
+* Streamers shut down
 
