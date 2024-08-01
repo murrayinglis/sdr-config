@@ -1,5 +1,5 @@
 CMakeCache.txt
-CMakeFiles\
-build\
-.vscode\
+CMakeFiles/
+build/
+.vscode/
 cmake_install.cmake
