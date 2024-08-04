@@ -41,6 +41,9 @@ namespace config
     
     pugi::xml_document doc;
 
+    /**
+     * This loads in a new config
+     */
     int configFromFile(const char* xmlFile)
     {
         
@@ -51,15 +54,13 @@ namespace config
             std::cerr << "XML parsed with errors, error description: " << result.description() << std::endl;
             return -1;
         }
-        std::cout << "Load result: " << result.description() << std::endl;
+        std::cout << "XML parse result: " << result.description() << std::endl;
 
-        if (load() == -1)
+        if (load() != 0)
         {
             return -1;
         }
         setUSRP_mode_from_config();
-        connect();
-
         return 0;
     }
 
@@ -74,38 +75,10 @@ namespace config
         }
 
         pugi::xml_node deviceName = deviceNode.child("name");
-        pugi::xml_node SDR_IP = deviceNode.child("IP");
+        SDR_IP = deviceNode.child_value("IP");
 
-        // Device to find
-        std::cout << "Searching for device: " << deviceName.child_value() << ", with IP: " << SDR_IP.child_value() << std::endl;
 
-        // This is the same as running uhd_find_devices from command line
-        uhd::device_addr_t hint; //an empty hint discovers all devices
-        uhd::device_addrs_t dev_addrs = uhd::device::find(hint); // vector of device addresses
-        // TEMP force an IP to be in the vector to continue
-        //uhd::device_addr_t temp(std::string("addr=192.168.101.1"));
-        //dev_addrs.push_back(temp);
-        //std::cout << "Devices found: " << dev_addrs.size() << std::endl;
-
-        // Check if desired IP is in found IPs
-        // TODO: check for name? X300 etc
-        uhd::device_addr_t desiredIP((std::string)("addr=") += (std::string)(SDR_IP.child_value()));
-        bool found;
-        for (uhd::device_addr_t addr : dev_addrs)
-        {
-            if (desiredIP.to_string() == addr.to_string())
-            {
-                found = true;
-                std::cout << "Device found at specified IP" << std::endl;
-            }
-        }
-        if (!found)
-        {
-            std::cerr << "Device IP not found." << std::endl;
-            return -1;
-        }
-
-        // Propogate settings to device
+        // Propagate settings to device
         // Device config
         pugi::xml_node configNode = root.child("config");
         TX_SUBDEV = configNode.child_value("TX_SUBDEV");
@@ -172,7 +145,40 @@ namespace config
     }
 
     int connect()
-    {
+    {        
+        // This is the same as running uhd_find_devices from command line
+        uhd::device_addr_t hint; //an empty hint discovers all devices
+        uhd::device_addrs_t dev_addrs = uhd::device::find(hint); // vector of device addresses
+        if (dev_addrs.size() == 0)
+        {
+            std::cout << "No devices found" << std::endl;
+            return -1;
+        }
+        // TEMP force an IP to be in the vector to continue
+        //uhd::device_addrs_t dev_addrs;
+        //hd::device_addr_t temp(std::string("addr=192.168.10.2"));
+        //dev_addrs.push_back(temp);
+        //std::cout << "Devices found: " << dev_addrs.size() << std::endl;
+        uhd::device_addr_t desiredIP((std::string)("addr=") += (std::string)(SDR_IP));
+        bool found;
+        for (uhd::device_addr_t addr : dev_addrs)
+        {
+            std::string s = addr.get("addr");
+            std::cout << addr.to_string() << std::endl;
+            if (desiredIP.to_string() == s)
+            {
+                found = true;
+                std::cout << "Device found at specified IP" << std::endl;
+            }
+            
+        }
+        if (!found)
+        {
+            std::cerr << "Device IP not found." << std::endl;
+            return -1;
+        }
+
+        // Setup USRP object
         uhd::usrp::multi_usrp::sptr usrp;
         try
         {

@@ -82,7 +82,10 @@ namespace tests{
     {
         void writeLinearSweepToFile(double sampleRate, int signalLength, double startFrequency, double endFrequency, const std::string& filename);
         int hello_world(std::string addr);
+        int config_test(const char* configXml);
     }
+
+    void handleTest(std::string option_test);
 
 }// namespace tests
 

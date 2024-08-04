@@ -321,6 +321,30 @@ src/tests/SFCW_tests.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/SFCW_tests.cpp.s
 .PHONY : src/tests/SFCW_tests.cpp.s
 
+src/tests/TEST_TYPES.o: src/tests/TEST_TYPES.cpp.o
+.PHONY : src/tests/TEST_TYPES.o
+
+# target to build an object file
+src/tests/TEST_TYPES.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/TEST_TYPES.cpp.o
+.PHONY : src/tests/TEST_TYPES.cpp.o
+
+src/tests/TEST_TYPES.i: src/tests/TEST_TYPES.cpp.i
+.PHONY : src/tests/TEST_TYPES.i
+
+# target to preprocess a source file
+src/tests/TEST_TYPES.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/TEST_TYPES.cpp.i
+.PHONY : src/tests/TEST_TYPES.cpp.i
+
+src/tests/TEST_TYPES.s: src/tests/TEST_TYPES.cpp.s
+.PHONY : src/tests/TEST_TYPES.s
+
+# target to generate assembly for a file
+src/tests/TEST_TYPES.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/TEST_TYPES.cpp.s
+.PHONY : src/tests/TEST_TYPES.cpp.s
+
 src/tests/TX_tests.o: src/tests/TX_tests.cpp.o
 .PHONY : src/tests/TX_tests.o
 
@@ -368,6 +392,30 @@ src/tests/misc.s: src/tests/misc.cpp.s
 src/tests/misc.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/misc.cpp.s
 .PHONY : src/tests/misc.cpp.s
+
+src/tests/tests.o: src/tests/tests.cpp.o
+.PHONY : src/tests/tests.o
+
+# target to build an object file
+src/tests/tests.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/tests.cpp.o
+.PHONY : src/tests/tests.cpp.o
+
+src/tests/tests.i: src/tests/tests.cpp.i
+.PHONY : src/tests/tests.i
+
+# target to preprocess a source file
+src/tests/tests.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/tests.cpp.i
+.PHONY : src/tests/tests.cpp.i
+
+src/tests/tests.s: src/tests/tests.cpp.s
+.PHONY : src/tests/tests.s
+
+# target to generate assembly for a file
+src/tests/tests.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/tests.cpp.s
+.PHONY : src/tests/tests.cpp.s
 
 src/utilities/config.o: src/utilities/config.cpp.o
 .PHONY : src/utilities/config.o
@@ -450,12 +498,18 @@ help:
 	@echo "... src/tests/SFCW_tests.o"
 	@echo "... src/tests/SFCW_tests.i"
 	@echo "... src/tests/SFCW_tests.s"
+	@echo "... src/tests/TEST_TYPES.o"
+	@echo "... src/tests/TEST_TYPES.i"
+	@echo "... src/tests/TEST_TYPES.s"
 	@echo "... src/tests/TX_tests.o"
 	@echo "... src/tests/TX_tests.i"
 	@echo "... src/tests/TX_tests.s"
 	@echo "... src/tests/misc.o"
 	@echo "... src/tests/misc.i"
 	@echo "... src/tests/misc.s"
+	@echo "... src/tests/tests.o"
+	@echo "... src/tests/tests.i"
+	@echo "... src/tests/tests.s"
 	@echo "... src/utilities/config.o"
 	@echo "... src/utilities/config.i"
 	@echo "... src/utilities/config.s"

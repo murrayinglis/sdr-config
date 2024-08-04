@@ -12,6 +12,14 @@
 
 namespace tests{
     namespace misc {
+        int config_test(const char* configXml)
+        {
+            config::configFromFile(configXml);
+            config::connect();
+            return 0;
+        }
+
+
         int hello_world(std::string addr) {
             uhd::set_thread_priority_safe();
 
@@ -28,6 +36,9 @@ namespace tests{
             std::cout << std::endl;
             std::cout << boost::format("Creating the usrp device with: %s...") % addr << std::endl;
             uhd::usrp::multi_usrp::sptr usrp = uhd::usrp::multi_usrp::make(addr);
+            return 0;
+
+
 
             // Lock mboard clocks
             std::cout << boost::format("Lock mboard clocks: %f") % ref << std::endl;

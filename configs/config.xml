@@ -2,7 +2,7 @@
 <root>
     <device>
         <name>USRP Device</name>
-        <IP>192.168.101.1</IP>
+        <IP>192.168.10.2</IP>
     </device>
     <config>
         <TX_SUBDEV></TX_SUBDEV>

@@ -75,19 +75,7 @@ int main(int argc, char *argv[])
     }
     if (vm.count("test"))
     {
-        // TODO: check if test is valid
-        // TODO: enum switch
-        
-        if (option_test == "gen_sweep") 
-        {
-            std::cout << "Performing test: " << option_test << std::endl;
-            tests::misc::writeLinearSweepToFile(1000000,3000,1,20000,"sweep.csv");
-        }
-        if (option_test == "hello_world")
-        {
-            std::cout << "Performing test: " << option_test << std::endl;
-            tests::misc::hello_world("addr=192.168.101.1");
-        }
+        tests::handleTest(option_test);
     }
 
     return 0;
