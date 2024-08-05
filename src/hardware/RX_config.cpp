@@ -12,14 +12,6 @@ namespace hardware{
             std::cerr<<"setting of center freq unsuccessful. Requested: "<< (double)newRXFreqHz/1e6<<" Error: "<<rx_usrp->get_rx_freq()-newRXFreqHz<<"\n";    
         }
         
-        size_t numlockAttempts=0;
-        while( numlockAttempts<5&&!confirmRxOscillatorsLocked(rx_usrp,config::REF_CLOCK,false)){
-            numlockAttempts++;
-        }
-        if (numlockAttempts>4){
-            std::cerr<<"RX Did not lock in time\n";
-            return false;
-        }
         return true;
     }
 
@@ -73,21 +65,76 @@ namespace hardware{
             std::cout << "Actual RX Rate (MHz) : "<< (actualRate / 1e6)<<". (Overwritten config) n";
             config::RX_RATE=actualRate;
         }
+
+
+
         // bandwidth
+        std::cout << "Setting RX bandwidth (MHz):   " << (config::RX_BW / 1e6)  << std::endl;
         rx_usrp->set_rx_bandwidth(config::RX_BW);
+        double actualBW = rx_usrp->get_rx_bandwidth();
+        if (config::RX_BW != actualBW){
+            std::cout << "Actual RX bandwidth (MHz) : "<< (actualBW / 1e6)<<". (Overwritten config) n";
+            config::RX_RATE=actualRate;
+        }    
+
+
         // center freq
         double rx_center_freq= config::RX_FREQ;
+        std::cout << "Setting RX center freq (MHz): " << rx_center_freq / 1e6 << std::endl;
         setRXFreqHz(rx_usrp,rx_center_freq);
+
+
+
         // gain
         double rx_gain = config::RX_GAIN;
         std::cout << "Setting RX Gain (dB) : " << rx_gain<< std::endl;
         rx_usrp->set_rx_gain(rx_gain);
-        std::cout << "Actual RX Gain (dB) : " << rx_usrp->get_rx_gain() <<". Out of a possible range:"<< rx_usrp->get_rx_gain_range().to_pp_string()<< std::endl;
+        std::cout << "Actual RX Gain (dB) : " << rx_usrp->get_rx_gain() <<". Out of a possible range:"<< rx_usrp->get_rx_gain_range().to_pp_string() << std::endl;
+
+
         // make sure LO locked (give it a few attempts)
         size_t numlockAttempts=0;
         while( numlockAttempts<5&&!confirmRxOscillatorsLocked(rx_usrp,config::REF_CLOCK,true)){
             numlockAttempts++;
         }
+        std::vector<std::string> rx_sensor_names = rx_usrp->get_tx_sensor_names(0);
+        if (std::find(rx_sensor_names.begin(), rx_sensor_names.end(), "lo_locked")!= rx_sensor_names.end()){
+            uhd::sensor_value_t lo_locked = rx_usrp->get_tx_sensor("lo_locked", 0);
+            if(!lo_locked.to_bool()){
+                std::cout << "LO failed to lock in time." << std::endl;
+            }
+            else
+            {
+                std::cout << "LO locked in time." << std::endl;
+            }
+        }
+        // 
+        rx_sensor_names = rx_usrp->get_mboard_sensor_names(0);
+        if ((config::REF_CLOCK == "mimo") and (std::find(rx_sensor_names.begin(), rx_sensor_names.end(), "mimo_locked")!= rx_sensor_names.end())) {
+            uhd::sensor_value_t lo_locked = rx_usrp->get_tx_sensor("mimo_locked", 0);
+            if(!lo_locked.to_bool()){
+                std::cout << "MIMO failed to lock in time." << std::endl;
+            }
+            else
+            {
+                std::cout << "MIMO locked in time." << std::endl;
+            }
+        }
+        //
+        rx_sensor_names = rx_usrp->get_mboard_sensor_names(0);
+        if ((config::REF_CLOCK == "external") and (std::find(rx_sensor_names.begin(), rx_sensor_names.end(), "ref_locked")!= rx_sensor_names.end())) {
+            uhd::sensor_value_t lo_locked = rx_usrp->get_tx_sensor("lo_locked", 0);
+            if(!lo_locked.to_bool()){
+                std::cout << "External clock failed to lock in time." << std::endl;
+            }
+            else
+            {
+                std::cout << "External clock locked in time." << std::endl;
+            }
+        }
+        std::cout << std::endl;
+
+
 
         //required for non-modulated waveforms. (Rory, you should probably remove this)
         rx_usrp->set_rx_dc_offset(false);

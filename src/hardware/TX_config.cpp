@@ -17,7 +17,7 @@ namespace hardware{
                 return false;
             }
         }
-        
+        //
         tx_sensor_names = usrp_object->get_mboard_sensor_names(0);
         if ((clock_source == "mimo") and (std::find(tx_sensor_names.begin(), tx_sensor_names.end(), "mimo_locked")!= tx_sensor_names.end())) {
             uhd::sensor_value_t mimo_locked = usrp_object->get_mboard_sensor("mimo_locked", 0);
@@ -26,6 +26,7 @@ namespace hardware{
                 return false;
             }
         }
+        //
         if ((clock_source == "external") and (std::find(tx_sensor_names.begin(), tx_sensor_names.end(), "ref_locked")!= tx_sensor_names.end())) {
             uhd::sensor_value_t ref_locked = usrp_object->get_mboard_sensor("ref_locked", 0);
             if(printing){std::cout << boost::format("Checking TX .... : %s ...") % ref_locked.to_pp_string() << std::endl;}
@@ -38,6 +39,8 @@ namespace hardware{
 
     int setupTransmitter(uhd::usrp::multi_usrp::sptr tx_usrp){
         //ref clock already set up
+
+        
         tx_usrp->set_tx_subdev_spec(config::TX_SUBDEV);
         tx_usrp->set_tx_antenna(config::TX_ANTENNA);
 
@@ -54,15 +57,26 @@ namespace hardware{
         
         
         // bandwidth
+        std::cout << "Setting TX bandwidth (MHz):  "<< (config::TX_BW / 1e6)<< std::endl;
         tx_usrp->set_tx_bandwidth(config::TX_BW);
+        double actualBW = tx_usrp->get_tx_bandwidth();
+        if (config::TX_BW != actualBW){
+            std::cout << "Actual TX Bandwidth (MHz) : "<< (actualBW / 1e6)<<". (Overwritten config) n";
+            config::TX_RATE=actualBW;
+        }
+
+
         // center freq
         double tx_center_freq= config::TX_FREQ;
+        std::cout << "Setting TX center freq (MHz):  " << (config::TX_FREQ / 1e6) << std::endl;
         hardware::setTxFreqHz(tx_usrp,tx_center_freq);
+
+
         // gain
         double tx_gain = config::TX_GAIN;
         std::cout << "Setting TX Gain (dB) : " << tx_gain<< std::endl;
         tx_usrp->set_tx_gain(tx_gain);
-        std::cout << "Actual TX Gain (dB) : " << tx_usrp->get_tx_gain() <<". Out of a possible range:"<< tx_usrp->get_tx_gain_range().to_pp_string()<< std::endl;
+        std::cout << "Actual TX Gain (dB) : " << tx_usrp->get_tx_gain() <<". Out of a possible range:"<< tx_usrp->get_tx_gain_range().to_pp_string() << std::endl;
         
         //tx_usrp->set_rx_dc_offset(false);
         
@@ -71,31 +85,56 @@ namespace hardware{
         while( numlockAttempts<5&&!confirmTxOscillatorsLocked(tx_usrp,config::REF_CLOCK,true)){
             numlockAttempts++;
         }
+        //
+        std::vector<std::string> tx_sensor_names = tx_usrp->get_tx_sensor_names(0);
+        if (std::find(tx_sensor_names.begin(), tx_sensor_names.end(), "lo_locked")!= tx_sensor_names.end()){
+            uhd::sensor_value_t lo_locked = tx_usrp->get_tx_sensor("lo_locked", 0);
+            if(!lo_locked.to_bool()){
+                std::cout << "LO failed to lock in time." << std::endl;
+            }
+            else
+            {
+                std::cout << "LO locked in time." << std::endl;
+            }
+        }
         // 
+        tx_sensor_names = tx_usrp->get_mboard_sensor_names(0);
+        if ((config::REF_CLOCK == "mimo") and (std::find(tx_sensor_names.begin(), tx_sensor_names.end(), "mimo_locked")!= tx_sensor_names.end())) {
+            uhd::sensor_value_t lo_locked = tx_usrp->get_tx_sensor("mimo_locked", 0);
+            if(!lo_locked.to_bool()){
+                std::cout << "MIMO failed to lock in time." << std::endl;
+            }
+            else
+            {
+                std::cout << "MIMO locked in time." << std::endl;
+            }
+        }
+        //
+        tx_sensor_names = tx_usrp->get_mboard_sensor_names(0);
+        if ((config::REF_CLOCK == "external") and (std::find(tx_sensor_names.begin(), tx_sensor_names.end(), "ref_locked")!= tx_sensor_names.end())) {
+            uhd::sensor_value_t lo_locked = tx_usrp->get_tx_sensor("lo_locked", 0);
+            if(!lo_locked.to_bool()){
+                std::cout << "External clock failed to lock in time." << std::endl;
+            }
+            else
+            {
+                std::cout << "External clock locked in time." << std::endl;
+            }
+        }
+        std::cout << std::endl;
         return 0;
 
 
     }
 
     bool setTxFreqHz(uhd::usrp::multi_usrp::sptr tx_usrp, double newTxFreqHz){
-
-        tx_usrp->set_tx_freq(newTxFreqHz);
+        uhd::tune_request_t tx_tune_req(newTxFreqHz);
+        tx_usrp->set_tx_freq(tx_tune_req);
 
         if((std::abs(tx_usrp->get_tx_freq()-newTxFreqHz)>100)){ // if more than 100Hz off 
             std::cerr<<"setting of center freq unsuccessful. Requested: "<< (double)newTxFreqHz/1e6<<" Error: "<<tx_usrp->get_tx_freq()-newTxFreqHz<<"\n";    
         }
-
-        size_t numlockAttempts=0;
-        while( numlockAttempts<5&&!confirmTxOscillatorsLocked(tx_usrp,config::REF_CLOCK,false)){
-            numlockAttempts++;
-        }
-
-        if(numlockAttempts>4){
-            std::cerr<<"TX Did not lock in time\n";
-            return false;
-        }else{
-            return true;
-        }
+        return true;
     }
 
 

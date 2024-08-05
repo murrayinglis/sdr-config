@@ -28,7 +28,7 @@ namespace tests
         if (option_test == "config_test")
         {
             std::cout << "Performing test: " << option_test << std::endl;
-            tests::misc::config_test(option_test.c_str());
+            tests::misc::config_test("configs/config.xml");
         }
     }
 }

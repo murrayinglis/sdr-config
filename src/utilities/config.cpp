@@ -81,6 +81,7 @@ namespace config
         // Propagate settings to device
         // Device config
         pugi::xml_node configNode = root.child("config");
+        TEST_TYPE = configNode.child_value("TEST_TYPE");
         TX_SUBDEV = configNode.child_value("TX_SUBDEV");
         RX_SUBDEV = configNode.child_value("RX_SUBDEV");
         REF_CLOCK = configNode.child_value("REF_CLOCK");
@@ -146,6 +147,7 @@ namespace config
 
     int connect()
     {        
+        // 1. Get vector of connected devices - check if there are any
         // This is the same as running uhd_find_devices from command line
         uhd::device_addr_t hint; //an empty hint discovers all devices
         uhd::device_addrs_t dev_addrs = uhd::device::find(hint); // vector of device addresses
@@ -154,21 +156,18 @@ namespace config
             std::cout << "No devices found" << std::endl;
             return -1;
         }
-        // TEMP force an IP to be in the vector to continue
-        //uhd::device_addrs_t dev_addrs;
-        //hd::device_addr_t temp(std::string("addr=192.168.10.2"));
-        //dev_addrs.push_back(temp);
-        //std::cout << "Devices found: " << dev_addrs.size() << std::endl;
-        uhd::device_addr_t desiredIP((std::string)("addr=") += (std::string)(SDR_IP));
+
+        // 2. Check if desired IP is in vector of connected devices
         bool found;
         for (uhd::device_addr_t addr : dev_addrs)
         {
-            std::string s = addr.get("addr");
+            // keys in device_addr_t dict are: addr,name,serial
             std::cout << addr.to_string() << std::endl;
-            if (desiredIP.to_string() == s)
+            std::string s = addr.get("addr");
+            if (s == SDR_IP)
             {
                 found = true;
-                std::cout << "Device found at specified IP" << std::endl;
+                break;
             }
             
         }
@@ -178,6 +177,7 @@ namespace config
             return -1;
         }
 
+        // 3. Make connection
         // Setup USRP object
         uhd::usrp::multi_usrp::sptr usrp;
         try
@@ -191,6 +191,7 @@ namespace config
         }
         
         
+        // 4. Set parameters
         std::cout << "Default (current) clock source: " << usrp->get_clock_source(0) << "\n";
         std::cout << "Default (current) time source: " << usrp->get_time_source(0) << "\n";
         // usrp->set_clock_source(CONFIG::REF_CLOCK);

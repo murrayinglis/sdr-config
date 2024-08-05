@@ -5,6 +5,7 @@
 #include <uhd/usrp/multi_usrp.hpp>
 #include <uhd/exception.hpp>
 #include <uhd/types/tune_request.hpp>
+#include <uhd/transport/udp_zero_copy.hpp>
 #include "config.hpp"
 #include <iostream>
 #include <fstream>
@@ -34,9 +35,11 @@ namespace tests{
 
             //create a usrp device
             std::cout << std::endl;
+
             std::cout << boost::format("Creating the usrp device with: %s...") % addr << std::endl;
             uhd::usrp::multi_usrp::sptr usrp = uhd::usrp::multi_usrp::make(addr);
-            return 0;
+            
+            
 
 
 

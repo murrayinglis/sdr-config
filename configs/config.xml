@@ -5,23 +5,23 @@
         <IP>192.168.10.2</IP>
     </device>
     <config>
-        <TX_SUBDEV></TX_SUBDEV>
-        <RX_SUBDEV></RX_SUBDEV>
-        <REF_CLOCK></REF_CLOCK>
-        <TX_ANTENNA></TX_ANTENNA>
-        <RX_ANTENNA></RX_ANTENNA>
-        <TEST_TYPE>SFCW</TEST_TYPE>
+        <TX_SUBDEV>A:0</TX_SUBDEV>
+        <RX_SUBDEV>A:0</RX_SUBDEV>
+        <REF_CLOCK>external</REF_CLOCK>
+        <TX_ANTENNA>TX/RX</TX_ANTENNA>
+        <RX_ANTENNA>RX2</RX_ANTENNA>
+        <TEST_TYPE>hello_world</TEST_TYPE>
         <WAVEFORM_FILE></WAVEFORM_FILE>
     </config>
     <frequency>
         <TX_FREQ>410e6</TX_FREQ>
         <RX_FREQ>420e6</RX_FREQ>
-        <TX_RATE>410e6</TX_RATE>
-        <RX_RATE>410e6</RX_RATE>
-        <TX_BW>410e6</TX_BW>
-        <RX_BW>410e6</RX_BW>
-        <TX_GAIN>410e6</TX_GAIN>
-        <RX_GAIN>410e6</RX_GAIN>
+        <TX_RATE>25e6</TX_RATE>
+        <RX_RATE>25e6</RX_RATE>
+        <TX_BW>350e3</TX_BW>
+        <RX_BW>350e3</RX_BW>
+        <TX_GAIN>6</TX_GAIN>
+        <RX_GAIN>3</RX_GAIN>
     </frequency>
     <test>
 
