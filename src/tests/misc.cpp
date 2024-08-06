@@ -13,11 +13,11 @@
 
 namespace tests{
     namespace misc {
-        int config_test(std::string configXml)
+        int config_test(config::usrp_config config)
         {
-            // config has already been passed in order to read in the test type, so don't need to do it again
+            // config has already been passed in order to read in the test type, so don't need to do it
             // config::configFromFile(configXml);
-            config::connect();
+            config.connect();
             return 0;
         }
 

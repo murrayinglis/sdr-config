@@ -1,8 +1,8 @@
 #include <chrono>
+#include "tests.hpp"
 #include "config.hpp"
 #include "utils.hpp"
 #include <uhd/usrp/multi_usrp.hpp>
-#include "tests.hpp"
 #include "hardware.hpp"
 
 namespace tests{
@@ -47,6 +47,9 @@ namespace tests{
             return 0;
         }
 
+        /**
+         * TODO:
+         * 
         void timeFreqSwitch(uhd::usrp::multi_usrp::sptr tx_usrp,int signalLength, int freqIncHz, int numIncrements){
             // set up transmitter based off congig file
             hardware::setupTransmitter(tx_usrp);
@@ -55,9 +58,7 @@ namespace tests{
             std::vector<std::complex<double>>signalBuffer(signalLength,std::complex<double>{0.8, 0.3});
             //std::vector<std::complex<double>> signalBuffer=UTIL::generateLinearSweep(CONFIG::TX_RATE,signalLength,double(1.0),double(freqIncHz));
 
-            if(config::VERBOSE){
-                std::cout<<"Signal Buffer length: "<<signalBuffer.size()<<"\n";
-            }
+            std::cout<<"Signal Buffer length: "<<signalBuffer.size()<<"\n";
 
             // expected values (assuming 0 switching time)
             double expectedInrementTimeMillis = signalBuffer.size()/(tx_usrp->get_tx_rate())*1000;
@@ -87,6 +88,7 @@ namespace tests{
 
             return;
         }
+        */
 
         void endBurst(uhd::usrp::multi_usrp::sptr tx_usrp,uhd::tx_streamer::sptr tx_stream){
             uhd::tx_metadata_t md;

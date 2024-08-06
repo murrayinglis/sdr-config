@@ -1,6 +1,8 @@
+#include "tests.hpp"
 #include "config.hpp"
 #include "hardware.hpp"
 #include "utils.hpp"
+
 #include <uhd/types/device_addr.hpp>
 #include <uhd/device.hpp>
 #include <uhd/utils/thread.hpp>
@@ -12,30 +14,6 @@
 
 namespace config
 {
-    std::string SDR_IP;
-    std::string TX_SUBDEV;
-    std::string RX_SUBDEV;
-    std::string REF_CLOCK;
-    std::string TX_ANTENNA;
-    std::string RX_ANTENNA;
-    std::string TEST_TYPE;
-    std::string WAVEFORM_FILE;
-    //
-    double TX_FREQ;
-    double TX_RATE;
-    double TX_BW;
-    double TX_GAIN;
-    double RX_FREQ;
-    double RX_RATE;
-    double RX_BW;
-    double RX_GAIN;
-    //
-    std::string OUTPUT_FILE;
-    bool VERBOSE = false;
-    //
-    double MIN_FREQ;
-    double MAX_FREQ;
-
     USRP_MODE device_mode;
 
     uint64_t experimentZeroTime;
@@ -43,9 +21,9 @@ namespace config
     pugi::xml_document doc;
 
     /**
-     * This loads in a new config
+     * This loads in a new config to 
      */
-    int configFromFile(std::string xmlFile)
+    int usrp_config::configFromFile(std::string xmlFile)
     {
         
         pugi::xml_parse_result result = doc.load_file(xmlFile.c_str());
@@ -65,8 +43,9 @@ namespace config
         return 0;
     }
 
-    int load()
-    {
+    // Load a usrp_config object with 
+    int usrp_config::load()
+        {
         pugi::xml_node root = doc.child("root");
         pugi::xml_node deviceNode = root.child("device");
         if (!deviceNode)
@@ -116,7 +95,10 @@ namespace config
         return 0;
     }
 
-    bool setUSRP_mode_from_config()
+
+
+
+    bool usrp_config::setUSRP_mode_from_config()
     {
         // check for invalid modes
         if(TX_ANTENNA=="" && RX_ANTENNA==""){ //at least one antenna is defined
@@ -147,7 +129,7 @@ namespace config
         return true;
     }
 
-    int connect()
+    int usrp_config::connect()
     {        
         // 1. Get vector of connected devices - check if there are any
         // This is the same as running uhd_find_devices from command line
@@ -184,7 +166,7 @@ namespace config
         uhd::usrp::multi_usrp::sptr usrp;
         try
         {
-            usrp = uhd::usrp::multi_usrp::make(std::string("addr=") += config::SDR_IP);
+            usrp = uhd::usrp::multi_usrp::make(std::string("addr=") += SDR_IP);
         }
         catch(const std::exception& e)
         {
@@ -211,14 +193,14 @@ namespace config
         switch (config::device_mode)
         {
         case config::USRP_MODE::TX_ONLY_MODE:
-            hardware::setupTransmitter(usrp);
+            setupTransmitter(usrp);
             break;
         case config::USRP_MODE::RX_ONLY_MODE:
-            hardware::setupReceiever(usrp);
+            setupReceiever(usrp);
             break;
         case config::USRP_MODE::TX_AND_RX_MODE:
-            hardware::setupTransmitter(usrp);
-            hardware::setupReceiever(usrp);
+            setupTransmitter(usrp);
+            setupReceiever(usrp);
             break;
         default:
             std::cout << "Hit default case, mode not set correctly" << std::endl;
@@ -233,7 +215,7 @@ namespace config
         return 0;
     }
 
-    int checkPossibleParams(uhd::usrp::multi_usrp::sptr usrp)
+    int usrp_config::checkPossibleParams(uhd::usrp::multi_usrp::sptr usrp)
     {
         bool found = false;
         int err = 0;
@@ -398,6 +380,324 @@ namespace config
         // time sources
         // sync sources
         return err;
+    }
+
+
+    // SETUP RECEIVER ---------------------------------------------------------------------------------------------
+    int usrp_config::setupReceiever(uhd::usrp::multi_usrp::sptr rx_usrp){
+        // clock should already be set up for whole device
+        rx_usrp->set_rx_subdev_spec(RX_SUBDEV);
+        rx_usrp->set_rx_antenna(RX_ANTENNA);
+        
+        // sample rate
+        double rx_rate=RX_RATE;
+        std::cout << "Setting RX Rate (MHz):  "<< (rx_rate / 1e6)<< std::endl;
+        rx_usrp->set_rx_rate(rx_rate);
+        double actualRate=rx_usrp->get_rx_rate();
+        if (rx_rate=!actualRate){
+            std::cout << "Actual RX Rate (MHz) : "<< (actualRate / 1e6)<<". (Overwritten config) n";
+            RX_RATE=actualRate;
+        }
+
+
+
+        // bandwidth
+        std::cout << "Setting RX bandwidth (MHz):   " << (RX_BW / 1e6)  << std::endl;
+        rx_usrp->set_rx_bandwidth(RX_BW);
+        double actualBW = rx_usrp->get_rx_bandwidth();
+        if (RX_BW != actualBW){
+            std::cout << "Actual RX bandwidth (MHz) : "<< (actualBW / 1e6)<<". (Overwritten config) n";
+            RX_RATE=actualRate;
+        }    
+
+
+        // center freq
+        double rx_center_freq= RX_FREQ;
+        std::cout << "Setting RX center freq (MHz): " << rx_center_freq / 1e6 << std::endl;
+        uhd::tune_request_t rx_tune_req(RX_FREQ); 
+        uhd::tune_result_t rx_tune_res = rx_usrp->set_rx_freq(rx_tune_req);
+
+        if(std::abs(rx_usrp->get_rx_freq()-RX_FREQ)>100){
+            std::cerr<<"setting of center freq unsuccessful. Requested: "<< (double)RX_FREQ/1e6<<" Error: "<<rx_usrp->get_rx_freq()-RX_FREQ<<"\n";    
+        }
+
+
+
+        // gain
+        double rx_gain = RX_GAIN;
+        std::cout << "Setting RX Gain (dB) : " << rx_gain<< std::endl;
+        rx_usrp->set_rx_gain(rx_gain);
+        std::cout << "Actual RX Gain (dB) : " << rx_usrp->get_rx_gain() <<". Out of a possible range:"<< rx_usrp->get_rx_gain_range().to_pp_string() << std::endl;
+
+
+        // make sure LO locked (give it a few attempts)
+        size_t numlockAttempts=0;
+        while( numlockAttempts<5&&!confirmRxOscillatorsLocked(rx_usrp,REF_CLOCK,true)){
+            numlockAttempts++;
+        }
+        std::vector<std::string> rx_sensor_names = rx_usrp->get_tx_sensor_names(0);
+        if (std::find(rx_sensor_names.begin(), rx_sensor_names.end(), "lo_locked")!= rx_sensor_names.end()){
+            uhd::sensor_value_t lo_locked = rx_usrp->get_tx_sensor("lo_locked", 0);
+            if(!lo_locked.to_bool()){
+                std::cout << "LO failed to lock in time." << std::endl;
+            }
+            else
+            {
+                std::cout << "LO locked in time." << std::endl;
+            }
+        }
+        // 
+        rx_sensor_names = rx_usrp->get_mboard_sensor_names(0);
+        if ((REF_CLOCK == "mimo") and (std::find(rx_sensor_names.begin(), rx_sensor_names.end(), "mimo_locked")!= rx_sensor_names.end())) {
+            uhd::sensor_value_t lo_locked = rx_usrp->get_tx_sensor("mimo_locked", 0);
+            if(!lo_locked.to_bool()){
+                std::cout << "MIMO failed to lock in time." << std::endl;
+            }
+            else
+            {
+                std::cout << "MIMO locked in time." << std::endl;
+            }
+        }
+        //
+        rx_sensor_names = rx_usrp->get_mboard_sensor_names(0);
+        if ((REF_CLOCK == "external") and (std::find(rx_sensor_names.begin(), rx_sensor_names.end(), "ref_locked")!= rx_sensor_names.end())) {
+            uhd::sensor_value_t lo_locked = rx_usrp->get_tx_sensor("lo_locked", 0);
+            if(!lo_locked.to_bool()){
+                std::cout << "External clock failed to lock in time." << std::endl;
+            }
+            else
+            {
+                std::cout << "External clock locked in time." << std::endl;
+            }
+        }
+        std::cout << std::endl;
+
+
+
+        //required for non-modulated waveforms. (Rory, you should probably remove this)
+        rx_usrp->set_rx_dc_offset(false);
+
+        
+        if (rx_usrp->get_num_mboards() > 1) {
+            rx_usrp->set_time_unknown_pps(uhd::time_spec_t(0.0));
+        }
+        
+        // 
+        return 0;
+        
+    } //setupReceiver
+
+
+    /**
+     * Confirm LO, MIMO and REF clock sources locked
+     * 
+     */
+    bool usrp_config::confirmRxOscillatorsLocked(uhd::usrp::multi_usrp::sptr usrp_object, std::string ref_source,bool printing){
+        std::string clock_source = ref_source;
+        std::vector<std::string> rx_sensor_names;
+        //checking LO
+        rx_sensor_names = usrp_object->get_rx_sensor_names();
+        if (std::find(rx_sensor_names.begin(), rx_sensor_names.end(), "lo_locked")!= rx_sensor_names.end()){
+            uhd::sensor_value_t lo_locked = usrp_object->get_rx_sensor("lo_locked");
+            if(printing){std::cout << boost::format("Checking RX.... %s ...") % lo_locked.to_pp_string()  << std::endl;}
+            if(!lo_locked.to_bool()){
+                return false;
+            }
+        }
+        //checking for mimo and external
+        rx_sensor_names = usrp_object->get_mboard_sensor_names();
+        if ((clock_source == "mimo") and (std::find(rx_sensor_names.begin(), rx_sensor_names.end(), "mimo_locked")!= rx_sensor_names.end())) {
+            uhd::sensor_value_t mimo_locked = usrp_object->get_mboard_sensor("mimo_locked", 0);
+            if(printing){std::cout << boost::format("Checking RX .... %s ...") % mimo_locked.to_pp_string()<< std::endl;}
+            if(!mimo_locked.to_bool()){
+                return false;
+            }
+        }
+        if ((clock_source == "external") and (std::find(rx_sensor_names.begin(), rx_sensor_names.end(), "ref_locked")!= rx_sensor_names.end())) {
+            uhd::sensor_value_t ref_locked = usrp_object->get_mboard_sensor("ref_locked", 0);
+            if(printing){std::cout << boost::format("Checking RX .... : %s ...") % ref_locked.to_pp_string() << std::endl;}
+            if(!ref_locked.to_bool()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** 
+    bool usrp_config::incrementRxFreq(uhd::usrp::multi_usrp::sptr rx_usrp, double incrementFreqHz){
+        double newFreq = rx_usrp->get_rx_freq()+incrementFreqHz;
+        if(newFreq<MIN_FREQ){
+            std::cerr<<"Requested Frequency Lower than SBX board capable of. If not using SBX, edit config_constants.hpp\n";
+            return false;
+        }
+        if(newFreq>MAX_FREQ){
+            std::cerr<<"Requested Frequency higher than SBX board capable of. If not using SBX, edit config_constants.hpp\n";
+            return false;
+        }
+
+        return setRXFreqHz(rx_usrp,newFreq);
+    }// incrementRxFreq()
+    **/
+
+
+   // TX CONFIG -------------------------------------------------------------------------------------------------
+    bool confirmTxOscillatorsLocked(uhd::usrp::multi_usrp::sptr usrp_object, std::string ref_source, bool printing){
+        std::string clock_source = ref_source;
+        std::vector<std::string> tx_sensor_names;
+        tx_sensor_names = usrp_object->get_tx_sensor_names(0);
+
+        // checking LO
+        if (std::find(tx_sensor_names.begin(), tx_sensor_names.end(), "lo_locked")!= tx_sensor_names.end()){
+            uhd::sensor_value_t lo_locked = usrp_object->get_tx_sensor("lo_locked", 0);
+            if(printing){std::cout << boost::format("Checking TX.... %s ...") % lo_locked.to_pp_string()  << std::endl;}
+            if(!lo_locked.to_bool()){
+                return false;
+            }
+        }
+        //
+        tx_sensor_names = usrp_object->get_mboard_sensor_names(0);
+        if ((clock_source == "mimo") and (std::find(tx_sensor_names.begin(), tx_sensor_names.end(), "mimo_locked")!= tx_sensor_names.end())) {
+            uhd::sensor_value_t mimo_locked = usrp_object->get_mboard_sensor("mimo_locked", 0);
+            if(printing){std::cout << boost::format("Checking TX .... %s ...") % mimo_locked.to_pp_string()<< std::endl;}
+            if(!mimo_locked.to_bool()){
+                return false;
+            }
+        }
+        //
+        if ((clock_source == "external") and (std::find(tx_sensor_names.begin(), tx_sensor_names.end(), "ref_locked")!= tx_sensor_names.end())) {
+            uhd::sensor_value_t ref_locked = usrp_object->get_mboard_sensor("ref_locked", 0);
+            if(printing){std::cout << boost::format("Checking TX .... : %s ...") % ref_locked.to_pp_string() << std::endl;}
+            if(!ref_locked.to_bool()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    int usrp_config::setupTransmitter(uhd::usrp::multi_usrp::sptr tx_usrp){
+        //ref clock already set up
+
+        
+        tx_usrp->set_tx_subdev_spec(TX_SUBDEV);
+        tx_usrp->set_tx_antenna(TX_ANTENNA);
+
+
+        // sample rate
+        double tx_rate=TX_RATE;
+        std::cout << "Setting TX Rate (MHz):  "<< (tx_rate / 1e6)<< std::endl;
+        tx_usrp->set_tx_rate(tx_rate);
+        double actualRate=tx_usrp->get_tx_rate();
+        if (tx_rate=!actualRate){
+            std::cout << "Actual TX Rate (MHz) : "<< (actualRate / 1e6)<<". (Overwritten config) n";
+            TX_RATE=actualRate;
+        }
+        
+        
+        // bandwidth
+        std::cout << "Setting TX bandwidth (MHz):  "<< (TX_BW / 1e6)<< std::endl;
+        tx_usrp->set_tx_bandwidth(TX_BW);
+        double actualBW = tx_usrp->get_tx_bandwidth();
+        if (TX_BW != actualBW){
+            std::cout << "Actual TX Bandwidth (MHz) : "<< (actualBW / 1e6)<<". (Overwritten config) n";
+            TX_RATE=actualBW;
+        }
+
+
+        // center freq
+        double tx_center_freq= TX_FREQ;
+        std::cout << "Setting TX center freq (MHz):  " << (TX_FREQ / 1e6) << std::endl;
+        uhd::tune_request_t tx_tune_req(TX_FREQ);
+        tx_usrp->set_tx_freq(tx_tune_req);
+
+        if((std::abs(tx_usrp->get_tx_freq()-TX_FREQ)>100)){ // if more than 100Hz off 
+            std::cerr<<"setting of center freq unsuccessful. Requested: "<< (double)TX_FREQ/1e6<<" Error: "<<tx_usrp->get_tx_freq()-TX_FREQ<<"\n";    
+        }
+
+
+        // gain
+        double tx_gain = TX_GAIN;
+        std::cout << "Setting TX Gain (dB) : " << tx_gain<< std::endl;
+        tx_usrp->set_tx_gain(tx_gain);
+        std::cout << "Actual TX Gain (dB) : " << tx_usrp->get_tx_gain() <<". Out of a possible range:"<< tx_usrp->get_tx_gain_range().to_pp_string() << std::endl;
+        
+        //tx_usrp->set_rx_dc_offset(false);
+        
+        // make sure LO locked (give it a few attempts)
+        // TODO: parametrize number attempts in xml
+        size_t numlockAttempts=0;
+        while( numlockAttempts<5&&!confirmTxOscillatorsLocked(tx_usrp,REF_CLOCK,true)){
+            numlockAttempts++;
+        }
+        //
+        std::vector<std::string> tx_sensor_names = tx_usrp->get_tx_sensor_names(0);
+        if (std::find(tx_sensor_names.begin(), tx_sensor_names.end(), "lo_locked")!= tx_sensor_names.end()){
+            uhd::sensor_value_t lo_locked = tx_usrp->get_tx_sensor("lo_locked", 0);
+            if(!lo_locked.to_bool()){
+                std::cout << "LO failed to lock in time." << std::endl;
+            }
+            else
+            {
+                std::cout << "LO locked in time." << std::endl;
+            }
+        }
+        // 
+        tx_sensor_names = tx_usrp->get_mboard_sensor_names(0);
+        if ((REF_CLOCK == "mimo") and (std::find(tx_sensor_names.begin(), tx_sensor_names.end(), "mimo_locked")!= tx_sensor_names.end())) {
+            uhd::sensor_value_t lo_locked = tx_usrp->get_tx_sensor("mimo_locked", 0);
+            if(!lo_locked.to_bool()){
+                std::cout << "MIMO failed to lock in time." << std::endl;
+            }
+            else
+            {
+                std::cout << "MIMO locked in time." << std::endl;
+            }
+        }
+        //
+        tx_sensor_names = tx_usrp->get_mboard_sensor_names(0);
+        if ((REF_CLOCK == "external") and (std::find(tx_sensor_names.begin(), tx_sensor_names.end(), "ref_locked")!= tx_sensor_names.end())) {
+            uhd::sensor_value_t lo_locked = tx_usrp->get_tx_sensor("lo_locked", 0);
+            if(!lo_locked.to_bool()){
+                std::cout << "External clock failed to lock in time." << std::endl;
+            }
+            else
+            {
+                std::cout << "External clock locked in time." << std::endl;
+            }
+        }
+        std::cout << std::endl;
+        return 0;
+
+
+    }
+
+
+
+    /**
+    bool incrementTxFreqHz(uhd::usrp::multi_usrp::sptr tx_usrp, double freqIncHz){
+        double newFreq = tx_usrp->get_tx_freq()+freqIncHz;
+        if(newFreq<config::MIN_FREQ){
+            std::cerr<<"Requested Frequency Lower than SBX board capable of. If not using SBX, edit config_constants.hpp\n";
+            return false;
+        }
+        if(newFreq>config::MAX_FREQ){
+            std::cerr<<"Requested Frequency higher than SBX board capable of. If not using SBX, edit config_constants.hpp\n";
+            return false;
+        }
+
+        return setTxFreqHz(tx_usrp, newFreq);
+
+    }
+    */
+
+
+   // MISC ------------------------------------------------------------------------------------------------------
+    std::string usrp_config::get_test_type() 
+    {
+        return TEST_TYPE;
+    }
+    std::string usrp_config::get_addr()
+    {
+        return SDR_IP;
     }
 }
 

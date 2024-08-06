@@ -1,5 +1,6 @@
 #include <iostream>
 #include <uhd/usrp/multi_usrp.hpp>
+#include "tests.hpp"
 #include "config.hpp"
 #include "utils.hpp"
 #include <boost/format.hpp>

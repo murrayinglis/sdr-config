@@ -6,11 +6,12 @@
 #include <boost/program_options.hpp>
 
 #include "pugixml.hpp" 
+#include "tests.hpp"
 #include "config.hpp"
 #include <iostream>
 #include <string>
 
-#include "tests.hpp"
+
 
 namespace po = boost::program_options;
 namespace cli
@@ -84,8 +85,11 @@ int main(int argc, char *argv[])
             config xml file. The address must be specified as an argument." << std::endl;
         }
         std::cout << "Now configuring from: " << cli::option_config << std::endl;
-        config::configFromFile(cli::option_config.c_str()); // Load in configuration
-        config::connect(); // Connect to USRP and configure
+
+        
+        config::usrp_config usrp_config; // Make usrp_config object
+        usrp_config.configFromFile(cli::option_config.c_str());
+        usrp_config.connect(); // Connect to USRP and configure
     }
     if (vm.count("test"))
     {
@@ -100,9 +104,11 @@ int main(int argc, char *argv[])
             std::cerr << "Path to config file not specified in arguments list" << std::endl;
             return -1;
         }
-        if (config::configFromFile(cli::option_test.c_str()) == 0)
+
+        config::usrp_config usrp_config; // Make usrp_config object
+        if (usrp_config.configFromFile(cli::option_test.c_str()) == 0)
         {
-            tests::handleTest(config::TEST_TYPE);
+            tests::handleTest(usrp_config);
         }
         
     }

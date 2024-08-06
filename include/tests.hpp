@@ -1,6 +1,7 @@
 #ifndef TESTS_HPP
 #define TESTS_HPP
 #include <uhd/usrp/multi_usrp.hpp>
+#include "config.hpp"
 
 /**
  * This contains tests for SFCW, FMCW, Pulse and Compressed Pulse
@@ -89,10 +90,10 @@ namespace tests{
     {
         void writeLinearSweepToFile(double sampleRate, int signalLength, double startFrequency, double endFrequency, const std::string& filename);
         int hello_world(std::string addr);
-        int config_test(std::string configXml);
+        int config_test(config::usrp_config usrp_config);
     }
 
-    void handleTest(std::string option_test);
+    void handleTest(config::usrp_config usrp_config);
     void listTestTypes();
 
 }// namespace tests

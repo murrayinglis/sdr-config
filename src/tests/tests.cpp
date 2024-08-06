@@ -20,10 +20,10 @@ namespace tests
         }
     }
 
-    void handleTest(std::string option_test) 
+    void handleTest(config::usrp_config usrp_config) 
     {
-        // TODO: check if test is valid
-        // TODO: enum switch
+        std::string option_test = usrp_config.get_test_type();
+
         // Check if the key exists in the map
         auto it = typesMap.find(option_test);
         TEST_TYPE t;
@@ -43,11 +43,11 @@ namespace tests
                 break;
             case HELLO_WORLD:
                 std::cout << "Performing test: " << option_test << std::endl;
-                tests::misc::hello_world(std::string("addr=") + config::SDR_IP);
+                tests::misc::hello_world(std::string("addr=") + usrp_config.get_addr());
                 break;
             case CONFIG_TEST:
                 std::cout << "Performing test: " << option_test << std::endl;
-                tests::misc::config_test(cli::option_config);
+                tests::misc::config_test(usrp_config);
                 break;
             default:
                 break;
