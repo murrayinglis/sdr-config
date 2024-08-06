@@ -17,17 +17,16 @@ namespace config
     USRP_MODE device_mode;
 
     uint64_t experimentZeroTime;
-    
     pugi::xml_document doc;
+
+    usrp_config::usrp_config() {}
 
     /**
      * This loads in a new config to 
      */
     int usrp_config::configFromFile(std::string xmlFile)
     {
-        
         pugi::xml_parse_result result = doc.load_file(xmlFile.c_str());
-
         if (!result)
         {
             std::cerr << "XML parsed with errors, error description: " << result.description() << std::endl;
@@ -45,8 +44,8 @@ namespace config
 
     // Load a usrp_config object with 
     int usrp_config::load()
-        {
-        pugi::xml_node root = doc.child("root");
+    {
+        root = doc.child("root");
         pugi::xml_node deviceNode = root.child("device");
         if (!deviceNode)
         {
@@ -60,29 +59,41 @@ namespace config
 
         // Propagate settings to device
         // TODO: check for missing nodes
+        // IDEA: create list of present nodes to be checked when checking params
         // Device config
+        // Use a lambda function to safely get the value or set to a default value if missing
+        auto get_node_value = [](const pugi::xml_node& node, const std::string& name, const std::string& default_value = "") {
+            pugi::xml_node child = node.child(name.c_str());
+            return child ? child.child_value() : default_value;
+        };
+        auto get_node_value_as_double = [](const pugi::xml_node& node, const std::string& name, double default_value = 0.0f) {
+            pugi::xml_node child = node.child(name.c_str());
+            return child ? std::stod(child.child_value()) : default_value;
+        };
         pugi::xml_node configNode = root.child("config");
-        TEST_TYPE = configNode.child_value("TEST_TYPE");
-        TX_SUBDEV = configNode.child_value("TX_SUBDEV");
-        RX_SUBDEV = configNode.child_value("RX_SUBDEV");
-        REF_CLOCK = configNode.child_value("REF_CLOCK");
-        TX_ANTENNA = configNode.child_value("TX_ANTENNA");
-        RX_ANTENNA = configNode.child_value("RX_ANTENNA");
-        TEST_TYPE = configNode.child_value("TEST_TYPE");
-        WAVEFORM_FILE = configNode.child_value("WAVEFORM_FILE");
+        TEST_TYPE = get_node_value(configNode, "TEST_TYPE");
+        TX_SUBDEV = get_node_value(configNode, "TX_SUBDEV");
+        RX_SUBDEV = get_node_value(configNode, "RX_SUBDEV");
+        REF_CLOCK = get_node_value(configNode, "REF_CLOCK");
+        TX_ANTENNA = get_node_value(configNode, "TX_ANTENNA");
+        RX_ANTENNA = get_node_value(configNode, "RX_ANTENNA");
         // Frequency params
         pugi::xml_node freqNode = root.child("frequency");
-        TX_FREQ = std::stod(freqNode.child_value("TX_FREQ"));
-        TX_RATE = std::stod(freqNode.child_value("TX_RATE"));
-        TX_BW = std::stod(freqNode.child_value("TX_BW"));
-        TX_GAIN = std::stod(freqNode.child_value("TX_GAIN"));
-        RX_FREQ = std::stod(freqNode.child_value("RX_FREQ"));
-        RX_RATE = std::stod(freqNode.child_value("RX_RATE"));
-        RX_BW = std::stod(freqNode.child_value("RX_BW"));
-        RX_GAIN = std::stod(freqNode.child_value("RX_GAIN"));
+        TX_FREQ = get_node_value_as_double(freqNode, "TX_FREQ");
+        TX_RATE = get_node_value_as_double(freqNode, "TX_RATE");
+        TX_BW = get_node_value_as_double(freqNode, "TX_BW");
+        TX_GAIN = get_node_value_as_double(freqNode, "TX_GAIN");
+        RX_FREQ = get_node_value_as_double(freqNode, "RX_FREQ");
+        RX_RATE = get_node_value_as_double(freqNode, "RX_RATE");
+        RX_BW = get_node_value_as_double(freqNode, "RX_BW");
+        RX_GAIN = get_node_value_as_double(freqNode, "RX_GAIN");
+        // Radar
+        pugi::xml_node radarNode = root.child("radar");
+        RADAR_TYPE = get_node_value(configNode, "RADAR_TYPE");
+        WAVEFORM_FILE = get_node_value(configNode, "WAVEFORM_FILE");
         // Options
         pugi::xml_node optionsNode = root.child("options");
-        OUTPUT_FILE = optionsNode.child_value("OUTPUT_FILE");
+        OUTPUT_FILE = get_node_value(configNode, "OUTPUT_FILE");
         std::stringstream ss(optionsNode.child_value("VERBOSE"));
         bool b;
         if(!(ss >> std::boolalpha >> b)) {
@@ -210,14 +221,10 @@ namespace config
         return 0;
     }
 
-    // TODO: check for missing nodes
-    int checkMissingNodes()
-    {
-        return 0;
-    }
 
     int usrp_config::checkPossibleParams(uhd::usrp::multi_usrp::sptr usrp)
     {
+
         bool found = false;
         int err = 0;
         // -------------------------------------------------------------------
@@ -230,66 +237,96 @@ namespace config
         // TX/RX - can be set to either tx or rx
         // RX2 - set to receive
         // CAL - ?
-        std::vector<std::string> rx_antennas = usrp->get_rx_antennas(0);
-        for (auto it : rx_antennas)
+        pugi::xml_node configNode = root.child("device");
+        pugi::xml_node freqNode = root.child("frequency");
+        if (configNode.child("RX_ANTENNA"))
         {
-            if (RX_ANTENNA == it)
+            std::vector<std::string> rx_antennas = usrp->get_rx_antennas(0);
+            for (auto it : rx_antennas)
             {
-                found = true;
+                if (RX_ANTENNA == it)
+                {
+                    found = true;
+                }
+            }
+            if (found == false)
+            {
+                std::cerr << "Cannot set RX antenna to: " << RX_ANTENNA << std::endl;
+                std::cerr << "Available RX antennas: ";
+                utils::ppVector(rx_antennas);
+                err = -1;
             }
         }
-        if (found == false)
-        {
-            std::cerr << "Cannot set RX antenna to: " << RX_ANTENNA << std::endl;
-            std::cerr << "Available RX antennas: ";
-            utils::ppVector(rx_antennas);
-            err = -1;
-        }
+
 
         // sample rate?
-        uhd::meta_range_t rx_rates = usrp->get_rx_rates(0);
-        if (RX_RATE > rx_rates.stop() || RX_RATE < rx_rates.start())
+        if (freqNode.child("RX_RATE"))
         {
-            std::cerr << "RX rate is outside of tunable range: " << RX_RATE << std::endl;
-            std::cerr << "Tunable range is from: " << rx_rates.start() << " to " << rx_rates.stop() << std::endl;
-            err = -1;
+            uhd::meta_range_t rx_rates = usrp->get_rx_rates(0);
+            if (RX_RATE > rx_rates.stop() || RX_RATE < rx_rates.start())
+            {
+                std::cerr << "RX rate is outside of tunable range: " << RX_RATE << std::endl;
+                std::cerr << "Tunable range is from: " << rx_rates.start() << " to " << rx_rates.stop() << std::endl;
+                err = -1;
+            }
         }
+
 
         // bandwidth range
-        uhd::meta_range_t rx_bandwidth_range = usrp->get_rx_bandwidth_range(0);
-        if (RX_BW > rx_bandwidth_range.stop())
+        if (freqNode.child("RX_BW"))
         {
-            std::cerr << "Specified RX bandwidth is too large: " << RX_BW << std::endl;
-            std::cerr << "Maximum RX bandwidth: " << rx_bandwidth_range.stop() << std::endl;
-            err = -1;
+            uhd::meta_range_t rx_bandwidth_range = usrp->get_rx_bandwidth_range(0);
+            if (RX_BW > rx_bandwidth_range.stop())
+            {
+                std::cerr << "Specified RX bandwidth is too large: " << RX_BW << std::endl;
+                std::cerr << "Maximum RX bandwidth: " << rx_bandwidth_range.stop() << std::endl;
+                err = -1;
+            }
         }
 
+
         // freq range
-        uhd::freq_range_t rx_freq_range = usrp->get_rx_freq_range(0);
-        if (RX_FREQ > rx_freq_range.stop() || RX_FREQ < rx_freq_range.start())
+        if (freqNode.child("RX_FREQ"))
         {
-            std::cerr << "RX centre freq is outside of tunable range: " << RX_FREQ << std::endl;
-            std::cerr << "Tunable range is from: " << rx_freq_range.start() << " to " << rx_freq_range.stop() << std::endl;
-            err = -1;
+            uhd::freq_range_t rx_freq_range = usrp->get_rx_freq_range(0);
+            if (RX_FREQ > rx_freq_range.stop() || RX_FREQ < rx_freq_range.start())
+            {
+                std::cerr << "RX centre freq is outside of tunable range: " << RX_FREQ << std::endl;
+                std::cerr << "Tunable range is from: " << rx_freq_range.start() << " to " << rx_freq_range.stop() << std::endl;
+                err = -1;
+            }
         }
+
 
         
         // gain names
-        std::vector<std::string> rx_gain_names = usrp->get_rx_gain_names(0);
-        utils::ppVector(rx_gain_names);
+        if (freqNode.child("RX_GAIN_NAME"))
+        {
+            std::vector<std::string> rx_gain_names = usrp->get_rx_gain_names(0);
+            utils::ppVector(rx_gain_names);
+        }
+
 
         // gain profile names
-        std::vector<std::string> rx_gain_profile_names = usrp->get_rx_gain_profile_names(0);
-        utils::ppVector(rx_gain_profile_names);
+        if (freqNode.child("RX_GAIN_PROFILE"))
+        {
+            std::vector<std::string> rx_gain_profile_names = usrp->get_rx_gain_profile_names(0);
+            utils::ppVector(rx_gain_profile_names);
+        }
+
 
         // gain range
-        uhd::gain_range_t rx_gain_range = usrp->get_rx_gain_range(0);
-        if (RX_GAIN > rx_gain_range.stop() || RX_GAIN < rx_gain_range.start())
+        if (freqNode.child("RX_GAIN"))
         {
-            std::cerr << "RX gain is outside of tunable range: " << RX_GAIN << std::endl;
-            std::cerr << "Tunable range is from: " << rx_gain_range.start() << " to " << rx_gain_range.stop() << std::endl;
-            err = -1;            
+            uhd::gain_range_t rx_gain_range = usrp->get_rx_gain_range(0);
+            if (RX_GAIN > rx_gain_range.stop() || RX_GAIN < rx_gain_range.start())
+            {
+                std::cerr << "RX gain is outside of tunable range: " << RX_GAIN << std::endl;
+                std::cerr << "Tunable range is from: " << rx_gain_range.start() << " to " << rx_gain_range.stop() << std::endl;
+                err = -1;            
+            }
         }
+
 
         // LO freq range
         // LO names
@@ -307,67 +344,95 @@ namespace config
         // antenna
         // TX/RX - can be set to either tx or rx
         // CAL - ?
-        std::vector<std::string> tx_antennas = usrp->get_tx_antennas(0);
-        found = false;
-        for (auto it : tx_antennas)
+        if (configNode.child("TX_ANTENNA"))
         {
-            if (TX_ANTENNA == it)
+            std::vector<std::string> tx_antennas = usrp->get_tx_antennas(0);
+            found = false;
+            for (auto it : tx_antennas)
             {
-                found = true;
+                if (TX_ANTENNA == it)
+                {
+                    found = true;
+                }
+            }
+            if (found == false)
+            {
+                std::cerr << "Cannot set TX antenna to: " << TX_ANTENNA << std::endl;
+                std::cerr << "Available TX antennas: ";
+                utils::ppVector(tx_antennas);
+                err = -1;
             }
         }
-        if (found == false)
-        {
-            std::cerr << "Cannot set TX antenna to: " << TX_ANTENNA << std::endl;
-            std::cerr << "Available TX antennas: ";
-            utils::ppVector(tx_antennas);
-            err = -1;
-        }
+
 
         // sample rate?
-        uhd::meta_range_t tx_rates = usrp->get_tx_rates(0);
-        if (TX_RATE > tx_rates.stop() || TX_RATE < tx_rates.start())
+        if (freqNode.child("TX_RATE"))
         {
-            std::cerr << "TX rate is outside of tunable range: " << TX_RATE << std::endl;
-            std::cerr << "Tunable range is from: " << tx_rates.start() << " to " << tx_rates.stop() << std::endl;
-            err = -1;
+            uhd::meta_range_t tx_rates = usrp->get_tx_rates(0);
+            if (TX_RATE > tx_rates.stop() || TX_RATE < tx_rates.start())
+            {
+                std::cerr << "TX rate is outside of tunable range: " << TX_RATE << std::endl;
+                std::cerr << "Tunable range is from: " << tx_rates.start() << " to " << tx_rates.stop() << std::endl;
+                err = -1;
+            } 
         }
+
 
         // bandwidth range
-        uhd::meta_range_t tx_bandwidth_range = usrp->get_tx_bandwidth_range(0);
-        if (TX_BW > tx_bandwidth_range.stop())
+        if (freqNode.child("TX_BW"))
         {
-            std::cerr << "Specified TX bandwidth is too large: " << TX_BW << std::endl;
-            std::cerr << "Maximum TX bandwidth: " << tx_bandwidth_range.stop() << std::endl;
-            err = -1;
+            uhd::meta_range_t tx_bandwidth_range = usrp->get_tx_bandwidth_range(0);
+            if (TX_BW > tx_bandwidth_range.stop())
+            {
+                std::cerr << "Specified TX bandwidth is too large: " << TX_BW << std::endl;
+                std::cerr << "Maximum TX bandwidth: " << tx_bandwidth_range.stop() << std::endl;
+                err = -1;
+            }
         }
 
+
         // freq range
-        uhd::freq_range_t tx_freq_range = usrp->get_tx_freq_range(0);
-        if (TX_FREQ > tx_freq_range.stop() || TX_FREQ < tx_freq_range.start())
+        if (freqNode.child("TX_FREQ"))
         {
-            std::cerr << "TX centre freq is outside of tunable range: " << TX_FREQ << std::endl;
-            std::cerr << "Tunable range is from: " << tx_freq_range.start() << " to " << tx_freq_range.stop() << std::endl;
-            err = -1;
+            uhd::freq_range_t tx_freq_range = usrp->get_tx_freq_range(0);
+            if (TX_FREQ > tx_freq_range.stop() || TX_FREQ < tx_freq_range.start())
+            {
+                std::cerr << "TX centre freq is outside of tunable range: " << TX_FREQ << std::endl;
+                std::cerr << "Tunable range is from: " << tx_freq_range.start() << " to " << tx_freq_range.stop() << std::endl;
+                err = -1;
+            }
         }
+
 
         
         // gain names
-        std::vector<std::string> tx_gain_names = usrp->get_tx_gain_names(0);
-        utils::ppVector(tx_gain_names);
+        if (freqNode.child("TX_GAIN_NAME"))
+        {
+            std::vector<std::string> tx_gain_names = usrp->get_tx_gain_names(0);
+            utils::ppVector(tx_gain_names);
+        }
+
 
         // gain profile names
-        std::vector<std::string> tx_gain_profile_names = usrp->get_tx_gain_profile_names(0);
-        utils::ppVector(tx_gain_profile_names);
+        if (freqNode.child("TX_GAIN_PROFILE"))
+        {
+            std::vector<std::string> tx_gain_profile_names = usrp->get_tx_gain_profile_names(0);
+            utils::ppVector(tx_gain_profile_names);
+        }
+
 
         // gain range
-        uhd::gain_range_t tx_gain_range = usrp->get_tx_gain_range(0);
-        if (TX_GAIN > tx_gain_range.stop() || TX_GAIN < tx_gain_range.start())
+        if (freqNode.child("TX_GAIN"))
         {
-            std::cerr << "TX gain is outside of tunable range: " << TX_GAIN << std::endl;
-            std::cerr << "Tunable range is from: " << tx_gain_range.start() << " to " << tx_gain_range.stop() << std::endl;
-            err = -1;            
+            uhd::gain_range_t tx_gain_range = usrp->get_tx_gain_range(0);
+            if (TX_GAIN > tx_gain_range.stop() || TX_GAIN < tx_gain_range.start())
+            {
+                std::cerr << "TX gain is outside of tunable range: " << TX_GAIN << std::endl;
+                std::cerr << "Tunable range is from: " << tx_gain_range.start() << " to " << tx_gain_range.stop() << std::endl;
+                err = -1;            
+            }
         }
+
 
         // LO freq range
         // LO names
@@ -542,7 +607,7 @@ namespace config
 
 
    // TX CONFIG -------------------------------------------------------------------------------------------------
-    bool confirmTxOscillatorsLocked(uhd::usrp::multi_usrp::sptr usrp_object, std::string ref_source, bool printing){
+    bool usrp_config::confirmTxOscillatorsLocked(uhd::usrp::multi_usrp::sptr usrp_object, std::string ref_source, bool printing){
         std::string clock_source = ref_source;
         std::vector<std::string> tx_sensor_names;
         tx_sensor_names = usrp_object->get_tx_sensor_names(0);
@@ -691,7 +756,17 @@ namespace config
     */
 
 
-   // MISC ------------------------------------------------------------------------------------------------------
+    // MISC ------------------------------------------------------------------------------------------------------
+    // Function to get all present nodes and their values
+    std::vector<std::string> usrp_config::get_present_nodes(const pugi::xml_node& parent_node) {
+        std::vector<std::string> nodes_list;
+        for (pugi::xml_node node = parent_node.first_child(); node; node = node.next_sibling()) {
+            nodes_list.push_back(node.name());
+        }
+        return nodes_list;
+    }
+
+
     std::string usrp_config::get_test_type() 
     {
         return TEST_TYPE;
