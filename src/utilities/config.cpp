@@ -83,10 +83,12 @@ namespace config
         TX_RATE = get_node_value_as_double(freqNode, "TX_RATE");
         TX_BW = get_node_value_as_double(freqNode, "TX_BW");
         TX_GAIN = get_node_value_as_double(freqNode, "TX_GAIN");
+        TX_DC_OFFSET = get_node_value_as_double(freqNode, "TX_DC_OFFSET");
         RX_FREQ = get_node_value_as_double(freqNode, "RX_FREQ");
         RX_RATE = get_node_value_as_double(freqNode, "RX_RATE");
         RX_BW = get_node_value_as_double(freqNode, "RX_BW");
         RX_GAIN = get_node_value_as_double(freqNode, "RX_GAIN");
+        RX_DC_OFFSET = get_node_value_as_double(freqNode, "RX_DC_OFFSET");
         // Radar
         pugi::xml_node radarNode = root.child("radar");
         RADAR_TYPE = get_node_value(configNode, "RADAR_TYPE");
@@ -140,7 +142,7 @@ namespace config
         return true;
     }
 
-    int usrp_config::connect()
+    int usrp_config::connect(uhd::usrp::multi_usrp::sptr& usrp)
     {        
         // 1. Get vector of connected devices - check if there are any
         // This is the same as running uhd_find_devices from command line
@@ -174,7 +176,6 @@ namespace config
 
         // 3. Make connection
         // Setup USRP object
-        uhd::usrp::multi_usrp::sptr usrp;
         try
         {
             usrp = uhd::usrp::multi_usrp::make(std::string("addr=") += SDR_IP);
@@ -228,17 +229,35 @@ namespace config
         bool found = false;
         int err = 0;
         // -------------------------------------------------------------------
+        pugi::xml_node configNode = root.child("device");
+        pugi::xml_node freqNode = root.child("frequency");
         // RX PARAMS
         // subdevice
+
         // dc offset range
+        if (freqNode.child("RX_DC_OFFSET"))
+        {
+            uhd::meta_range_t rx_dc_offset_range = usrp->get_rx_dc_offset_range();
+            if (RX_DC_OFFSET > rx_dc_offset_range.stop() || RX_DC_OFFSET < rx_dc_offset_range.start())
+            {
+                std::cerr << "RX DC offset is outside of tunable range: " << RX_DC_OFFSET << std::endl;
+                std::cerr << "Tunable range is from: " << rx_dc_offset_range.start() << " to " << rx_dc_offset_range.stop() << std::endl;
+                err = -1;
+            }
+        }
+
         // filters
+        if (configNode.child("RX_FILTER"))
+        {
+            std::vector<std::string> rx_filters = usrp->get_rx_filter_names(0);
+            utils::ppVector(rx_filters);
+        }
+
 
         // antenna
         // TX/RX - can be set to either tx or rx
         // RX2 - set to receive
         // CAL - ?
-        pugi::xml_node configNode = root.child("device");
-        pugi::xml_node freqNode = root.child("frequency");
         if (configNode.child("RX_ANTENNA"))
         {
             std::vector<std::string> rx_antennas = usrp->get_rx_antennas(0);
@@ -338,8 +357,25 @@ namespace config
         // -------------------------------------------------------------------
         // TX PARAMS
         // subdevice
+
         // dc offset range
+        if (freqNode.child("TX_DC_OFFSET"))
+        {
+            uhd::meta_range_t tx_dc_offset_range = usrp->get_tx_dc_offset_range();
+            if (TX_DC_OFFSET > tx_dc_offset_range.stop() || TX_DC_OFFSET < tx_dc_offset_range.start())
+            {
+                std::cerr << "TX DC offset is outside of tunable range: " << TX_DC_OFFSET << std::endl;
+                std::cerr << "Tunable range is from: " << tx_dc_offset_range.start() << " to " << tx_dc_offset_range.stop() << std::endl;
+                err = -1;
+            }
+        }
+
         // filters
+        if (configNode.child("TX_FILTER"))
+        {
+            std::vector<std::string> tx_filters = usrp->get_tx_filter_names(0);
+            utils::ppVector(tx_filters);
+        }
 
         // antenna
         // TX/RX - can be set to either tx or rx

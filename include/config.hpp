@@ -40,12 +40,13 @@ namespace config
          * @details Connects to the device at the specified address in the configuration and configures it according
          * to the stored parameters.
          * 
+         * @param usrp The USRP device that will be configured
          * 
          * @return Result.
          * @retval 0 if succesful.
          * @retval -1 if unsuccesful.
         */ 
-        int connect(); 
+        int connect(uhd::usrp::multi_usrp::sptr& usrp); 
 
         // Getters
         /**
@@ -76,10 +77,12 @@ namespace config
         double TX_RATE;
         double TX_BW;
         double TX_GAIN;
+        double TX_DC_OFFSET;
         double RX_FREQ;
         double RX_RATE;
         double RX_BW;
         double RX_GAIN;
+        double RX_DC_OFFSET;
         // options
         std::string OUTPUT_FILE;
         bool VERBOSE;

@@ -89,7 +89,8 @@ int main(int argc, char *argv[])
         
         config::usrp_config usrp_config; // Make usrp_config object
         usrp_config.configFromFile(cli::option_config.c_str());
-        usrp_config.connect(); // Connect to USRP and configure
+        uhd::usrp::multi_usrp::sptr usrp;  
+        usrp_config.connect(usrp); // Connect to USRP and configure
     }
     if (vm.count("test"))
     {

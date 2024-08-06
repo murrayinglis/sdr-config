@@ -17,7 +17,8 @@ namespace tests{
         {
             // config has already been passed in order to read in the test type, so don't need to do it
             // config::configFromFile(configXml);
-            config.connect();
+            uhd::usrp::multi_usrp::sptr usrp;
+            config.connect(usrp);
             return 0;
         }
 
