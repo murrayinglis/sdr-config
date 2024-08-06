@@ -7,22 +7,58 @@
 #include <iostream>
 #include <vector>
 
-
+/**
+ * @brief Related to the configuration of the USRP device
+ * 
+ */
 namespace config
 {
+    /**
+     * @class usrp_config
+     * @brief A USRP config object
+     * @details Stores the config from an xml file in an object
+     */
     class usrp_config
     {
     public:
         usrp_config();
 
-        // populates a usrp_config object from an xml file
+        /**
+         * @brief Populates a usrp_config object from an xml file.
+         * 
+         * 
+         * @param xmlFile The path to the xml file as an `std::string`.
+         * @return Result.
+         * @retval 0 if succesful.
+         * @retval -1 if unsuccesful.
+        */ 
         int configFromFile(std::string xmlFile); 
 
-        // TODO: ambiguous naming? connect could be for streaming maybe
+        /**
+         * @todo ambiguous naming? connect could be for streaming maybe
+         * @brief Connect and configure the device
+         * @details Connects to the device at the specified address in the configuration and configures it according
+         * to the stored parameters.
+         * 
+         * 
+         * @return Result.
+         * @retval 0 if succesful.
+         * @retval -1 if unsuccesful.
+        */ 
         int connect(); 
 
         // Getters
+        /**
+         * @brief Returns the test type specified in the config
+         * @return The test type as an `std::string`
+         * 
+         */
         std::string get_test_type();
+
+        /**
+         * @brief Returns the device address specified in the config
+         * @return The device address as an `std::string`
+         */
         std::string get_addr();
 
     private:

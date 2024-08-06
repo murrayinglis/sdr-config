@@ -186,7 +186,7 @@ namespace config
         }
         
         // 4. Get possible parameters
-        // 5. Check specified config is in possible parameters
+        // 5. Check specified config is within possible parameters
         if (checkPossibleParams(usrp) != 0)
         {
             return -1;
@@ -455,45 +455,62 @@ namespace config
         rx_usrp->set_rx_subdev_spec(RX_SUBDEV);
         rx_usrp->set_rx_antenna(RX_ANTENNA);
         
+        pugi::xml_node freqNode = root.child("frequency");
+
         // sample rate
-        double rx_rate=RX_RATE;
-        std::cout << "Setting RX Rate (MHz):  "<< (rx_rate / 1e6)<< std::endl;
-        rx_usrp->set_rx_rate(rx_rate);
-        double actualRate=rx_usrp->get_rx_rate();
-        if (rx_rate=!actualRate){
-            std::cout << "Actual RX Rate (MHz) : "<< (actualRate / 1e6)<<". (Overwritten config) n";
-            RX_RATE=actualRate;
+        if (freqNode.child("RX_RATE"))
+        {
+            double rx_rate=RX_RATE;
+            std::cout << "Setting RX Rate (MHz):  "<< (rx_rate / 1e6)<< std::endl;
+            rx_usrp->set_rx_rate(rx_rate);
+            double actualRate=rx_usrp->get_rx_rate();
+            if (rx_rate=!actualRate){
+                std::cout << "Actual RX Rate (MHz) : "<< (actualRate / 1e6)<<". (Overwritten config) n";
+                RX_RATE=actualRate;
+            }
         }
+
 
 
 
         // bandwidth
-        std::cout << "Setting RX bandwidth (MHz):   " << (RX_BW / 1e6)  << std::endl;
-        rx_usrp->set_rx_bandwidth(RX_BW);
-        double actualBW = rx_usrp->get_rx_bandwidth();
-        if (RX_BW != actualBW){
-            std::cout << "Actual RX bandwidth (MHz) : "<< (actualBW / 1e6)<<". (Overwritten config) n";
-            RX_RATE=actualRate;
-        }    
-
-
-        // center freq
-        double rx_center_freq= RX_FREQ;
-        std::cout << "Setting RX center freq (MHz): " << rx_center_freq / 1e6 << std::endl;
-        uhd::tune_request_t rx_tune_req(RX_FREQ); 
-        uhd::tune_result_t rx_tune_res = rx_usrp->set_rx_freq(rx_tune_req);
-
-        if(std::abs(rx_usrp->get_rx_freq()-RX_FREQ)>100){
-            std::cerr<<"setting of center freq unsuccessful. Requested: "<< (double)RX_FREQ/1e6<<" Error: "<<rx_usrp->get_rx_freq()-RX_FREQ<<"\n";    
+        if (freqNode.child("RX_BW"))
+        {
+            std::cout << "Setting RX bandwidth (MHz):   " << (RX_BW / 1e6)  << std::endl;
+            rx_usrp->set_rx_bandwidth(RX_BW);
+            double actualBW = rx_usrp->get_rx_bandwidth();
+            if (RX_BW != actualBW){
+                std::cout << "Actual RX bandwidth (MHz) : "<< (actualBW / 1e6)<<". (Overwritten config) n";
+                RX_BW=actualBW;
+            }    
         }
 
 
 
+        // center freq
+        if (freqNode.child("RX_FREQ"))
+        {
+            double rx_center_freq= RX_FREQ;
+            std::cout << "Setting RX center freq (MHz): " << rx_center_freq / 1e6 << std::endl;
+            uhd::tune_request_t rx_tune_req(RX_FREQ); 
+            uhd::tune_result_t rx_tune_res = rx_usrp->set_rx_freq(rx_tune_req);
+
+            if(std::abs(rx_usrp->get_rx_freq()-RX_FREQ)>100){
+                std::cerr<<"setting of center freq unsuccessful. Requested: "<< (double)RX_FREQ/1e6<<" Error: "<<rx_usrp->get_rx_freq()-RX_FREQ<<"\n";    
+            }
+        }
+
+
+
+
         // gain
-        double rx_gain = RX_GAIN;
-        std::cout << "Setting RX Gain (dB) : " << rx_gain<< std::endl;
-        rx_usrp->set_rx_gain(rx_gain);
-        std::cout << "Actual RX Gain (dB) : " << rx_usrp->get_rx_gain() <<". Out of a possible range:"<< rx_usrp->get_rx_gain_range().to_pp_string() << std::endl;
+        if (freqNode.child("RX_GAIN"))
+        {
+            double rx_gain = RX_GAIN;
+            std::cout << "Setting RX Gain (dB) : " << rx_gain<< std::endl;
+            rx_usrp->set_rx_gain(rx_gain);
+            std::cout << "Actual RX Gain (dB) : " << rx_usrp->get_rx_gain() <<". Out of a possible range:"<< rx_usrp->get_rx_gain_range().to_pp_string() << std::endl;
+        }
 
 
         // make sure LO locked (give it a few attempts)
@@ -647,45 +664,62 @@ namespace config
         tx_usrp->set_tx_subdev_spec(TX_SUBDEV);
         tx_usrp->set_tx_antenna(TX_ANTENNA);
 
+        pugi::xml_node freqNode = root.child("frequency");
 
         // sample rate
-        double tx_rate=TX_RATE;
-        std::cout << "Setting TX Rate (MHz):  "<< (tx_rate / 1e6)<< std::endl;
-        tx_usrp->set_tx_rate(tx_rate);
-        double actualRate=tx_usrp->get_tx_rate();
-        if (tx_rate=!actualRate){
-            std::cout << "Actual TX Rate (MHz) : "<< (actualRate / 1e6)<<". (Overwritten config) n";
-            TX_RATE=actualRate;
+        if (freqNode.child("TX_RATE"))
+        {
+            double tx_rate=TX_RATE;
+            std::cout << "Setting TX Rate (MHz):  "<< (tx_rate / 1e6)<< std::endl;
+            tx_usrp->set_tx_rate(tx_rate);
+            double actualRate=tx_usrp->get_tx_rate();
+            if (tx_rate=!actualRate){
+                std::cout << "Actual TX Rate (MHz) : "<< (actualRate / 1e6)<<". (Overwritten config) n";
+                TX_RATE=actualRate;
+            }
         }
+
         
         
         // bandwidth
-        std::cout << "Setting TX bandwidth (MHz):  "<< (TX_BW / 1e6)<< std::endl;
-        tx_usrp->set_tx_bandwidth(TX_BW);
-        double actualBW = tx_usrp->get_tx_bandwidth();
-        if (TX_BW != actualBW){
-            std::cout << "Actual TX Bandwidth (MHz) : "<< (actualBW / 1e6)<<". (Overwritten config) n";
-            TX_RATE=actualBW;
+        if (freqNode.child("TX_BW"))
+        {
+            std::cout << "Setting TX bandwidth (MHz):  "<< (TX_BW / 1e6)<< std::endl;
+            tx_usrp->set_tx_bandwidth(TX_BW);
+            double actualBW = tx_usrp->get_tx_bandwidth();
+            if (TX_BW != actualBW){
+                std::cout << "Actual TX Bandwidth (MHz) : "<< (actualBW / 1e6)<<". (Overwritten config) n";
+                TX_RATE=actualBW;
+            }
         }
+
 
 
         // center freq
-        double tx_center_freq= TX_FREQ;
-        std::cout << "Setting TX center freq (MHz):  " << (TX_FREQ / 1e6) << std::endl;
-        uhd::tune_request_t tx_tune_req(TX_FREQ);
-        tx_usrp->set_tx_freq(tx_tune_req);
+        if (freqNode.child("TX_FREQ"))
+        {
+            double tx_center_freq= TX_FREQ;
+            std::cout << "Setting TX center freq (MHz):  " << (TX_FREQ / 1e6) << std::endl;
+            uhd::tune_request_t tx_tune_req(TX_FREQ);
+            tx_usrp->set_tx_freq(tx_tune_req);
 
-        if((std::abs(tx_usrp->get_tx_freq()-TX_FREQ)>100)){ // if more than 100Hz off 
-            std::cerr<<"setting of center freq unsuccessful. Requested: "<< (double)TX_FREQ/1e6<<" Error: "<<tx_usrp->get_tx_freq()-TX_FREQ<<"\n";    
+            if((std::abs(tx_usrp->get_tx_freq()-TX_FREQ)>100)){ // if more than 100Hz off 
+                std::cerr<<"setting of center freq unsuccessful. Requested: "<< (double)TX_FREQ/1e6<<" Error: "<<tx_usrp->get_tx_freq()-TX_FREQ<<"\n";    
+            }
         }
 
 
+
         // gain
-        double tx_gain = TX_GAIN;
-        std::cout << "Setting TX Gain (dB) : " << tx_gain<< std::endl;
-        tx_usrp->set_tx_gain(tx_gain);
-        std::cout << "Actual TX Gain (dB) : " << tx_usrp->get_tx_gain() <<". Out of a possible range:"<< tx_usrp->get_tx_gain_range().to_pp_string() << std::endl;
-        
+        if (freqNode.child("TX_GAIN"))
+        {
+            double tx_gain = TX_GAIN;
+            std::cout << "Setting TX Gain (dB) : " << tx_gain<< std::endl;
+            tx_usrp->set_tx_gain(tx_gain);
+            std::cout << "Actual TX Gain (dB) : " << tx_usrp->get_tx_gain() <<". Out of a possible range:"<< tx_usrp->get_tx_gain_range().to_pp_string() << std::endl;
+     
+        }
+
         //tx_usrp->set_rx_dc_offset(false);
         
         // make sure LO locked (give it a few attempts)

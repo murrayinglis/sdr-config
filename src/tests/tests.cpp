@@ -2,6 +2,9 @@
 #include "config.hpp"
 #include "cli.hpp"
 
+/**
+ * @brief Contains the tests that can be performed
+ */
 namespace tests
 {    
     const std::map<std::string, TEST_TYPE> typesMap =
