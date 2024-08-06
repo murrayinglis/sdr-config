@@ -175,12 +175,13 @@ namespace config
         }
         
         // 4. Get possible parameters
+        // 5. Check specified config is in possible parameters
         if (checkPossibleParams(usrp) != 0)
         {
             return -1;
         }
 
-        // 5. Check specified config is in possible parameters
+
         
         // 6. Set parameters
         std::cout << "Default (current) clock source: " << usrp->get_clock_source(0) << "\n";
