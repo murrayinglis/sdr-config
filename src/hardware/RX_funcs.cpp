@@ -3,7 +3,8 @@
 #include <iostream>
 #include <fstream>
 
-
+// TODO: this is only todo with streaming now
+// Rename
 namespace hardware{
     /**
      * RX FUNCS

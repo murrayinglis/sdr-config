@@ -13,8 +13,13 @@ namespace config
     class usrp_config
     {
     public:
-        int configFromFile(std::string xmlFile);
-        int connect();
+        // populates a usrp_config object from an xml file
+        int configFromFile(std::string xmlFile); 
+
+        // TODO: ambiguous naming? connect could be for streaming maybe
+        int connect(); 
+
+        // Getters
         std::string get_test_type();
         std::string get_addr();
 
