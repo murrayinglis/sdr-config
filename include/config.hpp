@@ -66,7 +66,7 @@ namespace config
     int load();
     int connect();
     bool setUSRP_mode_from_config();
-    int getPossibleParams(uhd::usrp::multi_usrp::sptr usrp);
+    int checkPossibleParams(uhd::usrp::multi_usrp::sptr usrp);
 
     extern pugi::xml_document doc;
 

@@ -80,6 +80,7 @@ namespace config
 
 
         // Propagate settings to device
+        // TODO: check for missing nodes
         // Device config
         pugi::xml_node configNode = root.child("config");
         TEST_TYPE = configNode.child_value("TEST_TYPE");
@@ -192,7 +193,7 @@ namespace config
         }
         
         // 4. Get possible parameters
-        if (getPossibleParams(usrp) != 0)
+        if (checkPossibleParams(usrp) != 0)
         {
             return -1;
         }
@@ -232,7 +233,7 @@ namespace config
         return 0;
     }
 
-    int getPossibleParams(uhd::usrp::multi_usrp::sptr usrp)
+    int checkPossibleParams(uhd::usrp::multi_usrp::sptr usrp)
     {
         bool found = false;
         int err = 0;
@@ -315,7 +316,7 @@ namespace config
         // sensors
 
         // -------------------------------------------------------------------
-        // RX PARAMS
+        // TX PARAMS
         // subdevice
         // dc offset range
         // filters
@@ -324,6 +325,7 @@ namespace config
         // TX/RX - can be set to either tx or rx
         // CAL - ?
         std::vector<std::string> tx_antennas = usrp->get_tx_antennas(0);
+        found = false;
         for (auto it : tx_antennas)
         {
             if (TX_ANTENNA == it)
@@ -391,6 +393,8 @@ namespace config
         // power range
         // sensors
 
+
+        // Global?
         // time sources
         // sync sources
         return err;
