@@ -13,7 +13,18 @@
 #include <chrono>
 
 namespace utils{
-    
+    void ppVector(std::vector<std::string> v)
+    {
+        for (size_t i = 0; i < v.size(); i++)
+        {
+            std::cout << v[i];
+            if (i != v.size()-1)
+            {
+                std::cout << ", ";
+            }
+        }
+        std::cout << std::endl;
+    }
     
     bool fileAlreadyExists(std::string *pfilename, std::string extensionNoDot)
     {

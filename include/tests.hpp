@@ -8,6 +8,13 @@
  * 
  */
 namespace tests{
+    enum TEST_TYPE
+    {
+        HELLO_WORLD,
+        GEN_SWEEP,
+        CONFIG_TEST
+    };
+
     namespace SFCW{
         
         /// @brief Runs a SFCW sweep based on the parameters given and returns a 2D matrix [stepsPerFreq,numFreqSteps] of IQ values 
@@ -82,10 +89,11 @@ namespace tests{
     {
         void writeLinearSweepToFile(double sampleRate, int signalLength, double startFrequency, double endFrequency, const std::string& filename);
         int hello_world(std::string addr);
-        int config_test(const char* configXml);
+        int config_test(std::string configXml);
     }
 
     void handleTest(std::string option_test);
+    void listTestTypes();
 
 }// namespace tests
 

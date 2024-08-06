@@ -81,6 +81,7 @@ namespace hardware{
         //tx_usrp->set_rx_dc_offset(false);
         
         // make sure LO locked (give it a few attempts)
+        // TODO: parametrize number attempts in xml
         size_t numlockAttempts=0;
         while( numlockAttempts<5&&!confirmTxOscillatorsLocked(tx_usrp,config::REF_CLOCK,true)){
             numlockAttempts++;

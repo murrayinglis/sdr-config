@@ -10,22 +10,25 @@
         <REF_CLOCK>external</REF_CLOCK>
         <TX_ANTENNA>TX/RX</TX_ANTENNA>
         <RX_ANTENNA>RX2</RX_ANTENNA>
-        <TEST_TYPE>hello_world</TEST_TYPE>
+        <TEST_TYPE>CONFIG_TEST</TEST_TYPE>
         <WAVEFORM_FILE></WAVEFORM_FILE>
     </config>
     <frequency>
-        <TX_FREQ>410e6</TX_FREQ>
-        <RX_FREQ>420e6</RX_FREQ>
+        <TX_FREQ>900e6</TX_FREQ>
+        <RX_FREQ>900e6</RX_FREQ>
         <TX_RATE>25e6</TX_RATE>
         <RX_RATE>25e6</RX_RATE>
         <TX_BW>350e3</TX_BW>
         <RX_BW>350e3</RX_BW>
-        <TX_GAIN>6</TX_GAIN>
+        <TX_GAIN>0</TX_GAIN>
         <RX_GAIN>3</RX_GAIN>
     </frequency>
     <test>
 
     </test>
+    <radar>
+        <mode></mode>
+    </radar>
     <options>
         <OUTPUT_FILE></OUTPUT_FILE>
         <VERBOSE>true</VERBOSE>

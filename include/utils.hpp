@@ -13,6 +13,7 @@
 
 /// @brief 
 namespace utils{    
+    void ppVector(std::vector<std::string> v);
     
     bool fileAlreadyExists(std::string *pfilename, std::string extensionNoDot);
 

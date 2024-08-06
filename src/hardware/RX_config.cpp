@@ -6,7 +6,7 @@ namespace hardware{
 
     bool setRXFreqHz(uhd::usrp::multi_usrp::sptr rx_usrp, double newRXFreqHz){
         uhd::tune_request_t rx_tune_req(newRXFreqHz); 
-        rx_usrp->set_rx_freq(rx_tune_req);
+        uhd::tune_result_t rx_tune_res = rx_usrp->set_rx_freq(rx_tune_req);
 
         if(std::abs(rx_usrp->get_rx_freq()-newRXFreqHz)>100){
             std::cerr<<"setting of center freq unsuccessful. Requested: "<< (double)newRXFreqHz/1e6<<" Error: "<<rx_usrp->get_rx_freq()-newRXFreqHz<<"\n";    

@@ -2,6 +2,7 @@
 #define CONFIG_HPP
 
 #include "pugixml.hpp" 
+#include <uhd/usrp/multi_usrp.hpp>
 #include <string>
 #include <iostream>
 #include <vector>
@@ -58,13 +59,14 @@ namespace config
     /**
      * Read the config xml file into memory
      */
-    int configFromFile(const char* xmlFile);
+    int configFromFile(std::string xmlFile);
     /**
      * Load the config file into a config object
      */
     int load();
     int connect();
     bool setUSRP_mode_from_config();
+    int getPossibleParams(uhd::usrp::multi_usrp::sptr usrp);
 
     extern pugi::xml_document doc;
 
