@@ -2,17 +2,19 @@
 #include "config.hpp"
 #include "cli.hpp"
 
-/**
- * @brief Contains the tests that can be performed
- */
+
 namespace tests
 {    
     const std::map<std::string, TEST_TYPE> typesMap =
     {
         {"HELLO_WORLD", HELLO_WORLD},
         {"GEN_SWEEP", GEN_SWEEP},
-        {"CONFIG_TEST", CONFIG_TEST}
+        {"CONFIG_TEST", CONFIG_TEST},
+        {"RX_TEST", RX_TEST},
+        {"TX_TEST", TX_TEST},
+        {"TX_SINGLE_FREQ", TX_SINGLE_FREQ}
     };
+
 
     void listTestTypes()
     {
@@ -22,6 +24,7 @@ namespace tests
             std::cout << pair.first << std::endl;
         }
     }
+
 
     void handleTest(config::usrp_config usrp_config) 
     {
@@ -37,7 +40,10 @@ namespace tests
             // Key not found
             std::cerr << "Invalid test case: \"" << option_test << "\"" << std::endl;
         }
-        
+
+        // usrp object needed for some tests
+        uhd::usrp::multi_usrp::sptr usrp; 
+
         switch (t)
         {
             case GEN_SWEEP:
@@ -52,6 +58,29 @@ namespace tests
                 std::cout << "Performing test: " << option_test << std::endl;
                 tests::misc::config_test(usrp_config);
                 break;
+            case RX_TEST:
+                std::cout << "Performing test: " << option_test << std::endl;
+                if (usrp_config.connect(usrp) == 0)
+                {
+                    tests::RX::rx_test(usrp);
+                }
+                break;
+            case TX_TEST:
+                std::cout << "Performing test: " << option_test << std::endl;
+                if (usrp_config.connect(usrp) == 0)
+                {
+                    tests::TX::tx_test(usrp);
+                }
+                break;
+            case TX_SINGLE_FREQ:
+                // configFromFile() called already
+                std::cout << "Performing test: " << option_test << std::endl;
+                if (usrp_config.connect(usrp) == 0)
+                {
+                    tests::TX::transmitSingleFreq(usrp);
+                }
+                
+                break;                
             default:
                 break;
         }

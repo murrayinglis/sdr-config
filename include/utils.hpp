@@ -17,6 +17,8 @@ namespace utils{
     
     bool fileAlreadyExists(std::string *pfilename, std::string extensionNoDot);
 
+    int readInWaveformFile(); // File type?
+
     std::vector<std::complex<double>> generateLinearSweep(double sampleRate, int signalLength, double startFrequency, double endFrequency);
 
     std::vector<std::complex<double>> generateComplexExp(double sampleRate, int signalLength, double frequency, double amplitude);

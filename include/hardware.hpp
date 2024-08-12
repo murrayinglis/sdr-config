@@ -15,6 +15,23 @@ namespace hardware{
         double settling_time,
         bool storeMD);
 
+    void recv_samples_to_file(uhd::usrp::multi_usrp::sptr usrp,
+    const std::string& cpu_format,
+    const std::string& wire_format,
+    const std::vector<size_t>& channel_nums,
+    const size_t total_num_channels,
+    const std::string& file,
+    size_t samps_per_buff,
+    unsigned long long num_requested_samples,
+    double& bw,
+    std::mutex* recv_mutex,
+    double time_requested,
+    bool stats,
+    bool null,
+    bool enable_size_map,
+    bool continue_on_bad_packet,
+    const std::string& thread_prefix);
+
 
     /**
      * RX CONFIG

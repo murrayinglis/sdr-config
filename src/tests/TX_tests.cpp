@@ -7,6 +7,15 @@
 
 namespace tests{
     namespace TX {
+        int tx_test(uhd::usrp::multi_usrp::sptr tx_usrp)
+        {
+            std::cout << "TX_TEST running" << std::endl;
+            std::vector<std::complex<double>> buffers(10000,std::complex<float>{0.8, 0.0});
+            double secondsInFuture = 0.5;
+            hardware::transmitDoublesAtTime(tx_usrp, buffers, secondsInFuture);
+            return 0;
+        }
+
         int transmitSingleFreq(uhd::usrp::multi_usrp::sptr tx_usrp){
             //set up transmit streamer
             // floating complex single precision - CPU

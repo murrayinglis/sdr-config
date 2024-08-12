@@ -10,7 +10,6 @@
         <REF_CLOCK>external</REF_CLOCK>
         <TX_ANTENNA>TX/RX</TX_ANTENNA>
         <RX_ANTENNA>RX2</RX_ANTENNA>
-        <TEST_TYPE>CONFIG_TEST</TEST_TYPE>
     </config>
     <frequency>
         <TX_FREQ>900e6</TX_FREQ>
@@ -23,10 +22,11 @@
         <RX_GAIN>3</RX_GAIN>
     </frequency>
     <test>
-
+        <TEST_TYPE>RX_TEST</TEST_TYPE>
+        <SETTLING_TIME></SETTLING_TIME>
     </test>
     <radar>
-        <mode>SFCW</mode>
+        <RADAR_TYPE>SFCW</RADAR_TYPE>
         <WAVEFORM_FILE></WAVEFORM_FILE>
     </radar>
     <options>

@@ -62,6 +62,13 @@ namespace config
          */
         std::string get_addr();
 
+        /**
+         * @brief Returns the test xml node for extracting parameters to use in the test cases.
+         * @return The test node as a `pugi::xml_node`
+         */
+        pugi::xml_node get_test_node();
+
+
     private:
         // device
         std::string SDR_IP;
@@ -71,7 +78,6 @@ namespace config
         std::string REF_CLOCK;
         std::string TX_ANTENNA;
         std::string RX_ANTENNA;
-        std::string TEST_TYPE;
         // antenna
         double TX_FREQ;
         double TX_RATE;
@@ -83,12 +89,15 @@ namespace config
         double RX_BW;
         double RX_GAIN;
         double RX_DC_OFFSET;
-        // options
-        std::string OUTPUT_FILE;
-        bool VERBOSE;
+        // test
+        std::string TEST_TYPE;
+        double SETTLING_TIME;    
         // radar
         std::string RADAR_TYPE;
         std::string WAVEFORM_FILE;
+        // options
+        bool VERBOSE;
+        std::string OUTPUT_FILE;    
 
         // xml
         pugi::xml_node root;

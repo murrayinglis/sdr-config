@@ -63,15 +63,32 @@ namespace config
         // Device config
         // Use a lambda function to safely get the value or set to a default value if missing
         auto get_node_value = [](const pugi::xml_node& node, const std::string& name, const std::string& default_value = "") {
-            pugi::xml_node child = node.child(name.c_str());
-            return child ? child.child_value() : default_value;
+            const pugi::xml_node child = node.child(name.c_str());
+            std::string value_str = child ? child.child_value() : default_value;
+            try {
+                return value_str.empty() ? default_value : value_str;
+            } catch (const std::invalid_argument&) {
+                std::cerr << name << " is empty." << std::endl;
+                return default_value;
+            } catch (const std::out_of_range&) {
+                std::cerr << name << " is empty." << std::endl;
+                return default_value;
+            }
         };
         auto get_node_value_as_double = [](const pugi::xml_node& node, const std::string& name, double default_value = 0.0f) {
-            pugi::xml_node child = node.child(name.c_str());
-            return child ? std::stod(child.child_value()) : default_value;
+            const pugi::xml_node child = node.child(name.c_str());
+            std::string value_str = child ? child.child_value() : "";
+            try {
+                return value_str.empty() ? default_value : std::stod(value_str);
+            } catch (const std::invalid_argument&) {
+                std::cerr << name << " is empty." << std::endl;
+                return default_value;
+            } catch (const std::out_of_range&) {
+                std::cerr << name << " is empty." << std::endl;
+                return default_value;
+            }
         };
         pugi::xml_node configNode = root.child("config");
-        TEST_TYPE = get_node_value(configNode, "TEST_TYPE");
         TX_SUBDEV = get_node_value(configNode, "TX_SUBDEV");
         RX_SUBDEV = get_node_value(configNode, "RX_SUBDEV");
         REF_CLOCK = get_node_value(configNode, "REF_CLOCK");
@@ -91,11 +108,15 @@ namespace config
         RX_DC_OFFSET = get_node_value_as_double(freqNode, "RX_DC_OFFSET");
         // Radar
         pugi::xml_node radarNode = root.child("radar");
-        RADAR_TYPE = get_node_value(configNode, "RADAR_TYPE");
-        WAVEFORM_FILE = get_node_value(configNode, "WAVEFORM_FILE");
+        RADAR_TYPE = get_node_value(radarNode, "RADAR_TYPE");
+        WAVEFORM_FILE = get_node_value(radarNode, "WAVEFORM_FILE");
+        // Test
+        pugi::xml_node testNode = root.child("test");
+        TEST_TYPE = get_node_value(testNode, "TEST_TYPE");
+        SETTLING_TIME = get_node_value_as_double(testNode, "SETTLING_TIME");
         // Options
         pugi::xml_node optionsNode = root.child("options");
-        OUTPUT_FILE = get_node_value(configNode, "OUTPUT_FILE");
+        OUTPUT_FILE = get_node_value(optionsNode, "OUTPUT_FILE");
         std::stringstream ss(optionsNode.child_value("VERBOSE"));
         bool b;
         if(!(ss >> std::boolalpha >> b)) {
@@ -346,12 +367,26 @@ namespace config
             }
         }
 
+        // power range
+        try
+        {
+            uhd::meta_range_t rx_power_range = usrp->get_rx_power_range(0);
+            std::cout << "RX power range:" << std::endl;
+            std::cout << rx_power_range.start() << std::endl;
+            std::cout << rx_power_range.stop() << std::endl;            
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+        
+
 
         // LO freq range
         // LO names
         // LO sources
         // num channels
-        // power range
+
         // sensors
 
         // -------------------------------------------------------------------
@@ -469,12 +504,25 @@ namespace config
             }
         }
 
+        // power range
+        try
+        {
+            uhd::meta_range_t tx_power_range = usrp->get_tx_power_range(0);
+            std::cout << "TX power range:" << std::endl;
+            std::cout << tx_power_range.start() << std::endl;
+            std::cout << tx_power_range.stop() << std::endl;            
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+
 
         // LO freq range
         // LO names
         // LO sources
         // num channels
-        // power range
+
         // sensors
 
 
@@ -844,6 +892,11 @@ namespace config
     std::string usrp_config::get_addr()
     {
         return SDR_IP;
+    }
+    pugi::xml_node usrp_config::get_test_node()
+    {
+        pugi::xml_node testNode = root.child("test");
+        return testNode;
     }
 }
 
