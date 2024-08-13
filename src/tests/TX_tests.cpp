@@ -37,11 +37,11 @@ namespace tests{
             md.start_of_burst = true;
             md.end_of_burst   = false;
             md.has_time_spec  = true;
-            md.time_spec = uhd::time_spec_t(0.5); // give us 0.5 seconds to fill the tx buffers
+            md.time_spec = uhd::time_spec_t(2.0); // give us 0.5 seconds to fill the tx buffers
 
             // reset usrp time to prepare for transmit/receive
             std::cout << boost::format("Setting device timestamp to 0...") << std::endl;
-            tx_usrp->set_time_now(uhd::time_spec_t(0.0));
+            tx_usrp->set_time_now(uhd::time_spec_t(1.0));
 
             //send
             int i=5;

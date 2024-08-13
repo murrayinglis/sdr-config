@@ -20,7 +20,9 @@ namespace tests{
         RX_TEST,
         TX_TEST,
 
-        TX_SINGLE_FREQ
+        TX_SINGLE_FREQ,
+
+        LOOPBACK_TEST
     };
 
     namespace SFCW{
@@ -45,6 +47,8 @@ namespace tests{
 
     namespace LOOPBACK
     {
+        void loopback(uhd::usrp::multi_usrp::sptr usrp);
+
         /// @brief NOTE: Should rather use transmitAndReceiveToH5. Loopback function which will will transmit a given vector and receive a synchronised signal to a file. 
         /// @param usrp  USRP with all center frequencies, sample rates, bandwidths, ETC already configured 
         /// @param TransmitSignal Vector of complex doubles (not templated for other precisions) to be transmitted. 
