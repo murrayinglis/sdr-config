@@ -329,6 +329,7 @@ namespace config
         if (freqNode.child("RX_FREQ"))
         {
             uhd::freq_range_t rx_freq_range = usrp->get_rx_freq_range(0);
+            //std::cout << rx_freq_range.to_pp_string() << std::endl;
             if (RX_FREQ > rx_freq_range.stop() || RX_FREQ < rx_freq_range.start())
             {
                 std::cerr << "RX centre freq is outside of tunable range: " << RX_FREQ << std::endl;
@@ -898,5 +899,7 @@ namespace config
         pugi::xml_node testNode = root.child("test");
         return testNode;
     }
+
+
 }
 

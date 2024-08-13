@@ -13,7 +13,7 @@
     </config>
     <frequency>
         <TX_FREQ>900e6</TX_FREQ>
-        <RX_FREQ>900e6</RX_FREQ>
+        <RX_FREQ>730e6</RX_FREQ>
         <TX_RATE>25e6</TX_RATE>
         <RX_RATE>25e6</RX_RATE>
         <TX_BW>350e3</TX_BW>

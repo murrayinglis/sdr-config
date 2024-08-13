@@ -21,6 +21,7 @@ namespace tests{
             const std::lock_guard<std::mutex> lock(recv_mutex);
             double bw = 10.0;
 
+            /*
             hardware::recv_samples_to_file(rx_usrp,
             cpu_format,
             wire_format,
@@ -37,8 +38,9 @@ namespace tests{
             false,
             false,
             "");
+            */
             
-            //captureSingleFreqToFile(rx_usrp, "double", 50000, "rx_test", 10.0);
+            captureSingleFreqToFile(rx_usrp, "double", 500000, "rx_test", 10.0);
             return 0;
         }
 

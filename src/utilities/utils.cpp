@@ -14,6 +14,170 @@
 #include <chrono>
 
 namespace utils{
+    void print_all_params(std::string addr)
+    {
+        uhd::usrp::multi_usrp::sptr usrp = uhd::usrp::multi_usrp::make(std::string("addr=") += addr);
+
+        // -------------------------------------------------------------------
+        // RX PARAMS
+        // subdevice
+
+        // dc offset range
+        uhd::meta_range_t rx_dc_offset_range = usrp->get_rx_dc_offset_range();
+        std::cout << "RX DC offset range: " << rx_dc_offset_range.to_pp_string() << std::endl;
+
+
+        // filters
+        std::vector<std::string> rx_filters = usrp->get_rx_filter_names(0);
+        std::cout << "RX Filters: " << std::endl;
+        utils::ppVector(rx_filters);
+
+
+        // antenna
+        // TX/RX - can be set to either tx or rx
+        // RX2 - set to receive
+        // CAL - ?
+        std::vector<std::string> rx_antennas = usrp->get_rx_antennas(0);
+        std::cout << "RX Antennas: " << std::endl;
+        utils::ppVector(rx_antennas);
+        std::cout << std::endl;
+
+        // RX rate range
+        uhd::meta_range_t rx_rates = usrp->get_rx_rates(0);
+        std::cout << "RX Rate range: " << rx_rates.start() << " to " << rx_rates.stop() << std::endl;
+        std::cout << std::endl;
+
+
+        // bandwidth range
+        uhd::meta_range_t rx_bandwidth_range = usrp->get_rx_bandwidth_range(0);
+        std::cout << "RX Bandwidth range: " << rx_bandwidth_range.to_pp_string() << std::endl;
+
+
+        // freq range
+        uhd::freq_range_t rx_freq_range = usrp->get_rx_freq_range(0);
+        std::cout << "RX Bandwidth range: " << rx_freq_range.to_pp_string() << std::endl;
+
+
+        
+        // gain names
+        std::vector<std::string> rx_gain_names = usrp->get_rx_gain_names(0);
+        std::cout << "RX gain names: " << std::endl;
+        utils::ppVector(rx_gain_names);
+        std::cout << std::endl;
+
+
+
+        // gain profile names
+        std::vector<std::string> rx_gain_profile_names = usrp->get_rx_gain_profile_names(0);
+        std::cout << "RX gain profile names: " << std::endl;
+        utils::ppVector(rx_gain_profile_names);
+
+
+
+        // gain range
+        uhd::gain_range_t rx_gain_range = usrp->get_rx_gain_range(0);
+        std::cout << "RX gain range: " << rx_gain_range.to_pp_string() << std::endl;
+
+
+        // power range
+        try
+        {
+            uhd::meta_range_t rx_power_range = usrp->get_rx_power_range(0);
+            std::cout << "RX power range:" << std::endl;
+            std::cout << rx_power_range.start() << std::endl;
+            std::cout << rx_power_range.stop() << std::endl;            
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+
+
+        std::cout << std::endl;
+
+
+        // LO freq range
+        // LO names
+        // LO sources
+        // num channels
+
+        // sensors
+
+        // -------------------------------------------------------------------
+        // TX PARAMS
+        // subdevice
+
+        // dc offset range
+        uhd::meta_range_t tx_dc_offset_range = usrp->get_tx_dc_offset_range();
+        std::cout << "TX DC offset range: " << tx_dc_offset_range.to_pp_string() << std::endl;
+        std::cout << std::endl;
+
+
+        // filters
+        std::vector<std::string> tx_filters = usrp->get_tx_filter_names(0);
+        std::cout << "TX Filters: " << std::endl;
+        utils::ppVector(tx_filters);
+
+
+        // antenna
+        // RX/TX - can be set to either tx or rx
+        std::vector<std::string> tx_antennas = usrp->get_tx_antennas(0);
+        std::cout << "TX Antennas: " << std::endl;
+        utils::ppVector(tx_antennas);
+        std::cout << std::endl;
+
+        // TX rate range
+        uhd::meta_range_t tx_rates = usrp->get_tx_rates(0);
+        std::cout << "TX Rate range: " << tx_rates.start() << " to " << tx_rates.stop() << std::endl;
+        std::cout << std::endl;
+
+
+        // bandwidth range
+        uhd::meta_range_t tx_bandwidth_range = usrp->get_tx_bandwidth_range(0);
+        std::cout << "TX Bandwidth range: " << tx_bandwidth_range.to_pp_string() << std::endl;
+
+
+        // freq range
+        uhd::freq_range_t tx_freq_range = usrp->get_tx_freq_range(0);
+        std::cout << "TX Bandwidth range: " << tx_freq_range.to_pp_string() << std::endl;
+
+
+        
+        // gain names
+        std::vector<std::string> tx_gain_names = usrp->get_tx_gain_names(0);
+        std::cout << "TX gain names: " << std::endl;
+        utils::ppVector(tx_gain_names);
+
+
+
+        // gain profile names
+        std::vector<std::string> tx_gain_profile_names = usrp->get_tx_gain_profile_names(0);
+        std::cout << "TX gain profile names: " << std::endl;
+        utils::ppVector(tx_gain_profile_names);
+
+
+
+        // gain range
+        uhd::gain_range_t tx_gain_range = usrp->get_tx_gain_range(0);
+        std::cout << "TX gain range: " << tx_gain_range.to_pp_string() << std::endl;
+
+
+        // power range
+        try
+        {
+            uhd::meta_range_t tx_power_range = usrp->get_tx_power_range(0);
+            std::cout << "TX power range:" << std::endl;
+            std::cout << tx_power_range.start() << std::endl;
+            std::cout << tx_power_range.stop() << std::endl;            
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+
+    }
+
+
     void ppVector(std::vector<std::string> v)
     {
         for (size_t i = 0; i < v.size(); i++)

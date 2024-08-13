@@ -8,6 +8,8 @@
 #include "pugixml.hpp" 
 #include "tests.hpp"
 #include "config.hpp"
+#include "utils.hpp"
+
 #include <iostream>
 #include <string>
 
@@ -21,6 +23,7 @@ namespace cli
     std::string option_dump;
     std::string option_config;
     std::string option_test;
+    std::string option_query;
 }
 
 void print_help(const po::options_description &desc) 
@@ -37,6 +40,7 @@ int main(int argc, char *argv[])
     desc.add_options()
         ("help,h", "Display help message")
         ("find", "Finds and displays the address of all devices connected")
+        ("query", po::value<std::string>(&cli::option_query), "Output the available parameters of the device at the specified address")
         ("dump,", po::value<std::string>(&cli::option_dump), "Dump the config of a specified device to an xml file")
         ("config", po::value<std::string>(&cli::option_config), "Configure the device at a specific address based on a config xml file")
         ("test", po::value<std::string>(&cli::option_test), "Perform one of the test cases specified in the config.");
@@ -112,6 +116,10 @@ int main(int argc, char *argv[])
             tests::handleTest(usrp_config);
         }
         
+    }
+    if (vm.count("query"))
+    {
+        utils::print_all_params(cli::option_query.c_str());
     }
 
     return 0;
