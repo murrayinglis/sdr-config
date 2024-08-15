@@ -297,6 +297,30 @@ src/tests/TX_tests.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/TX_tests.cpp.s
 .PHONY : src/tests/TX_tests.cpp.s
 
+src/tests/loopback.o: src/tests/loopback.cpp.o
+.PHONY : src/tests/loopback.o
+
+# target to build an object file
+src/tests/loopback.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/loopback.cpp.o
+.PHONY : src/tests/loopback.cpp.o
+
+src/tests/loopback.i: src/tests/loopback.cpp.i
+.PHONY : src/tests/loopback.i
+
+# target to preprocess a source file
+src/tests/loopback.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/loopback.cpp.i
+.PHONY : src/tests/loopback.cpp.i
+
+src/tests/loopback.s: src/tests/loopback.cpp.s
+.PHONY : src/tests/loopback.s
+
+# target to generate assembly for a file
+src/tests/loopback.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/loopback.cpp.s
+.PHONY : src/tests/loopback.cpp.s
+
 src/tests/misc.o: src/tests/misc.cpp.o
 .PHONY : src/tests/misc.o
 
@@ -423,6 +447,9 @@ help:
 	@echo "... src/tests/TX_tests.o"
 	@echo "... src/tests/TX_tests.i"
 	@echo "... src/tests/TX_tests.s"
+	@echo "... src/tests/loopback.o"
+	@echo "... src/tests/loopback.i"
+	@echo "... src/tests/loopback.s"
 	@echo "... src/tests/misc.o"
 	@echo "... src/tests/misc.i"
 	@echo "... src/tests/misc.s"

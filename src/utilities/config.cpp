@@ -114,6 +114,7 @@ namespace config
         pugi::xml_node testNode = root.child("test");
         TEST_TYPE = get_node_value(testNode, "TEST_TYPE");
         SETTLING_TIME = get_node_value_as_double(testNode, "SETTLING_TIME");
+        NUM_SAMPLES = get_node_value_as_double(testNode,"NUM_SAMPLES");
         // Options
         pugi::xml_node optionsNode = root.child("options");
         OUTPUT_FILE = get_node_value(optionsNode, "OUTPUT_FILE");
@@ -244,7 +245,7 @@ namespace config
     }
 
 
-    int usrp_config::checkPossibleParams(uhd::usrp::multi_usrp::sptr usrp)
+    int usrp_config::checkPossibleParams(uhd::usrp::multi_usrp::sptr& usrp)
     {
 
         bool found = false;
@@ -535,7 +536,7 @@ namespace config
 
 
     // SETUP RECEIVER ---------------------------------------------------------------------------------------------
-    int usrp_config::setupReceiever(uhd::usrp::multi_usrp::sptr rx_usrp){
+    int usrp_config::setupReceiever(uhd::usrp::multi_usrp::sptr& rx_usrp){
         // clock should already be set up for whole device
         rx_usrp->set_rx_subdev_spec(RX_SUBDEV);
         rx_usrp->set_rx_antenna(RX_ANTENNA);
@@ -577,7 +578,7 @@ namespace config
         {
             double rx_center_freq= RX_FREQ;
             std::cout << "Setting RX center freq (MHz): " << rx_center_freq / 1e6 << std::endl;
-            uhd::tune_request_t rx_tune_req(RX_FREQ); 
+            uhd::tune_request_t rx_tune_req(RX_FREQ); // LO offset optional.. todo?
             uhd::tune_result_t rx_tune_res = rx_usrp->set_rx_freq(rx_tune_req);
 
             if(std::abs(rx_usrp->get_rx_freq()-RX_FREQ)>100){
@@ -600,12 +601,19 @@ namespace config
 
         // make sure LO locked (give it a few attempts)
         size_t numlockAttempts=0;
-        while( numlockAttempts<5&&!confirmRxOscillatorsLocked(rx_usrp,REF_CLOCK,true)){
+        while(numlockAttempts < 5 && !confirmRxOscillatorsLocked(rx_usrp, REF_CLOCK, true)){
+            confirmRxOscillatorsLocked(rx_usrp,REF_CLOCK,true);
+            sleep(1.0); // parametrize
             numlockAttempts++;
+            
         }
-        std::vector<std::string> rx_sensor_names = rx_usrp->get_tx_sensor_names(0);
+        
+
+        // Reporting if sources locked in time
+        std::vector<std::string> rx_sensor_names = rx_usrp->get_rx_sensor_names(0);
+        uhd::sensor_value_t lo_locked = rx_usrp->get_rx_sensor("lo_locked", 0);
         if (std::find(rx_sensor_names.begin(), rx_sensor_names.end(), "lo_locked")!= rx_sensor_names.end()){
-            uhd::sensor_value_t lo_locked = rx_usrp->get_tx_sensor("lo_locked", 0);
+            
             if(!lo_locked.to_bool()){
                 std::cout << "LO failed to lock in time." << std::endl;
             }
@@ -617,7 +625,7 @@ namespace config
         // 
         rx_sensor_names = rx_usrp->get_mboard_sensor_names(0);
         if ((REF_CLOCK == "mimo") and (std::find(rx_sensor_names.begin(), rx_sensor_names.end(), "mimo_locked")!= rx_sensor_names.end())) {
-            uhd::sensor_value_t lo_locked = rx_usrp->get_tx_sensor("mimo_locked", 0);
+            uhd::sensor_value_t lo_locked = rx_usrp->get_rx_sensor("mimo_locked", 0);
             if(!lo_locked.to_bool()){
                 std::cout << "MIMO failed to lock in time." << std::endl;
             }
@@ -627,9 +635,8 @@ namespace config
             }
         }
         //
-        rx_sensor_names = rx_usrp->get_mboard_sensor_names(0);
         if ((REF_CLOCK == "external") and (std::find(rx_sensor_names.begin(), rx_sensor_names.end(), "ref_locked")!= rx_sensor_names.end())) {
-            uhd::sensor_value_t lo_locked = rx_usrp->get_tx_sensor("lo_locked", 0);
+            uhd::sensor_value_t lo_locked = rx_usrp->get_rx_sensor("lo_locked", 0);
             if(!lo_locked.to_bool()){
                 std::cout << "External clock failed to lock in time." << std::endl;
             }
@@ -660,7 +667,7 @@ namespace config
      * Confirm LO, MIMO and REF clock sources locked
      * 
      */
-    bool usrp_config::confirmRxOscillatorsLocked(uhd::usrp::multi_usrp::sptr usrp_object, std::string ref_source,bool printing){
+    bool usrp_config::confirmRxOscillatorsLocked(uhd::usrp::multi_usrp::sptr& usrp_object, std::string ref_source,bool printing){
         std::string clock_source = ref_source;
         std::vector<std::string> rx_sensor_names;
         //checking LO
@@ -672,7 +679,7 @@ namespace config
                 return false;
             }
         }
-        //checking for mimo and external
+        //checking for mimo 
         rx_sensor_names = usrp_object->get_mboard_sensor_names();
         if ((clock_source == "mimo") and (std::find(rx_sensor_names.begin(), rx_sensor_names.end(), "mimo_locked")!= rx_sensor_names.end())) {
             uhd::sensor_value_t mimo_locked = usrp_object->get_mboard_sensor("mimo_locked", 0);
@@ -681,6 +688,7 @@ namespace config
                 return false;
             }
         }
+        // checking external
         if ((clock_source == "external") and (std::find(rx_sensor_names.begin(), rx_sensor_names.end(), "ref_locked")!= rx_sensor_names.end())) {
             uhd::sensor_value_t ref_locked = usrp_object->get_mboard_sensor("ref_locked", 0);
             if(printing){std::cout << boost::format("Checking RX .... : %s ...") % ref_locked.to_pp_string() << std::endl;}
@@ -709,7 +717,7 @@ namespace config
 
 
    // TX CONFIG -------------------------------------------------------------------------------------------------
-    bool usrp_config::confirmTxOscillatorsLocked(uhd::usrp::multi_usrp::sptr usrp_object, std::string ref_source, bool printing){
+    bool usrp_config::confirmTxOscillatorsLocked(uhd::usrp::multi_usrp::sptr& usrp_object, std::string ref_source, bool printing){
         std::string clock_source = ref_source;
         std::vector<std::string> tx_sensor_names;
         tx_sensor_names = usrp_object->get_tx_sensor_names(0);
@@ -742,7 +750,7 @@ namespace config
         return true;
     }
 
-    int usrp_config::setupTransmitter(uhd::usrp::multi_usrp::sptr tx_usrp){
+    int usrp_config::setupTransmitter(uhd::usrp::multi_usrp::sptr& tx_usrp){
         //ref clock already set up
 
         
@@ -900,6 +908,9 @@ namespace config
         return testNode;
     }
 
-
+    size_t usrp_config::get_num_samples()
+    {
+        return NUM_SAMPLES;
+    }
 }
 

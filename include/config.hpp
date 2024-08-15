@@ -68,6 +68,13 @@ namespace config
          */
         pugi::xml_node get_test_node();
 
+        /**
+         * @brief Returns the number of desired samples
+         * @return The number of samples as a `size_t`
+         * 
+         */
+        size_t get_num_samples();
+
 
     private:
         // device
@@ -92,6 +99,7 @@ namespace config
         // test
         std::string TEST_TYPE;
         double SETTLING_TIME;    
+        size_t NUM_SAMPLES;
         // radar
         std::string RADAR_TYPE;
         std::string WAVEFORM_FILE;
@@ -104,14 +112,14 @@ namespace config
 
         int load();
         bool setUSRP_mode_from_config();
-        int checkPossibleParams(uhd::usrp::multi_usrp::sptr usrp);
+        int checkPossibleParams(uhd::usrp::multi_usrp::sptr& usrp);
 
-        int setupReceiever(uhd::usrp::multi_usrp::sptr rx_usrp);
-        bool confirmRxOscillatorsLocked(uhd::usrp::multi_usrp::sptr usrp_object, std::string ref_source,bool printing);
+        int setupReceiever(uhd::usrp::multi_usrp::sptr& rx_usrp);
+        bool confirmRxOscillatorsLocked(uhd::usrp::multi_usrp::sptr& usrp_object, std::string ref_source,bool printing);
         //bool incrementRxFreq(uhd::usrp::multi_usrp::sptr rx_usrp, double incrementFreqHz);
 
-        int setupTransmitter(uhd::usrp::multi_usrp::sptr tx_usrp);
-        bool confirmTxOscillatorsLocked(uhd::usrp::multi_usrp::sptr usrp_object, std::string ref_source,bool printing);
+        int setupTransmitter(uhd::usrp::multi_usrp::sptr& tx_usrp);
+        bool confirmTxOscillatorsLocked(uhd::usrp::multi_usrp::sptr& usrp_object, std::string ref_source,bool printing);
 
         std::vector<std::string> get_present_nodes(const pugi::xml_node& parent_node);
     };

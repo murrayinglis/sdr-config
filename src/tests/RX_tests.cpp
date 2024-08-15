@@ -12,7 +12,7 @@
 
 namespace tests{
     namespace RX {
-        int rx_test(uhd::usrp::multi_usrp::sptr rx_usrp)
+        int rx_test(uhd::usrp::multi_usrp::sptr rx_usrp, size_t num_samples)
         {
             std::string cpu_format="fc64";
             std::string wire_format="sc16";
@@ -40,7 +40,7 @@ namespace tests{
             "");
             */
             
-            captureSingleFreqToFile(rx_usrp, "double", 500000, "rx_test", 10.0);
+            captureSingleFreqToFile(rx_usrp, "double", num_samples, "rx_test", 10.0);
             return 0;
         }
 

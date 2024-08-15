@@ -83,8 +83,8 @@ namespace hardware{
         stream_args.channels             = rx_channel_nums;
         uhd::rx_streamer::sptr rx_stream = usrp->get_rx_stream(stream_args);
         size_t samps_per_buff=rx_stream->get_max_num_samps();// this overrwrites functions arguments. should not be allowed to stay here long
-        std::cout<<"Max Receive Buffer Size"<<samps_per_buff<<"\n";
-
+        std::cout<<"Max Receive Buffer Size: "<<samps_per_buff<<"\n";
+        std::cout<<"Set number of requested samples: "<< num_requested_samples << std::endl; 
         // confirm that we are indeed only using 1 channel
         //unsigned int numRxChannels = rx_stream->get_num_channels();
         //std::cout << "Set up HARDWARE stream. Num input channels: " << numRxChannels << std::endl;
@@ -106,7 +106,7 @@ namespace hardware{
         uhd::stream_cmd_t stream_cmd=uhd::stream_cmd_t::STREAM_MODE_NUM_SAMPS_AND_DONE;
         stream_cmd.num_samps  = num_requested_samples;
         stream_cmd.stream_now = false;
-        stream_cmd.time_spec  = uhd::time_spec_t(settling_time);
+        stream_cmd.time_spec  = usrp->get_time_now() + uhd::time_spec_t(settling_time);
         rx_stream->issue_stream_cmd(stream_cmd);
 
 
@@ -132,7 +132,7 @@ namespace hardware{
         }
         
         std::string outputFileName(file+".bin");
-        std::ofstream outFile(outputFileName.c_str(), std::ios::binary | std::ios::trunc);
+        std::ofstream outFile(outputFileName.c_str(), std::ios::binary | std::ios::trunc); // overwrite file
         outFile.close();
 
         while (numSamplesReceived<num_requested_samples){
@@ -142,7 +142,7 @@ namespace hardware{
             }
             
             size_t numNewSamples=rx_stream->recv(psampleBuffer,samplesForThisBlock,rxMetaData);
-
+            //std::cout<<numNewSamples<<std::endl;
             //copy data to filebuffer
             double* pDestination = fileBuffers.data();
             std::complex<double>* pSource=psampleBuffer;

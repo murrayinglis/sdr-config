@@ -86,7 +86,7 @@ namespace tests{
 
     namespace RX
     {
-        int rx_test(uhd::usrp::multi_usrp::sptr rx_usrp);
+        int rx_test(uhd::usrp::multi_usrp::sptr rx_usrp, size_t num_samples);
         int captureSingleFreqToFile(uhd::usrp::multi_usrp::sptr rx_usrp, std::string precision, size_t numSamples, std::string outputFile, double settling_time);
     }
 

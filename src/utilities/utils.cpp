@@ -55,7 +55,7 @@ namespace utils{
 
         // freq range
         uhd::freq_range_t rx_freq_range = usrp->get_rx_freq_range(0);
-        std::cout << "RX Bandwidth range: " << rx_freq_range.to_pp_string() << std::endl;
+        std::cout << "RX Freq range: " << rx_freq_range.to_pp_string() << std::endl;
 
 
         

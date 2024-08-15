@@ -42,6 +42,12 @@ For now it has only been configured to use 1 channel? 1 streamer is configured p
 
 
 ## Tests
+### RX with Sig Gen
+[x] eg centre freq at 900MHz and transmit 900.1MHz, expect 100kHz beat in fft
+[] get rx test to perform fft and find beat freq
+[] loopback test
+
+
 ### Loopback
 * Setup transmitter and receiver frequency and antenna parameters.
 * Setup transmitter and receiver streamers
@@ -54,5 +60,5 @@ For now it has only been configured to use 1 channel? 1 streamer is configured p
 
 
 ## DSP tuning - 2 stage tuning
-Master CLK is multiplied to get to centre frequency. Since it is digital, it won't be exactly the centre freq probably. DSP tuning takes the TX signal and mixes it to get to desired centre freq. This introduces some phase distortion. Can be calculated for transmitting generic waveform - Dylan has functions for this. \
+Master CLK is fixed for usrp2. Local oscillator (LO) is tuned by daughter board. Master CLK is multiplied to get to centre frequency. Since it is digital, it won't be exactly the centre freq probably. DSP tuning takes the TX signal and mixes it to get to desired centre freq. This introduces some phase distortion. Can be calculated for transmitting generic waveform - Dylan has functions for this. \
 Additonally TX and RX use same MCLK. Phase distortion that cannot be removed.

@@ -59,7 +59,7 @@ namespace tests
             case RX_TEST:
                 if (usrp_config.connect(usrp) == 0)
                 {
-                    tests::RX::rx_test(usrp);
+                    tests::RX::rx_test(usrp, usrp_config.get_num_samples());
                 }
                 break;
             case TX_TEST:
@@ -78,11 +78,14 @@ namespace tests
             case LOOPBACK_TEST:
                 if (usrp_config.connect(usrp) == 0)
                 {
-                    tests::LOOPBACK::loopback(usrp);
+                    //tests::LOOPBACK::loopback(usrp);
                 }
                 break; 
             default:
                 break;
         }
+
+        // This was to check if the usrp pointer was being passed in correctly (it was) (when tested)
+        //std::cout << usrp->get_rx_bandwidth() << std::endl;
     }
 }
