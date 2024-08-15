@@ -13,7 +13,7 @@ namespace tests
         {"RX_TEST", RX_TEST},
         {"TX_TEST", TX_TEST},
         {"TX_SINGLE_FREQ", TX_SINGLE_FREQ},
-        {"LOOPBACK", LOOPBACK_TEST}
+        {"LOOPBACK_TEST", LOOPBACK_TEST}
     };
 
 
@@ -78,7 +78,12 @@ namespace tests
             case LOOPBACK_TEST:
                 if (usrp_config.connect(usrp) == 0)
                 {
-                    //tests::LOOPBACK::loopback(usrp);
+                    // TODO: parametrize in config
+                    double secondsInFuture = 0.5;
+                    std::vector<std::complex<double>> buffers(10000,std::complex<float>{0.8, 0.0});
+
+                    // call test
+                    tests::LOOPBACK::loopback(usrp, buffers, secondsInFuture);
                 }
                 break; 
             default:

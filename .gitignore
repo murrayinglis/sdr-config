@@ -6,3 +6,5 @@ cmake_install.cmake
 scrip.sh
 latex/
 html/
+*.bin
+*_metadata.txt

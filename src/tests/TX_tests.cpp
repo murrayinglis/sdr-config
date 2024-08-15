@@ -11,8 +11,23 @@ namespace tests{
         {
             std::cout << "TX_TEST running" << std::endl;
             std::vector<std::complex<double>> buffers(10000,std::complex<float>{0.8, 0.0});
-            double secondsInFuture = 0.5;
-            hardware::transmitDoublesAtTime(tx_usrp, buffers, secondsInFuture);
+            double secondsInFuture = 0.5; // <--------------
+
+
+            //set up transmit streamer
+            uhd::stream_args_t stream_args("fc64","sc16");
+            uhd::tx_streamer::sptr tx_stream= tx_usrp->get_tx_stream(stream_args);
+            
+            uhd::tx_metadata_t md;
+            md.has_time_spec=true;
+            md.time_spec      =  uhd::time_spec_t(secondsInFuture);
+            md.start_of_burst=true;
+
+            // reset usrp time to prepare for transmit/receive
+            std::cout << boost::format("Setting device timestamp to 0...") << std::endl;
+            tx_usrp->set_time_now(uhd::time_spec_t(0.0));
+
+            hardware::transmitDoublesAtTime(tx_usrp, buffers, secondsInFuture, tx_stream, md);
             return 0;
         }
 
