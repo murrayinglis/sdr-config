@@ -12,9 +12,18 @@
 
 
 /// @brief 
-namespace UTIL{    
+namespace utils{  
+    /**
+        * @brief Prints all the params of the USRP device at the specified address
+        * @param addr The device address as an `std::string`
+        */
+    void print_all_params(std::string addr);    
+
+    void ppVector(std::vector<std::string> v);
     
     bool fileAlreadyExists(std::string *pfilename, std::string extensionNoDot);
+
+    int readInWaveformFile(); // File type?
 
     std::vector<std::complex<double>> generateLinearSweep(double sampleRate, int signalLength, double startFrequency, double endFrequency);
 

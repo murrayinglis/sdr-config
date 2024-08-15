@@ -129,30 +129,6 @@ sdr-config/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/build
 .PHONY : sdr-config/fast
 
-src/hardware/RX_config.o: src/hardware/RX_config.cpp.o
-.PHONY : src/hardware/RX_config.o
-
-# target to build an object file
-src/hardware/RX_config.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.o
-.PHONY : src/hardware/RX_config.cpp.o
-
-src/hardware/RX_config.i: src/hardware/RX_config.cpp.i
-.PHONY : src/hardware/RX_config.i
-
-# target to preprocess a source file
-src/hardware/RX_config.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.i
-.PHONY : src/hardware/RX_config.cpp.i
-
-src/hardware/RX_config.s: src/hardware/RX_config.cpp.s
-.PHONY : src/hardware/RX_config.s
-
-# target to generate assembly for a file
-src/hardware/RX_config.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/RX_config.cpp.s
-.PHONY : src/hardware/RX_config.cpp.s
-
 src/hardware/RX_funcs.o: src/hardware/RX_funcs.cpp.o
 .PHONY : src/hardware/RX_funcs.o
 
@@ -225,30 +201,6 @@ src/hardware/TX_Funcs.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/TX_Funcs.cpp.s
 .PHONY : src/hardware/TX_Funcs.cpp.s
 
-src/hardware/TX_config.o: src/hardware/TX_config.cpp.o
-.PHONY : src/hardware/TX_config.o
-
-# target to build an object file
-src/hardware/TX_config.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.o
-.PHONY : src/hardware/TX_config.cpp.o
-
-src/hardware/TX_config.i: src/hardware/TX_config.cpp.i
-.PHONY : src/hardware/TX_config.i
-
-# target to preprocess a source file
-src/hardware/TX_config.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.i
-.PHONY : src/hardware/TX_config.cpp.i
-
-src/hardware/TX_config.s: src/hardware/TX_config.cpp.s
-.PHONY : src/hardware/TX_config.s
-
-# target to generate assembly for a file
-src/hardware/TX_config.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/hardware/TX_config.cpp.s
-.PHONY : src/hardware/TX_config.cpp.s
-
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -273,6 +225,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/tests/RX_tests.o: src/tests/RX_tests.cpp.o
+.PHONY : src/tests/RX_tests.o
+
+# target to build an object file
+src/tests/RX_tests.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/RX_tests.cpp.o
+.PHONY : src/tests/RX_tests.cpp.o
+
+src/tests/RX_tests.i: src/tests/RX_tests.cpp.i
+.PHONY : src/tests/RX_tests.i
+
+# target to preprocess a source file
+src/tests/RX_tests.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/RX_tests.cpp.i
+.PHONY : src/tests/RX_tests.cpp.i
+
+src/tests/RX_tests.s: src/tests/RX_tests.cpp.s
+.PHONY : src/tests/RX_tests.s
+
+# target to generate assembly for a file
+src/tests/RX_tests.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/RX_tests.cpp.s
+.PHONY : src/tests/RX_tests.cpp.s
+
 src/tests/SFCW_tests.o: src/tests/SFCW_tests.cpp.o
 .PHONY : src/tests/SFCW_tests.o
 
@@ -296,6 +272,102 @@ src/tests/SFCW_tests.s: src/tests/SFCW_tests.cpp.s
 src/tests/SFCW_tests.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/SFCW_tests.cpp.s
 .PHONY : src/tests/SFCW_tests.cpp.s
+
+src/tests/TX_tests.o: src/tests/TX_tests.cpp.o
+.PHONY : src/tests/TX_tests.o
+
+# target to build an object file
+src/tests/TX_tests.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/TX_tests.cpp.o
+.PHONY : src/tests/TX_tests.cpp.o
+
+src/tests/TX_tests.i: src/tests/TX_tests.cpp.i
+.PHONY : src/tests/TX_tests.i
+
+# target to preprocess a source file
+src/tests/TX_tests.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/TX_tests.cpp.i
+.PHONY : src/tests/TX_tests.cpp.i
+
+src/tests/TX_tests.s: src/tests/TX_tests.cpp.s
+.PHONY : src/tests/TX_tests.s
+
+# target to generate assembly for a file
+src/tests/TX_tests.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/TX_tests.cpp.s
+.PHONY : src/tests/TX_tests.cpp.s
+
+src/tests/loopback.o: src/tests/loopback.cpp.o
+.PHONY : src/tests/loopback.o
+
+# target to build an object file
+src/tests/loopback.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/loopback.cpp.o
+.PHONY : src/tests/loopback.cpp.o
+
+src/tests/loopback.i: src/tests/loopback.cpp.i
+.PHONY : src/tests/loopback.i
+
+# target to preprocess a source file
+src/tests/loopback.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/loopback.cpp.i
+.PHONY : src/tests/loopback.cpp.i
+
+src/tests/loopback.s: src/tests/loopback.cpp.s
+.PHONY : src/tests/loopback.s
+
+# target to generate assembly for a file
+src/tests/loopback.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/loopback.cpp.s
+.PHONY : src/tests/loopback.cpp.s
+
+src/tests/misc.o: src/tests/misc.cpp.o
+.PHONY : src/tests/misc.o
+
+# target to build an object file
+src/tests/misc.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/misc.cpp.o
+.PHONY : src/tests/misc.cpp.o
+
+src/tests/misc.i: src/tests/misc.cpp.i
+.PHONY : src/tests/misc.i
+
+# target to preprocess a source file
+src/tests/misc.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/misc.cpp.i
+.PHONY : src/tests/misc.cpp.i
+
+src/tests/misc.s: src/tests/misc.cpp.s
+.PHONY : src/tests/misc.s
+
+# target to generate assembly for a file
+src/tests/misc.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/misc.cpp.s
+.PHONY : src/tests/misc.cpp.s
+
+src/tests/tests.o: src/tests/tests.cpp.o
+.PHONY : src/tests/tests.o
+
+# target to build an object file
+src/tests/tests.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/tests.cpp.o
+.PHONY : src/tests/tests.cpp.o
+
+src/tests/tests.i: src/tests/tests.cpp.i
+.PHONY : src/tests/tests.i
+
+# target to preprocess a source file
+src/tests/tests.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/tests.cpp.i
+.PHONY : src/tests/tests.cpp.i
+
+src/tests/tests.s: src/tests/tests.cpp.s
+.PHONY : src/tests/tests.s
+
+# target to generate assembly for a file
+src/tests/tests.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/tests.cpp.s
+.PHONY : src/tests/tests.cpp.s
 
 src/utilities/config.o: src/utilities/config.cpp.o
 .PHONY : src/utilities/config.o
@@ -354,9 +426,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... sdr-config"
-	@echo "... src/hardware/RX_config.o"
-	@echo "... src/hardware/RX_config.i"
-	@echo "... src/hardware/RX_config.s"
 	@echo "... src/hardware/RX_funcs.o"
 	@echo "... src/hardware/RX_funcs.i"
 	@echo "... src/hardware/RX_funcs.s"
@@ -366,15 +435,27 @@ help:
 	@echo "... src/hardware/TX_Funcs.o"
 	@echo "... src/hardware/TX_Funcs.i"
 	@echo "... src/hardware/TX_Funcs.s"
-	@echo "... src/hardware/TX_config.o"
-	@echo "... src/hardware/TX_config.i"
-	@echo "... src/hardware/TX_config.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/tests/RX_tests.o"
+	@echo "... src/tests/RX_tests.i"
+	@echo "... src/tests/RX_tests.s"
 	@echo "... src/tests/SFCW_tests.o"
 	@echo "... src/tests/SFCW_tests.i"
 	@echo "... src/tests/SFCW_tests.s"
+	@echo "... src/tests/TX_tests.o"
+	@echo "... src/tests/TX_tests.i"
+	@echo "... src/tests/TX_tests.s"
+	@echo "... src/tests/loopback.o"
+	@echo "... src/tests/loopback.i"
+	@echo "... src/tests/loopback.s"
+	@echo "... src/tests/misc.o"
+	@echo "... src/tests/misc.i"
+	@echo "... src/tests/misc.s"
+	@echo "... src/tests/tests.o"
+	@echo "... src/tests/tests.i"
+	@echo "... src/tests/tests.s"
 	@echo "... src/utilities/config.o"
 	@echo "... src/utilities/config.i"
 	@echo "... src/utilities/config.s"

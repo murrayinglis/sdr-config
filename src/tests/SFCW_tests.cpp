@@ -11,8 +11,8 @@
 /**
  * TODO:
  * 
- * This is empty. DylanTest branch has the hardcoded tests
- * test branch has the arbitrary tests by reading in waveforms.
+ * DylanTest branch has the hardcoded tests
+ * 
  */
 namespace tests{
     namespace SFCW{

@@ -2,30 +2,34 @@
 <root>
     <device>
         <name>USRP Device</name>
-        <IP>192.168.101.1</IP>
+        <IP>192.168.10.2</IP>
     </device>
     <config>
-        <TX_SUBDEV></TX_SUBDEV>
-        <RX_SUBDEV></RX_SUBDEV>
-        <REF_CLOCK></REF_CLOCK>
-        <TX_ANTENNA></TX_ANTENNA>
-        <RX_ANTENNA></RX_ANTENNA>
-        <TEST_TYPE>SFCW</TEST_TYPE>
-        <WAVEFORM_FILE></WAVEFORM_FILE>
+        <TX_SUBDEV>A:0</TX_SUBDEV>
+        <RX_SUBDEV>A:0</RX_SUBDEV>
+
+
+        <RX_ANTENNA>RX2</RX_ANTENNA>
     </config>
     <frequency>
-        <TX_FREQ>410e6</TX_FREQ>
-        <RX_FREQ>420e6</RX_FREQ>
-        <TX_RATE>410e6</TX_RATE>
-        <RX_RATE>410e6</RX_RATE>
-        <TX_BW>410e6</TX_BW>
-        <RX_BW>410e6</RX_BW>
-        <TX_GAIN>410e6</TX_GAIN>
-        <RX_GAIN>410e6</RX_GAIN>
+        <TX_FREQ>800e6</TX_FREQ>
+        <RX_FREQ>800e6</RX_FREQ>
+        <TX_RATE>25e6</TX_RATE>
+        <RX_RATE>25e6</RX_RATE>
+        <TX_BW>350e5</TX_BW>
+        <RX_BW>400e5</RX_BW>
+        <TX_GAIN>0</TX_GAIN>
+        <RX_GAIN>3</RX_GAIN>
     </frequency>
     <test>
-
+        <TEST_TYPE>RX_TEST</TEST_TYPE>
+        <SETTLING_TIME></SETTLING_TIME>
+        <NUM_SAMPLES>500e3</NUM_SAMPLES>
     </test>
+    <radar>
+        <RADAR_TYPE>SFCW</RADAR_TYPE>
+        <WAVEFORM_FILE></WAVEFORM_FILE>
+    </radar>
     <options>
         <OUTPUT_FILE></OUTPUT_FILE>
         <VERBOSE>true</VERBOSE>
