@@ -75,6 +75,10 @@ namespace config
          */
         size_t get_num_samples();
 
+        double get_rx_settling_time();
+
+        double get_tx_start_time();
+
 
     private:
         // device
@@ -98,7 +102,8 @@ namespace config
         double RX_DC_OFFSET;
         // test
         std::string TEST_TYPE;
-        double SETTLING_TIME;    
+        double RX_SETTLING_TIME;    
+        double TX_START_TIME;
         size_t NUM_SAMPLES;
         // radar
         std::string RADAR_TYPE;

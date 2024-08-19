@@ -113,7 +113,8 @@ namespace config
         // Test
         pugi::xml_node testNode = root.child("test");
         TEST_TYPE = get_node_value(testNode, "TEST_TYPE");
-        SETTLING_TIME = get_node_value_as_double(testNode, "SETTLING_TIME");
+        RX_SETTLING_TIME = get_node_value_as_double(testNode, "RX_SETTLING_TIME");
+        TX_START_TIME = get_node_value_as_double(testNode, "TX_START_TIME");
         NUM_SAMPLES = get_node_value_as_double(testNode,"NUM_SAMPLES");
         // Options
         pugi::xml_node optionsNode = root.child("options");
@@ -907,10 +908,17 @@ namespace config
         pugi::xml_node testNode = root.child("test");
         return testNode;
     }
-
     size_t usrp_config::get_num_samples()
     {
         return NUM_SAMPLES;
+    }
+    double usrp_config::get_rx_settling_time()
+    {
+        return RX_SETTLING_TIME;
+    }
+    double usrp_config::get_tx_start_time()
+    {
+        return TX_START_TIME;
     }
 }
 

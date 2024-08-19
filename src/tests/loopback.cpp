@@ -34,13 +34,13 @@ namespace tests
                 }
 
                 // start transmitting
-                hardware::transmitDoublesAtTime(tx_usrp, buffers, 0.0, tx_stream, md);
+                hardware::transmitDoublesAtTime(tx_usrp, buffers, secondsInFuture, tx_stream, md);
             }
 
 
         }
 
-        void loopback(uhd::usrp::multi_usrp::sptr usrp, std::vector<std::complex<double>> buffers, double secondsInFuture)
+        void loopback(uhd::usrp::multi_usrp::sptr usrp, std::vector<std::complex<double>> buffers, double secondsInFuture, double settlingTime)
         {
             //set up transmit streamer
             uhd::stream_args_t stream_args("fc64","sc16");
@@ -68,7 +68,7 @@ namespace tests
             }
             cv.notify_one();
             // start transmit and receive (try synchronous starting, will probably be off by 1 clock cycle - still significant)
-            hardware::recv_to_file_doubles(usrp, "loopback_test", 500000, 10.0, true); // TODO: parametrize in config
+            hardware::recv_to_file_doubles(usrp, "loopback_test", buffers.size(), settlingTime, true); // TODO: parametrize in config
 
             //std::this_thread::sleep_for(std::chrono::seconds(2));
             running = false;

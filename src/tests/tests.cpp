@@ -79,11 +79,13 @@ namespace tests
                 if (usrp_config.connect(usrp) == 0)
                 {
                     // TODO: parametrize in config
-                    double secondsInFuture = 0.5;
-                    std::vector<std::complex<double>> buffers(10000,std::complex<float>{0.8, 0.0});
+                    double secondsInFuture = usrp_config.get_tx_start_time();
+                    double settlingTime = usrp_config.get_rx_settling_time();
+                    size_t num_samples = usrp_config.get_num_samples();
+                    std::vector<std::complex<double>> buffers(num_samples,std::complex<float>{0.8, 0.0});
 
                     // call test
-                    tests::LOOPBACK::loopback(usrp, buffers, secondsInFuture);
+                    tests::LOOPBACK::loopback(usrp, buffers, secondsInFuture, settlingTime);
                 }
                 break; 
             default:

@@ -53,7 +53,7 @@ namespace tests{
         uhd::tx_streamer::sptr tx_stream, 
         uhd::tx_metadata_t md);
         
-        void loopback(uhd::usrp::multi_usrp::sptr usrp, std::vector<std::complex<double>> buffers, double secondsInFuture);
+        void loopback(uhd::usrp::multi_usrp::sptr usrp, std::vector<std::complex<double>> buffers, double secondsInFuture, double settlingTime);
 
         /// @brief NOTE: Should rather use transmitAndReceiveToH5. Loopback function which will will transmit a given vector and receive a synchronised signal to a file. 
         /// @param usrp  USRP with all center frequencies, sample rates, bandwidths, ETC already configured 

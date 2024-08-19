@@ -11,7 +11,7 @@
         <RX_ANTENNA>RX2</RX_ANTENNA>
     </config>
     <frequency>
-        <TX_FREQ>805e6</TX_FREQ>
+        <TX_FREQ>795e6</TX_FREQ>
         <RX_FREQ>800e6</RX_FREQ>
         <TX_RATE>25e6</TX_RATE>
         <RX_RATE>25e6</RX_RATE>
@@ -22,10 +22,9 @@
     </frequency>
     <test>
         <TEST_TYPE>LOOPBACK_TEST</TEST_TYPE>
-        <SETTLING_TIME></SETTLING_TIME>
         <NUM_SAMPLES>500e3</NUM_SAMPLES>
-        <RX_TIME_START>0</RX_TIME_START>
-        <TX_TIME_START>10.0</TX_TIME_START>
+        <RX_SETTLING_TIME>10</RX_SETTLING_TIME>
+        <TX_TIME_START>0</TX_TIME_START>
     </test>
     <radar>
         <RADAR_TYPE>SFCW</RADAR_TYPE>
