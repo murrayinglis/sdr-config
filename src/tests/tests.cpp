@@ -10,10 +10,15 @@ namespace tests
         {"HELLO_WORLD", HELLO_WORLD},
         {"GEN_SWEEP", GEN_SWEEP},
         {"CONFIG_TEST", CONFIG_TEST},
+
         {"RX_TEST", RX_TEST},
+
         {"TX_TEST", TX_TEST},
         {"TX_SINGLE_FREQ", TX_SINGLE_FREQ},
-        {"LOOPBACK_TEST", LOOPBACK_TEST}
+        {"TX_FROM_FILE", TX_FROM_FILE},
+
+        {"LOOPBACK_TEST", LOOPBACK_TEST},
+        {"LOOPBACK_FROM_FILE", LOOPBACK_FROM_FILE}
     };
 
 
@@ -48,7 +53,7 @@ namespace tests
         switch (t)
         {
             case GEN_SWEEP:
-                tests::misc::writeLinearSweepToFile(1000000,3000,1,20000,"sweep.csv");
+                tests::misc::writeLinearSweepToFile(25e6,50000,8.4e6,8.6e6,"sweep.csv");
                 break;
             case HELLO_WORLD:
                 tests::misc::hello_world(std::string("addr=") + usrp_config.get_addr());
@@ -74,7 +79,13 @@ namespace tests
                 {
                     tests::TX::transmitSingleFreq(usrp);
                 }
-                break;              
+                break;  
+            case TX_FROM_FILE:
+                if (usrp_config.connect(usrp) == 0)
+                {
+                    tests::TX::tx_waveform_from_file(usrp, "double" , usrp_config.get_waveform_filename(), "waveform_test.bin", usrp_config.get_tx_start_time());
+                }
+                break;            
             case LOOPBACK_TEST:
                 if (usrp_config.connect(usrp) == 0)
                 {
@@ -88,6 +99,15 @@ namespace tests
                     tests::LOOPBACK::loopback(usrp, buffers, secondsInFuture, settlingTime);
                 }
                 break; 
+            case LOOPBACK_FROM_FILE:
+                if (usrp_config.connect(usrp) == 0)
+                {
+                    double secondsInFuture = usrp_config.get_tx_start_time();
+                    double settlingTime = usrp_config.get_rx_settling_time();
+                    std::string waveformFilename = usrp_config.get_waveform_filename();
+
+                    tests::LOOPBACK::loopback_from_file(usrp, waveformFilename, secondsInFuture, settlingTime);
+                }
             default:
                 break;
         }

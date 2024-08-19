@@ -79,6 +79,8 @@ namespace config
 
         double get_tx_start_time();
 
+        std::string get_waveform_filename();
+
 
     private:
         // device

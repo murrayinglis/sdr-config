@@ -14,6 +14,82 @@
 #include <chrono>
 
 namespace utils{
+    std::vector<std::complex<double>> read_in_complex_bin(std::string fileName)
+    {
+        std::vector<std::complex<double>> buffer;
+
+        return buffer;
+    }
+    std::vector<std::complex<double>> read_in_complex_csv(std::string fileName)
+    {
+        std::vector<std::complex<double>> buffer;
+        std::ifstream file(fileName);
+
+        if (!file.is_open())
+        {
+            std::cerr << "Error: Could not open file " << fileName << std::endl;
+            return buffer;
+        }
+
+
+        std::string line;
+        // Check if the first line might be a header
+        if (std::getline(file, line))
+        {
+            std::stringstream ss(line);
+            std::string firstCell;
+            std::getline(ss, firstCell, ',');
+
+            // If the first cell contains non-numeric characters, it's likely a header
+            if (std::any_of(firstCell.begin(), firstCell.end(), [](unsigned char c) { return !std::isdigit(c) && c != '.' && c != '-'; }))
+            {
+                //std::cout << "Detected header: " << line << std::endl;
+            }
+            else
+            {
+                // If the first line isn't a header, process it as data
+                ss.clear();
+                ss.str(line);
+                std::string imagStr;
+
+                if (std::getline(ss, firstCell, ',') && std::getline(ss, imagStr))
+                {
+                    try
+                    {
+                        double real = std::stod(firstCell);
+                        double imag = std::stod(imagStr);
+                        buffer.emplace_back(real, imag);
+                    }
+                    catch (const std::invalid_argument& e)
+                    {
+                        std::cerr << "Invalid number format: " << line << std::endl;
+                    }
+                    catch (const std::out_of_range& e)
+                    {
+                        std::cerr << "Number out of range: " << line << std::endl;
+                    }
+                }
+            }
+        }
+    
+            
+        while (std::getline(file, line))
+        {
+            std::stringstream ss(line);
+            std::string realStr, imagStr;
+
+            if (std::getline(ss, realStr, ',') && std::getline(ss, imagStr))
+            {
+                double real = std::stod(realStr);
+                double imag = std::stod(imagStr);
+                buffer.emplace_back(real, imag);
+            }
+        }
+
+        file.close();
+        return buffer;
+    }
+
     void print_all_params(std::string addr)
     {
         uhd::usrp::multi_usrp::sptr usrp = uhd::usrp::multi_usrp::make(std::string("addr=") += addr);

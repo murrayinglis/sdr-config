@@ -43,7 +43,8 @@ int main(int argc, char *argv[])
         ("query", po::value<std::string>(&cli::option_query), "Output the available parameters of the device at the specified address")
         ("dump,", po::value<std::string>(&cli::option_dump), "Dump the config of a specified device to an xml file")
         ("config", po::value<std::string>(&cli::option_config), "Configure the device at a specific address based on a config xml file")
-        ("test", po::value<std::string>(&cli::option_test), "Perform one of the test cases specified in the config.");
+        ("test", po::value<std::string>(&cli::option_test), "Perform one of the test cases specified in the config. Use `list` as an argument to print a \
+        list of all the available tests.");
 
     // Parse the command line arguments
     po::variables_map vm;
@@ -98,7 +99,7 @@ int main(int argc, char *argv[])
     }
     if (vm.count("test"))
     {
-        if (vm.count("help")) 
+        if (cli::option_test == "list")
         {
             std::cout << "Run one of the implemented tests. The test must be specified as an argument." << std::endl;
             tests::listTestTypes();

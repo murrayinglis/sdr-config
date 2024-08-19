@@ -13,6 +13,9 @@
 
 /// @brief 
 namespace utils{  
+    std::vector<std::complex<double>> read_in_complex_bin(std::string fileName);
+    std::vector<std::complex<double>> read_in_complex_csv(std::string fileName);
+
     /**
         * @brief Prints all the params of the USRP device at the specified address
         * @param addr The device address as an `std::string`

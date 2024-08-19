@@ -94,6 +94,7 @@ namespace config
         REF_CLOCK = get_node_value(configNode, "REF_CLOCK");
         TX_ANTENNA = get_node_value(configNode, "TX_ANTENNA");
         RX_ANTENNA = get_node_value(configNode, "RX_ANTENNA");
+        WAVEFORM_FILE = get_node_value(configNode, "WAVEFORM_FILE");
         // Frequency params
         pugi::xml_node freqNode = root.child("frequency");
         TX_FREQ = get_node_value_as_double(freqNode, "TX_FREQ");
@@ -109,7 +110,7 @@ namespace config
         // Radar
         pugi::xml_node radarNode = root.child("radar");
         RADAR_TYPE = get_node_value(radarNode, "RADAR_TYPE");
-        WAVEFORM_FILE = get_node_value(radarNode, "WAVEFORM_FILE");
+        
         // Test
         pugi::xml_node testNode = root.child("test");
         TEST_TYPE = get_node_value(testNode, "TEST_TYPE");
@@ -919,6 +920,10 @@ namespace config
     double usrp_config::get_tx_start_time()
     {
         return TX_START_TIME;
+    }
+    std::string usrp_config::get_waveform_filename()
+    {
+        return WAVEFORM_FILE;
     }
 }
 

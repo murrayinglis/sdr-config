@@ -46,9 +46,9 @@ For now it has only been configured to use 1 channel? 1 streamer is configured p
 ### RX with Sig Gen
 [x] eg centre freq at 900MHz and transmit 900.1MHz, expect 100kHz beat in fft \
 [] get rx test to perform fft and find beat freq \
-[] loopback test \
-[] arbitrary waveform read in and tx \
-[] arbitrary waveform loopback \
+[x] loopback test \
+[x] arbitrary waveform read in and tx \
+[x] arbitrary waveform loopback \
 
 
 ### Loopback

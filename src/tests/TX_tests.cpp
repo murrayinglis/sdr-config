@@ -25,7 +25,7 @@ namespace tests{
 
             // reset usrp time to prepare for transmit/receive
             std::cout << boost::format("Setting device timestamp to 0...") << std::endl;
-            tx_usrp->set_time_now(uhd::time_spec_t(0.0));
+            tx_usrp->set_time_now(uhd::time_spec_t(0.0)); // TODO: use config
 
             hardware::transmitDoublesAtTime(tx_usrp, buffers, secondsInFuture, tx_stream, md);
             return 0;
@@ -68,6 +68,34 @@ namespace tests{
 
             md.end_of_burst = true;
             tx_stream->send("", 0, md);
+            return 0;
+        }
+
+
+        int tx_waveform_from_file(uhd::usrp::multi_usrp::sptr tx_usrp, std::string precision, std::string waveformFilename, std::string outputFile, double secondsInFuture)
+        {
+            // Read in file 
+            // TODO: assuming csv for now
+            std::cout << "Reading in: " << waveformFilename << std::endl;
+
+
+            std::vector<std::complex<double>> buffers = utils::read_in_complex_csv(waveformFilename);
+
+            //set up transmit streamer
+            uhd::stream_args_t stream_args("fc64","sc16");
+            uhd::tx_streamer::sptr tx_stream= tx_usrp->get_tx_stream(stream_args);
+            
+            uhd::tx_metadata_t md;
+            md.has_time_spec=true;
+            md.time_spec      =  uhd::time_spec_t(secondsInFuture);
+            md.start_of_burst=true;
+
+            // reset usrp time to prepare for transmit/receive
+            std::cout << boost::format("Setting device timestamp to 0...") << std::endl;
+            tx_usrp->set_time_now(uhd::time_spec_t(0.0)); // TODO: use config
+
+            hardware::transmitDoublesAtTime(tx_usrp, buffers, secondsInFuture, tx_stream, md);
+
             return 0;
         }
 

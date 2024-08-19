@@ -21,8 +21,10 @@ namespace tests{
         TX_TEST,
 
         TX_SINGLE_FREQ,
+        TX_FROM_FILE,
 
-        LOOPBACK_TEST
+        LOOPBACK_TEST,
+        LOOPBACK_FROM_FILE
     };
 
     namespace SFCW{
@@ -52,6 +54,8 @@ namespace tests{
         double secondsInFuture, 
         uhd::tx_streamer::sptr tx_stream, 
         uhd::tx_metadata_t md);
+
+        void loopback_from_file(uhd::usrp::multi_usrp::sptr usrp, std::string waveformFilename, double secondsInFuture, double settlingTime);
         
         void loopback(uhd::usrp::multi_usrp::sptr usrp, std::vector<std::complex<double>> buffers, double secondsInFuture, double settlingTime);
 
@@ -94,6 +98,7 @@ namespace tests{
     {
         int rx_test(uhd::usrp::multi_usrp::sptr rx_usrp, size_t num_samples);
         int captureSingleFreqToFile(uhd::usrp::multi_usrp::sptr rx_usrp, std::string precision, size_t numSamples, std::string outputFile, double settling_time);
+        
     }
 
 
@@ -102,7 +107,7 @@ namespace tests{
         int tx_test(uhd::usrp::multi_usrp::sptr tx_usrp);
 
         int transmitSingleFreq(uhd::usrp::multi_usrp::sptr tx_usrp);
- 
+        int tx_waveform_from_file(uhd::usrp::multi_usrp::sptr tx_usrp, std::string precision, std::string waveformFilename, std::string outputFile, double secondsInFuture);
         void timeFreqSwitch(uhd::usrp::multi_usrp::sptr tx_usrp,int signalLength, int freqIncHz, int numIncrements);
     }
 
