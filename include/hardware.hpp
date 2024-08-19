@@ -15,6 +15,23 @@ namespace hardware{
         double settling_time,
         bool storeMD);
 
+    void recv_samples_to_file(uhd::usrp::multi_usrp::sptr usrp,
+    const std::string& cpu_format,
+    const std::string& wire_format,
+    const std::vector<size_t>& channel_nums,
+    const size_t total_num_channels,
+    const std::string& file,
+    size_t samps_per_buff,
+    unsigned long long num_requested_samples,
+    double& bw,
+    std::mutex* recv_mutex,
+    double time_requested,
+    bool stats,
+    bool null,
+    bool enable_size_map,
+    bool continue_on_bad_packet,
+    const std::string& thread_prefix);
+
 
     /**
      * RX CONFIG
@@ -50,7 +67,11 @@ namespace hardware{
      * TXRX FUNCS
      * ----------------------------------------------
      */
-    void transmitDoublesAtTime(uhd::usrp::multi_usrp::sptr tx_usrp, std::vector<std::complex<double>> buffers, double secondsInFuture);
+    void transmitDoublesAtTime(uhd::usrp::multi_usrp::sptr tx_usrp, 
+        std::vector<std::complex<double>> buffers, 
+        double secondsInFuture, 
+        uhd::tx_streamer::sptr tx_stream, 
+        uhd::tx_metadata_t md);
 
     void transmitShortsAtTime(uhd::usrp::multi_usrp::sptr tx_usrp, std::vector<std::complex<short>> buffers, double secondsInFuture);
 
@@ -68,6 +89,14 @@ namespace hardware{
     bool setTxFreqHz(uhd::usrp::multi_usrp::sptr tx_usrp, double newTxFreqHz);
 
     bool incrementTxFreqHz(uhd::usrp::multi_usrp::sptr tx_usrp, double freqIncHz);    
+
+
+    /**
+     * TX FUNCS
+     * -----------------------------------------------
+     */
+    
+    
 }
 
 #endif

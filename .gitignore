@@ -1,5 +1,11 @@
-.vscode/
-build/
-CMakeFiles/
-cmake_install.cmake
 CMakeCache.txt
+CMakeFiles/
+build/
+.vscode/
+cmake_install.cmake
+scrip.sh
+latex/
+html/
+*.bin
+*_metadata.txt
+*.csv
