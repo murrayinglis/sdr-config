@@ -1,3 +1,0 @@
-System time at start: Thu Aug 15 11:49:34 2024
-
-Clock Reference: gpsdo

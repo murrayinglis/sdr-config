@@ -68,7 +68,7 @@ namespace tests
             }
             cv.notify_one();
             // start transmit and receive (try synchronous starting, will probably be off by 1 clock cycle - still significant)
-            hardware::recv_to_file_doubles(usrp, "loopback_test", 500000, 1.0, true); // TODO: parametrize in config
+            hardware::recv_to_file_doubles(usrp, "loopback_test", 500000, 10.0, true); // TODO: parametrize in config
 
             //std::this_thread::sleep_for(std::chrono::seconds(2));
             running = false;

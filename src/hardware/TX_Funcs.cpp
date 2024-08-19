@@ -18,9 +18,9 @@ namespace hardware{
         //uhd::tx_streamer::sptr tx_stream= tx_usrp->get_tx_stream(stream_args);
         
         //uhd::tx_metadata_t md;
-        //md.has_time_spec=true;
-        //md.time_spec      =  uhd::time_spec_t(secondsInFuture);
-        //md.start_of_burst=true;
+        md.has_time_spec=true;
+        md.time_spec      =  uhd::time_spec_t(secondsInFuture);
+        md.start_of_burst=true;
 
 
 

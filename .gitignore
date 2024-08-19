@@ -8,3 +8,4 @@ latex/
 html/
 *.bin
 *_metadata.txt
+*.csv
