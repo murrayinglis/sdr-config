@@ -10,7 +10,7 @@ namespace hardware{
         std::vector<std::complex<double>> buffers, 
         double secondsInFuture, 
         uhd::tx_streamer::sptr tx_stream, 
-        uhd::tx_metadata_t md)
+        uhd::tx_metadata_t& md)
         {
 
         //set up transmit streamer BEFORE
@@ -21,6 +21,7 @@ namespace hardware{
         md.has_time_spec=true;
         md.time_spec      =  uhd::time_spec_t(secondsInFuture);
         md.start_of_burst=true;
+        md.end_of_burst=false;
 
 
 

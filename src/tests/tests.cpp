@@ -18,7 +18,8 @@ namespace tests
         {"TX_FROM_FILE", TX_FROM_FILE},
 
         {"LOOPBACK_TEST", LOOPBACK_TEST},
-        {"LOOPBACK_FROM_FILE", LOOPBACK_FROM_FILE}
+        {"LOOPBACK_FROM_FILE", LOOPBACK_FROM_FILE},
+        {"LATENCY", LATENCY}
     };
 
 
@@ -107,6 +108,16 @@ namespace tests
                     std::string waveformFilename = usrp_config.get_waveform_filename();
 
                     tests::LOOPBACK::loopback_from_file(usrp, waveformFilename, secondsInFuture, settlingTime);
+                }
+            case LATENCY:
+                if (usrp_config.connect(usrp) == 0)
+                {
+                    double secondsInFuture = usrp_config.get_tx_start_time();
+                    double settlingTime = usrp_config.get_rx_settling_time();  
+                    size_t num_samples = usrp_config.get_num_samples();  
+                    std::vector<std::complex<double>> buffers(num_samples,std::complex<float>{0.8, 0.0});               
+
+                    tests::LOOPBACK::latency(usrp, buffers, secondsInFuture, settlingTime);
                 }
             default:
                 break;

@@ -22,10 +22,10 @@
         <RX_GAIN>3</RX_GAIN>
     </frequency>
     <test>
-        <TEST_TYPE>LOOPBACK_FROM_FILE</TEST_TYPE>
+        <TEST_TYPE>LATENCY</TEST_TYPE>
         <NUM_SAMPLES>500e3</NUM_SAMPLES>
         <RX_SETTLING_TIME>10</RX_SETTLING_TIME>
-        <TX_TIME_START>0</TX_TIME_START>
+        <TX_TIME_START>0.1</TX_TIME_START>
     </test>
     <radar>
         <RADAR_TYPE>SFCW</RADAR_TYPE>

@@ -25,6 +25,7 @@ Additionally, specify the config file path.
     * Centre frequency - tune request for setting. NOTE: Set frequency and then check afterwards.
     * Gain
     * Analog frontend filter bandwidth
+    * more ...
 * The hardware RX_funcs.cpp and TX_funcs.cpp have methods for creating RX/TX streamers and transmitting their buffer/ receiver buffer and writing to a file. Buffer is in time domain. \
 For now it has only been configured to use 1 channel? 1 streamer is configured per channel?
 * Oscillator: 
@@ -49,6 +50,7 @@ For now it has only been configured to use 1 channel? 1 streamer is configured p
 [x] loopback test \
 [x] arbitrary waveform read in and tx \
 [x] arbitrary waveform loopback \
+[] latency test (working to radar) \
 
 
 ### Loopback

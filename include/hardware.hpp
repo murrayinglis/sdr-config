@@ -15,6 +15,7 @@ namespace hardware{
         double settling_time,
         bool storeMD);
 
+    // remove
     void recv_samples_to_file(uhd::usrp::multi_usrp::sptr usrp,
     const std::string& cpu_format,
     const std::string& wire_format,
@@ -32,18 +33,6 @@ namespace hardware{
     bool continue_on_bad_packet,
     const std::string& thread_prefix);
 
-
-    /**
-     * RX CONFIG
-     * ------------------------------------------------
-     */
-    bool setRXFreqHz(uhd::usrp::multi_usrp::sptr rx_usrp, double newRXFreqHz);
-
-    bool confirmRxOscillatorsLocked(uhd::usrp::multi_usrp::sptr usrp_object, std::string ref_source,bool printing);
-
-    int setupReceiever(uhd::usrp::multi_usrp::sptr tx_usrp);
-
-    bool incrementRxFreq(uhd::usrp::multi_usrp::sptr rx_usrp, double incrementFreqHz);   
 
 
     /**
@@ -71,24 +60,12 @@ namespace hardware{
         std::vector<std::complex<double>> buffers, 
         double secondsInFuture, 
         uhd::tx_streamer::sptr tx_stream, 
-        uhd::tx_metadata_t md);
+        uhd::tx_metadata_t& md);
 
     void transmitShortsAtTime(uhd::usrp::multi_usrp::sptr tx_usrp, std::vector<std::complex<short>> buffers, double secondsInFuture);
 
     void endBurst(uhd::usrp::multi_usrp::sptr tx_usrp,uhd::tx_streamer::sptr tx_stream);    
 
-
-    /**
-     * TX CONFIG
-     * ----------------------------------------------
-     */
-    bool confirmTxOscillatorsLocked(uhd::usrp::multi_usrp::sptr usrp_object, std::string ref_source, bool printing);
-
-    int setupTransmitter(uhd::usrp::multi_usrp::sptr tx_usrp);
-
-    bool setTxFreqHz(uhd::usrp::multi_usrp::sptr tx_usrp, double newTxFreqHz);
-
-    bool incrementTxFreqHz(uhd::usrp::multi_usrp::sptr tx_usrp, double freqIncHz);    
 
 
     /**
