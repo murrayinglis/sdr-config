@@ -109,6 +109,7 @@ namespace tests
 
                     tests::LOOPBACK::loopback_from_file(usrp, waveformFilename, secondsInFuture, settlingTime);
                 }
+                break;
             case LATENCY:
                 if (usrp_config.connect(usrp) == 0)
                 {
@@ -119,6 +120,7 @@ namespace tests
 
                     tests::LOOPBACK::latency(usrp, buffers, secondsInFuture, settlingTime);
                 }
+                break;
             default:
                 break;
         }

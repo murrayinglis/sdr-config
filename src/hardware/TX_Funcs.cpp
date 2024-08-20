@@ -3,9 +3,6 @@
 
 namespace hardware{
 
-
-
-    
     void transmitDoublesAtTime(uhd::usrp::multi_usrp::sptr tx_usrp, 
         std::vector<std::complex<double>> buffers, 
         double secondsInFuture, 
@@ -49,6 +46,7 @@ namespace hardware{
                 std::vector<std::complex<double>*> pBuffs(1,&smallbuffer.front());
                 tx_stream->send(pBuffs,smallbuffer.size(),md);
                 numSent+=smallBufferSize;
+                
                 md.has_time_spec=false; //dont want subsequent packets to wait
                 md.start_of_burst=false;
             }

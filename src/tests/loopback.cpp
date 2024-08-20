@@ -70,7 +70,7 @@ namespace tests
             }
             cv.notify_one();
             // start transmit and receive (try synchronous starting, will probably be off by 1 clock cycle - still significant)
-            hardware::recv_to_file_doubles(usrp, "loopback_test", buffers.size(), settlingTime, true); // TODO: parametrize in config
+            hardware::recv_to_file_doubles(usrp, "outputs/loopback_test", buffers.size(), settlingTime, true); // TODO: parametrize in config
 
             //std::this_thread::sleep_for(std::chrono::seconds(2));
             running = false;
@@ -115,7 +115,7 @@ namespace tests
             }
             cv.notify_one();
             // start transmit and receive (try synchronous starting, will probably be off by 1 clock cycle - still significant)
-            hardware::recv_to_file_doubles(usrp, "loopback_from_file_test", buffers.size(), settlingTime, true); // TODO: parametrize in config
+            hardware::recv_to_file_doubles(usrp, "outputs/loopback_from_file_test", buffers.size(), settlingTime, true); // TODO: parametrize in config
 
             //std::this_thread::sleep_for(std::chrono::seconds(2));
             running = false;
@@ -152,7 +152,7 @@ namespace tests
             }
             cv.notify_one();
             // start transmit and receive (try synchronous starting, will probably be off by 1 clock cycle - still significant)
-            hardware::recv_to_file_doubles(usrp, "latency_test", buffers.size(), settlingTime, true); 
+            hardware::recv_to_file_doubles(usrp, "outputs/latency_test", buffers.size(), settlingTime, true); // TODO: filename/file directory in xml
 
             running = false;
 

@@ -40,7 +40,7 @@ namespace tests{
             "");
             */
             
-            captureSingleFreqToFile(rx_usrp, "double", num_samples, "rx_test", 10.0); // <--------------
+            captureSingleFreqToFile(rx_usrp, "double", num_samples, "outputs/rx_test", 10.0); // <--------------
             return 0;
         }
 
