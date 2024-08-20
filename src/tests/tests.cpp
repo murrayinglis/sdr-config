@@ -91,34 +91,34 @@ namespace tests
                 if (usrp_config.connect(usrp) == 0)
                 {
                     // TODO: parametrize in config
-                    double secondsInFuture = usrp_config.get_tx_start_time();
-                    double settlingTime = usrp_config.get_rx_settling_time();
+                    double tx_start = usrp_config.get_tx_start_time();
+                    double rx_start = usrp_config.get_rx_start_time();
                     size_t num_samples = usrp_config.get_num_samples();
                     std::vector<std::complex<double>> buffers(num_samples,std::complex<float>{0.8, 0.0});
 
                     // call test
-                    tests::LOOPBACK::loopback(usrp, buffers, secondsInFuture, settlingTime);
+                    tests::LOOPBACK::loopback(usrp, buffers, tx_start, rx_start);
                 }
                 break; 
             case LOOPBACK_FROM_FILE:
                 if (usrp_config.connect(usrp) == 0)
                 {
-                    double secondsInFuture = usrp_config.get_tx_start_time();
-                    double settlingTime = usrp_config.get_rx_settling_time();
+                    double tx_start = usrp_config.get_tx_start_time();
+                    double rx_start = usrp_config.get_rx_start_time();
                     std::string waveformFilename = usrp_config.get_waveform_filename();
 
-                    tests::LOOPBACK::loopback_from_file(usrp, waveformFilename, secondsInFuture, settlingTime);
+                    tests::LOOPBACK::loopback_from_file(usrp, waveformFilename, tx_start, rx_start);
                 }
                 break;
             case LATENCY:
                 if (usrp_config.connect(usrp) == 0)
                 {
-                    double secondsInFuture = usrp_config.get_tx_start_time();
-                    double settlingTime = usrp_config.get_rx_settling_time();  
+                    double tx_start = usrp_config.get_tx_start_time();
+                    double rx_start = usrp_config.get_rx_start_time();
                     size_t num_samples = usrp_config.get_num_samples();  
                     std::vector<std::complex<double>> buffers(num_samples,std::complex<float>{0.8, 0.0});               
 
-                    tests::LOOPBACK::latency(usrp, buffers, secondsInFuture, settlingTime);
+                    tests::LOOPBACK::latency(usrp, buffers, tx_start, rx_start);
                 }
                 break;
             default:

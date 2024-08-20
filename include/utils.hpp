@@ -42,6 +42,8 @@ namespace utils{
 
     uint64_t getCurrentEpochTime_us();
 
+    uint64_t getCurrentEpochTime_ns();
+
     /// @brief Converts from a double (offset) used for timing USRP stream commands to an equivalent epoch time 
     /// @param offsetTime 
     /// @return offsetTime in millis + experiment_start_time

@@ -75,7 +75,7 @@ namespace config
          */
         size_t get_num_samples();
 
-        double get_rx_settling_time();
+        double get_rx_start_time();
 
         double get_tx_start_time();
 
@@ -104,7 +104,7 @@ namespace config
         double RX_DC_OFFSET;
         // test
         std::string TEST_TYPE;
-        double RX_SETTLING_TIME;    
+        double RX_START_TIME;    
         double TX_START_TIME;
         size_t NUM_SAMPLES;
         // radar

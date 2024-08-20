@@ -1,4 +1,6 @@
 #include "hardware.hpp"
+#include "utils.hpp"
+
 #include <uhd/usrp/multi_usrp.hpp>
 #include <iostream>
 #include <fstream>
@@ -106,7 +108,9 @@ namespace hardware{
         uhd::stream_cmd_t stream_cmd=uhd::stream_cmd_t::STREAM_MODE_NUM_SAMPS_AND_DONE;
         stream_cmd.num_samps  = num_requested_samples;
         stream_cmd.stream_now = false;
+        //stream_cmd.time_spec  = uhd::time_spec_t(settling_time);
         stream_cmd.time_spec  = usrp->get_time_now() + uhd::time_spec_t(settling_time);
+        std::cout << "\nActual RX time spec when stream command is issued: " << stream_cmd.time_spec.get_real_secs() << std::endl; //...
         rx_stream->issue_stream_cmd(stream_cmd);
 
 
@@ -120,7 +124,7 @@ namespace hardware{
         // metadata file (good idea Stephen)
         if (storeMD){
             std::ofstream metaDataFileStream;
-            std::string metaDataFile=file+"_metadata.txt";
+            std::string metaDataFile=file+"_rx_metadata.txt";
             metaDataFileStream.open(metaDataFile);
 
             auto timenow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
@@ -135,6 +139,11 @@ namespace hardware{
         std::ofstream outFile(outputFileName.c_str(), std::ios::binary | std::ios::trunc); // overwrite file
         outFile.close();
 
+        //std::cout << utils::getCurrentEpochTime_ns() << std::endl;
+        uhd::time_spec_t time_now = usrp->get_time_now();
+        //std::cout << "RX time: " << time_now.get_real_secs() << std::endl;
+
+        bool time_spec_reached = false;
         while (numSamplesReceived<num_requested_samples){
             double samplesForThisBlock=num_requested_samples-numSamplesReceived;
             if (samplesForThisBlock>samps_per_buff){
@@ -142,7 +151,12 @@ namespace hardware{
             }
             
             size_t numNewSamples=rx_stream->recv(psampleBuffer,samplesForThisBlock,rxMetaData);
-            //std::cout<<numNewSamples<<std::endl;
+            if (numNewSamples > 0 && !time_spec_reached)
+            {
+                std::cout << "\nRX time spec reached: " << usrp->get_time_now().get_real_secs() << std::endl;
+                time_spec_reached = true;
+            }
+
             //copy data to filebuffer
             double* pDestination = fileBuffers.data();
             std::complex<double>* pSource=psampleBuffer;

@@ -370,6 +370,11 @@ namespace utils{
         return us;
     }
 
+    uint64_t getCurrentEpochTime_ns(){
+        uint64_t ns=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+        return ns;
+    }
+
     uint64_t convertSecondsOffsetToEpoch(double offsetTime){
         uint64_t offsetMillis = static_cast<uint64_t>(std::round(offsetTime * 1000));
         return config::experimentZeroTime + offsetMillis;
@@ -382,5 +387,7 @@ namespace utils{
         }
         return epochs;
     }
+
+
 
 }//namespace UTIL

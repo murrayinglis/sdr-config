@@ -10,3 +10,4 @@ html/
 *_metadata.txt
 *.csv
 outputs/
+sdr/

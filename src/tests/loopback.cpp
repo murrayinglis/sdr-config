@@ -24,7 +24,7 @@ namespace tests
         uhd::tx_streamer::sptr tx_stream, 
         uhd::tx_metadata_t md)
         {
-            // wait until read is true
+            // wait until ready is true
             std::unique_lock<std::mutex> lk(mtx);
             cv.wait(lk, [&]{ return ready; });
 
@@ -37,6 +37,7 @@ namespace tests
 
                 // start transmitting
                 hardware::transmitDoublesAtTime(tx_usrp, buffers, secondsInFuture, tx_stream, md);
+            
             }
 
 
@@ -69,10 +70,13 @@ namespace tests
                 ready = true;
             }
             cv.notify_one();
-            // start transmit and receive (try synchronous starting, will probably be off by 1 clock cycle - still significant)
+            // start receive (try synchronous starting, will probably be off by 1 clock cycle - still significant)
+            
             hardware::recv_to_file_doubles(usrp, "outputs/loopback_test", buffers.size(), settlingTime, true); // TODO: parametrize in config
 
-            //std::this_thread::sleep_for(std::chrono::seconds(2));
+            //std::this_thread::sleep_for(std::chrono::seconds(4));
+
+            // stop transmitting
             running = false;
 
             // wait for transmit thread to finish
@@ -105,19 +109,27 @@ namespace tests
 
             // start tx thread with tx worker - this function creates the tx streamer
             // tx thread is waiting for ready call
+            std::cout << "TX seconds in future: " << secondsInFuture << std::endl;
+            std::cout << "RX settling time: " << settlingTime << std::endl;
             std::thread transmit_thread(transmit_worker,usrp, buffers, secondsInFuture, tx_stream, md);
 
 
+            
             // call ready to tx thread
             {
                 std::lock_guard<std::mutex> lock(mtx);
                 ready = true;
             }
             cv.notify_one();
-            // start transmit and receive (try synchronous starting, will probably be off by 1 clock cycle - still significant)
-            hardware::recv_to_file_doubles(usrp, "outputs/loopback_from_file_test", buffers.size(), settlingTime, true); // TODO: parametrize in config
+            
+            // start receive
+            //std::this_thread::sleep_for(std::chrono::seconds(1));
+            hardware::recv_to_file_doubles(usrp, "outputs/loopback_from_file_test", 500000, settlingTime, true); // TODO: parametrize in config
 
-            //std::this_thread::sleep_for(std::chrono::seconds(2));
+            // transmit will have started after receive (assumed?)
+            // reverse order here by making receive worker I guess 
+
+            // stop transmitting    
             running = false;
 
             // wait for transmit thread to finish

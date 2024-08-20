@@ -53,9 +53,13 @@ namespace hardware{
 
 
     /**
-     * TXRX FUNCS
+     * TX FUNCS
      * ----------------------------------------------
      */
+
+    /*
+    * TODO: templating for types
+    */
     void transmitDoublesAtTime(uhd::usrp::multi_usrp::sptr tx_usrp, 
         std::vector<std::complex<double>> buffers, 
         double secondsInFuture, 
@@ -66,12 +70,6 @@ namespace hardware{
 
     void endBurst(uhd::usrp::multi_usrp::sptr tx_usrp,uhd::tx_streamer::sptr tx_stream);    
 
-
-
-    /**
-     * TX FUNCS
-     * -----------------------------------------------
-     */
     
     
 }
