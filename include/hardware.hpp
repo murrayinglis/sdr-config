@@ -1,6 +1,8 @@
 #ifndef HARDWARE_HPP
 #define HARDWARE_HPP
 #include <uhd/usrp/multi_usrp.hpp>
+#include <atomic>
+#include <thread>
 
 namespace hardware{
     /**
@@ -14,24 +16,6 @@ namespace hardware{
         int num_requested_samples,
         double settling_time,
         bool storeMD);
-
-    // remove
-    void recv_samples_to_file(uhd::usrp::multi_usrp::sptr usrp,
-    const std::string& cpu_format,
-    const std::string& wire_format,
-    const std::vector<size_t>& channel_nums,
-    const size_t total_num_channels,
-    const std::string& file,
-    size_t samps_per_buff,
-    unsigned long long num_requested_samples,
-    double& bw,
-    std::mutex* recv_mutex,
-    double time_requested,
-    bool stats,
-    bool null,
-    bool enable_size_map,
-    bool continue_on_bad_packet,
-    const std::string& thread_prefix);
 
 
 
@@ -64,13 +48,32 @@ namespace hardware{
         std::vector<std::complex<double>> buffers, 
         double secondsInFuture, 
         uhd::tx_streamer::sptr tx_stream, 
-        uhd::tx_metadata_t& md);
+        uhd::tx_metadata_t md);
 
-    void transmitShortsAtTime(uhd::usrp::multi_usrp::sptr tx_usrp, std::vector<std::complex<short>> buffers, double secondsInFuture);
+    extern std::atomic_bool tx_stop_flag;
+    void transmitDoublesUntilStopped(uhd::usrp::multi_usrp::sptr tx_usrp, 
+        std::vector<std::complex<double>> buffers, 
+        double secondsInFuture, 
+        uhd::tx_streamer::sptr tx_stream, 
+        uhd::tx_metadata_t md);
 
-    void endBurst(uhd::usrp::multi_usrp::sptr tx_usrp,uhd::tx_streamer::sptr tx_stream);    
 
-    
+    /**
+     * TX/RX FUNCS
+     * 
+     */
+    extern std::atomic_bool sync_flag;
+
+    void tx_doublesAtTimeSpec(uhd::usrp::multi_usrp::sptr usrp, 
+        std::vector<std::complex<double>> buffers, 
+        double secondsInFuture, 
+        uhd::tx_streamer::sptr tx_stream, 
+        uhd::tx_metadata_t md);
+
+    void rx_doublesAtTimeAlert(uhd::usrp::multi_usrp::sptr usrp, 
+        int num_requested_samples, 
+        double rx_start_time, 
+        uhd::rx_streamer::sptr rx_stream);
     
 }
 

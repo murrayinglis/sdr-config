@@ -93,3 +93,9 @@ __Note:__ Changing the OTW format can have side effects. For example, using an O
 ## Note on RFNoc blocks
 This is a more granular API than the Multi-USRP API, and can directly interact with RFNoC blocks in a device, and the RFNoC graph. This is available for all Generation-3 USRPs and above. https://files.ettus.com/manual/page_coding.html \
 This is therefore outside the scope here for now (using gen 2).
+
+
+
+
+## After recording processing:
+Matched filter to get time delay 

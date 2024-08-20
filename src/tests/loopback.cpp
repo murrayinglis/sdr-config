@@ -28,18 +28,21 @@ namespace tests
             std::unique_lock<std::mutex> lk(mtx);
             cv.wait(lk, [&]{ return ready; });
 
-            while (running) 
-            {
-                // Check if the stop signal is active
-                if (!running) {
-                    break;
-                }
+            hardware::transmitDoublesUntilStopped(tx_usrp, buffers, secondsInFuture, tx_stream, md);
 
-                // start transmitting
-                hardware::transmitDoublesAtTime(tx_usrp, buffers, secondsInFuture, tx_stream, md);
+        }
+
+        void transmit_worker_pulse(uhd::usrp::multi_usrp::sptr tx_usrp, 
+        std::vector<std::complex<double>> buffers, 
+        double secondsInFuture, 
+        uhd::tx_streamer::sptr tx_stream, 
+        uhd::tx_metadata_t md)
+        {
+            // wait until ready is true
+            std::unique_lock<std::mutex> lk(mtx);
+            cv.wait(lk, [&]{ return ready; });
             
-            }
-
+            hardware::tx_doublesAtTimeSpec(tx_usrp, buffers, secondsInFuture, tx_stream, md);
 
         }
 
@@ -129,23 +132,41 @@ namespace tests
             // transmit will have started after receive (assumed?)
             // reverse order here by making receive worker I guess 
 
-            // stop transmitting    
-            running = false;
+            // stop transmitting  
+            //std::this_thread::sleep_for(std::chrono::seconds(5));  
+            hardware::tx_stop_flag.store(true);
 
             // wait for transmit thread to finish
             transmit_thread.join();
         }
 
+
+
+
+
+        /**
+         * I think this is a stupid test but I am investigating timing.
+         * 
+         */
         void latency(uhd::usrp::multi_usrp::sptr usrp, std::vector<std::complex<double>> buffers, double secondsInFuture, double settlingTime)
         {
+            // here I am trying to transmit a single pulse and see it in the received data
+            // overriding tx and rx start time to be the same
+            secondsInFuture = 0.1;
+            settlingTime = 0.1;
+
             //set up transmit streamer
             uhd::stream_args_t stream_args("fc64","sc16");
             uhd::tx_streamer::sptr tx_stream= usrp->get_tx_stream(stream_args);
-            
             uhd::tx_metadata_t md;
             md.has_time_spec=true;
             md.time_spec      =  uhd::time_spec_t(secondsInFuture);
             md.start_of_burst=true;
+
+            //set up receive streamer
+            std::vector<size_t> rx_channel_nums(0); //SBX will be set up to only have 1 receive channel
+            stream_args.channels             = rx_channel_nums;
+            uhd::rx_streamer::sptr rx_stream = usrp->get_rx_stream(stream_args);
 
             // reset usrp time to prepare for transmit/receive
             std::cout << boost::format("Setting device timestamp to 0...") << std::endl;
@@ -154,7 +175,7 @@ namespace tests
 
             // start tx thread with tx worker - this function creates the tx streamer
             // tx thread is waiting for ready call
-            std::thread transmit_thread(transmit_worker,usrp, buffers, secondsInFuture, tx_stream, md);
+            std::thread transmit_thread(transmit_worker_pulse,usrp, buffers, secondsInFuture, tx_stream, md);
 
 
             // call ready to tx thread
@@ -163,13 +184,15 @@ namespace tests
                 ready = true;
             }
             cv.notify_one();
-            // start transmit and receive (try synchronous starting, will probably be off by 1 clock cycle - still significant)
-            hardware::recv_to_file_doubles(usrp, "outputs/latency_test", buffers.size(), settlingTime, true); // TODO: filename/file directory in xml
 
-            running = false;
+
+            // start receive
+            std::vector<std::complex<double>> rx_buffers;
+            hardware::rx_doublesAtTimeAlert(usrp, 500000, secondsInFuture, rx_stream);
+
 
             transmit_thread.join();            
-
+            std::cout << std::endl;
         }
     }
 }

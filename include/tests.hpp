@@ -56,6 +56,12 @@ namespace tests{
         uhd::tx_streamer::sptr tx_stream, 
         uhd::tx_metadata_t md);
 
+        void transmit_worker_pulse(uhd::usrp::multi_usrp::sptr tx_usrp, 
+        std::vector<std::complex<double>> buffers, 
+        double secondsInFuture, 
+        uhd::tx_streamer::sptr tx_stream, 
+        uhd::tx_metadata_t md);
+        
         void loopback_from_file(uhd::usrp::multi_usrp::sptr usrp, std::string waveformFilename, double secondsInFuture, double settlingTime);
         
         void loopback(uhd::usrp::multi_usrp::sptr usrp, std::vector<std::complex<double>> buffers, double secondsInFuture, double settlingTime);
