@@ -107,20 +107,17 @@ namespace hardware{
         // transmit until told not to
         while (!tx_stop_flag.load())
         {      
-            
             md.start_of_burst=true;
             md.end_of_burst=false;
             fullBufferLength = buffers.size();
 
             if(fullBufferLength<=maxTransmitSize)
             {
-                
                 //std::cout << "Full buffer length <= max transmit size" << std::endl;
                 std::vector<std::complex<double>*> pBuffs(1,&buffers.front());
                 tx_stream->send(pBuffs,buffers.size(),md);
                 md.end_of_burst=true;
                 tx_stream->send("",0,md);
-                return;
             }else
             {
                 //std::cout << "Full buffer length >= max transmit size" << std::endl;    

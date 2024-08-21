@@ -133,7 +133,7 @@ namespace tests
             // reverse order here by making receive worker I guess 
 
             // stop transmitting  
-            //std::this_thread::sleep_for(std::chrono::seconds(5));  
+            std::this_thread::sleep_for(std::chrono::seconds(2)); // TODO: parametrize in config  
             hardware::tx_stop_flag.store(true);
 
             // wait for transmit thread to finish
