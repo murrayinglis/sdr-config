@@ -25,7 +25,9 @@ namespace tests{
 
         LOOPBACK_TEST,
         LOOPBACK_FROM_FILE,
-        LATENCY
+        LATENCY,
+
+        PULSED
     };
 
     namespace SFCW{
@@ -83,7 +85,10 @@ namespace tests{
         std::vector<std::vector<std::complex<double>>> steppedFreqToIQMatrix(uhd::usrp::multi_usrp::sptr usrp, std::vector<std::complex<double>> TransmitSignal, int numsteps, double initialTXFreq, double initialRXFreq ,double stepSizeHz);
     }
 
-    
+    namespace pulsed
+    {
+        void tx_rx_pulsed(uhd::usrp::multi_usrp::sptr usrp, size_t numSamples, std::string outputFile, std::string waveformFile);    
+    }
 
     namespace RX
     {

@@ -153,7 +153,7 @@ namespace hardware{
             size_t numNewSamples=rx_stream->recv(psampleBuffer,samplesForThisBlock,rxMetaData);
             if (numNewSamples > 0 && !time_spec_reached)
             {
-                std::cout << "\nRX time spec reached: " << usrp->get_time_now().get_real_secs() << std::endl;
+                std::cout << "\nRX time spec reached, receiving started: " << usrp->get_time_now().get_real_secs() << std::endl;
                 time_spec_reached = true;
             }
 

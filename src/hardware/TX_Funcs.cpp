@@ -105,12 +105,14 @@ namespace hardware{
         size_t fullBufferLength=buffers.size();
 
         // transmit until told not to
+        bool tx_started = false;
         while (!tx_stop_flag.load())
         {      
             md.start_of_burst=true;
             md.end_of_burst=false;
             fullBufferLength = buffers.size();
 
+            
             if(fullBufferLength<=maxTransmitSize)
             {
                 //std::cout << "Full buffer length <= max transmit size" << std::endl;

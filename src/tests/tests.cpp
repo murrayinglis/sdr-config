@@ -19,7 +19,9 @@ namespace tests
 
         {"LOOPBACK_TEST", LOOPBACK_TEST},
         {"LOOPBACK_FROM_FILE", LOOPBACK_FROM_FILE},
-        {"LATENCY", LATENCY}
+        {"LATENCY", LATENCY},
+
+        {"PULSED", PULSED}
     };
 
 
@@ -119,6 +121,16 @@ namespace tests
                     std::vector<std::complex<double>> buffers(num_samples,std::complex<float>{0.8, 0.0});               
 
                     tests::LOOPBACK::latency(usrp, buffers, tx_start, rx_start);
+                }
+                break;
+            case PULSED:
+                if (usrp_config.connect(usrp) == 0)
+                {
+                    size_t num_samples = usrp_config.get_num_samples();  
+                    std::string waveformFilename = usrp_config.get_waveform_filename();
+                    std::string outputFilename = "outputs/pulsed_test";
+
+                    tests::pulsed::tx_rx_pulsed(usrp, num_samples, outputFilename, waveformFilename);
                 }
                 break;
             default:
