@@ -2,6 +2,9 @@
 #include "utils.hpp"
 
 #include <uhd/usrp/multi_usrp.hpp>
+#include <uhd/utils/thread.hpp>
+#include <uhd/utils/safe_main.hpp>
+
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -156,5 +159,91 @@ namespace tests
 
             }
         }
-    }
+
+        void pulsed_cw(uhd::usrp::multi_usrp::sptr usrp)
+        {
+            std::string waveformFile = "sweep.csv";
+            std::vector<std::complex<double>> tx_buffers = utils::read_in_complex_csv(waveformFile);
+
+
+        }
+
+        void rxFunc(
+            uhd::usrp::multi_usrp::sptr usrp,
+            uhd::rx_streamer::sptr rx_stream,
+            double freq,
+            double time,
+            int numSamps
+        )
+        {
+
+            uhd::set_thread_priority_safe();
+            double interval = 10e-3; // TODO: parameter in config
+
+            std::vector<std::vector<std::complex<double>>> buffs; // a vector of units of the doubles
+            buffs.resize(result->size()); // TODO
+            std::vector<std::complex<double>*> Rxbuff; // a vector of pointers to(arrays of) complex doubles
+            for(int i = 0; i < result->size(); i++)
+            {
+                buffs[i].resize(numSamps);
+                Rxbuff.push_back(&buffs[i].front());
+            }
+
+            uhd::rx_metadata_t rxmd;
+
+            uhd::time_spec_t theTime;
+            theTime = usrp->get_time_now();
+            uhd::stream_cmd_t cmd(uhd::stream_cmd_t::STREAM_MODE_NUM_SAMPS_AND_DONE);
+            cmd.num_samps = numSamps;
+            cmd.time_spec = time;
+            cmd.stream_now = false;//dont stream now, use time spec
+            if(time < theTime.get_real_secs())
+            {
+                std::cout << "timing problem!" << std::endl;
+                std::cout <<"RXTIMESPEC "<< cmd.time_spec.get_real_secs() << std::endl;
+                std::cout <<"USRP time(RxFunc) "<< theTime.get_real_secs()<< std::endl;
+                std::cout <<"USRP Capture Time(RxFunc) "<< time<< std::endl;
+            }
+
+            for(int i = 0; i < result->size();i++)
+            {
+                rx_stream->issue_stream_cmd(cmd);
+                num_rx_samps = rx_stream->recv(Rxbuff[i], numSamps, rxmd,1,false); 
+                // cout <<"rx @ t= "<< rxmd.time_spec.get_real_secs()<< endl;
+                cmd.time_spec = cmd.time_spec.get_real_secs()+interval;
+                if(rxmd.error_code != 0)
+                {
+                    std::cout << "rxmd. "<< rxmd.time_spec.get_real_secs()<<std::endl;
+                    std::cout << "Stored "<< num_rx_samps << " samples."<< std::endl;
+                    std::cout << "Rx md error code: "<< rxmd.error_code << " RxMD errstr"<< rxmd.strerror()<< std::endl;
+                }
+            }   
+
+
+            for(int i = 0; i < result->size();i++)
+            {
+                (*result)[i].resize(numSamps);
+                if
+                {
+                    (usrp->get_master_clock_rate()>61.44e6)(*result)[i].Fs = 100e6;
+                }
+                else
+                {
+                     (*result)[i].Fs = 30e6;
+                }
+                for(int j = 0; j < numSamps; j ++)
+                {
+                    (*result)[i][j] = std::complex<double>(buffs[i][j].real(),buffs[i][j].imag());
+                }
+            }
+
+
+            if(rxmd.error_code != 0)
+            {
+                std::cout << "rxmd. "<< rxmd.time_spec.get_real_secs()<<std::endl;
+                std::cout << "Stored "<< num_rx_samps << " samples."<< std::endl;
+                std::cout << "Rx md error code: "<< rxmd.error_code << " RxMD errstr "<<
+                rxmd.strerror()<< std::endl;
+            }
+            return
 }

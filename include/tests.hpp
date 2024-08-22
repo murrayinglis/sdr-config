@@ -27,7 +27,8 @@ namespace tests{
         LOOPBACK_FROM_FILE,
         LATENCY,
 
-        PULSED
+        PULSED,
+        PULSED_CW
     };
 
     namespace SFCW{
@@ -87,7 +88,26 @@ namespace tests{
 
     namespace pulsed
     {
-        void tx_rx_pulsed(uhd::usrp::multi_usrp::sptr usrp, size_t numSamples, std::string outputFile, std::string waveformFile);    
+        void tx_rx_pulsed(uhd::usrp::multi_usrp::sptr usrp, size_t numSamples, std::string outputFile, std::string waveformFile); 
+
+        void pulsed_cw(uhd::usrp::multi_usrp::sptr usrp);   
+
+        void rxFunc(
+        uhd::usrp::multi_usrp::sptr usrp,
+        uhd::rx_streamer::sptr rx_stream,
+        double freq,
+        double time,
+        int numSamps
+        );
+
+        void txFunc(
+        uhd::usrp::multi_usrp::sptr usrp,
+        uhd::tx_streamer::sptr tx_stream,
+        double freq,
+        double time,
+        int numSamps,
+        int reps
+        ); 
     }
 
     namespace RX

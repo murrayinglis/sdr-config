@@ -133,6 +133,11 @@ namespace tests
                     tests::pulsed::tx_rx_pulsed(usrp, num_samples, outputFilename, waveformFilename);
                 }
                 break;
+            case PULSED_CW:
+                if (usrp_config.connect(usrp) == 0)
+                {
+                    tests::pulsed::pulsed_cw(usrp);
+                }
             default:
                 break;
         }
