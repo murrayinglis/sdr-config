@@ -12,6 +12,8 @@ namespace tests
     {
         void tx_rx_pulsed(uhd::usrp::multi_usrp::sptr usrp, size_t numSamples, std::string outputFile, std::string waveformFile)
         {
+
+
             // reset usrp time
             std::cout << boost::format("Setting device timestamp to 0...") << std::endl;
             usrp->set_time_now(uhd::time_spec_t(0.0));
@@ -37,6 +39,7 @@ namespace tests
             std::vector<std::complex<double>> tx_buffers = utils::read_in_complex_csv(waveformFile);
             size_t maxTransmitSize=tx_stream->get_max_num_samps();
             size_t fullTxBufferLength=tx_buffers.size();
+            //std::vector<std::complex<double>>  zeros(fullTxBufferLength,std::complex<double>{0.0, 0.0});
 
             // receive streamer
             int num_requested_samples = 500000; // TODO: parametrize
@@ -82,8 +85,6 @@ namespace tests
                     //std::cout << "Full buffer length <= max transmit size" << std::endl;
                     std::vector<std::complex<double>*> pBuffs(1,&tx_buffers.front());
                     tx_stream->send(pBuffs,tx_buffers.size(),tx_md);
-                    tx_md.end_of_burst=true;
-                    tx_stream->send("",0,tx_md);
                 }else
                 {
                     //std::cout << "Full buffer length >= max transmit size" << std::endl;    
@@ -105,27 +106,32 @@ namespace tests
                     }
                     
                     // Send end of burst packet
+                    tx_md.start_of_burst=false;
                     tx_md.end_of_burst=true;
                     tx_stream->send("",0,tx_md);
                 }
 
-
         
+
+
                 // receive for one pulse (file length)
                 std::cout << "RX pulse" << std::endl;
                 numSamplesReceivedPulse = 0;
-                while (numSamplesReceivedPulse < tx_buffers.size())
+                size_t numNewSamples = 1;
+                //while (numSamplesReceivedPulse < tx_buffers.size())
+                while (numNewSamples != 0)
                 {
                     
                     double samplesForThisBlock=tx_buffers.size()-numSamplesReceivedPulse;
 
                     // if not last block
-                    if (samplesForThisBlock>samps_per_buff)
+                    if (samplesForThisBlock>=samps_per_buff)
                     {
                         samplesForThisBlock=samps_per_buff;
                     }
                     
-                    size_t numNewSamples=rx_stream->recv(psampleBuffer,samplesForThisBlock,rxMetaData);
+                    numNewSamples=rx_stream->recv(psampleBuffer,samplesForThisBlock,rxMetaData);
+                    //std::cout << "Recv samples for this pulse " << numSamplesReceivedPulse << std::endl;
 
 
                     //copy data to filebuffer
@@ -142,6 +148,11 @@ namespace tests
                 }
                 numSamplesReceivedTotal += numSamplesReceivedPulse;
 
+                // NOTE: this is !!NOT!! how pulsed radar works, receive pulse is meant to be much longer
+                // for understanding sake, append pulse length of 0s to see time not receiving
+                //std::ofstream outFile(outputFileName, std::ofstream::app);
+                //outFile.write(reinterpret_cast<char*>(zeros.data()), zeros.size() * sizeof(double) * 2);
+                //outFile.close();
 
             }
         }
