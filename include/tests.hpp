@@ -95,18 +95,19 @@ namespace tests{
         void rxFunc(
         uhd::usrp::multi_usrp::sptr usrp,
         uhd::rx_streamer::sptr rx_stream,
-        double freq,
-        double time,
-        int numSamps
+        std::vector<std::complex<double>> largebuff,
+        double timeSpec,
+        int num_requested_samples
         );
 
         void txFunc(
         uhd::usrp::multi_usrp::sptr usrp,
         uhd::tx_streamer::sptr tx_stream,
-        double freq,
-        double time,
+        std::vector<std::complex<double>> tx_buffs,
+        double timeSpec,
         int numSamps,
-        int reps
+        int reps,
+        int fs
         ); 
     }
 

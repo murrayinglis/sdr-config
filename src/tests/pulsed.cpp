@@ -164,40 +164,69 @@ namespace tests
         {
             std::string waveformFile = "sweep.csv";
             std::vector<std::complex<double>> tx_buffers = utils::read_in_complex_csv(waveformFile);
+            std::vector<std::complex<double>> rx_buffers;
 
+            std::string cpu_format="fc64";
+            std::string wire_format="sc16";
+            std::vector<size_t> rx_channel_nums(0); //SBX will be set up to only have 1 receive channel
+            
+            // create streamers
+            uhd::stream_args_t stream_args(cpu_format, wire_format);
+            stream_args.channels             = rx_channel_nums;
+            uhd::rx_streamer::sptr rx_stream = usrp->get_rx_stream(stream_args);
+            uhd::tx_streamer::sptr tx_stream= usrp->get_tx_stream(stream_args);
 
+            boost::thread_group thread_group;
+
+            double fs = 25e6;
+            // spawn RX thread
+            thread_group.create_thread(boost::bind(&rxFunc, 
+                usrp,
+                rx_stream, 
+                rx_buffers,
+                0
+            ));
+            // spawn TX thread
+            thread_group.create_thread(boost::bind(&txFunc, 
+                usrp, 
+                tx_stream,
+                tx_buffers,
+                0,
+                2,
+                fs
+            ));
+
+            // start
+            thread_group.join_all();
         }
 
         void rxFunc(
             uhd::usrp::multi_usrp::sptr usrp,
             uhd::rx_streamer::sptr rx_stream,
-            double freq,
-            double time,
-            int numSamps
+            std::vector<std::complex<double>> largebuff,
+            double timeSpec,
+            int num_requested_samples
         )
         {
 
             uhd::set_thread_priority_safe();
             double interval = 10e-3; // TODO: parameter in config
 
-            std::vector<std::vector<std::complex<double>>> buffs; // a vector of units of the doubles
-            buffs.resize(result->size()); // TODO
-            std::vector<std::complex<double>*> Rxbuff; // a vector of pointers to(arrays of) complex doubles
-            for(int i = 0; i < result->size(); i++)
-            {
-                buffs[i].resize(numSamps);
-                Rxbuff.push_back(&buffs[i].front());
-            }
+            // allocate buffers to receive with samples (one buffer per channel)
+            size_t samps_per_buff=rx_stream->get_max_num_samps();
+            std::vector<std::complex<double>> sampleBuffer(samps_per_buff);
+            std::complex<double>* psampleBuffer = &sampleBuffer[0];
 
             uhd::rx_metadata_t rxmd;
 
             uhd::time_spec_t theTime;
             theTime = usrp->get_time_now();
             uhd::stream_cmd_t cmd(uhd::stream_cmd_t::STREAM_MODE_NUM_SAMPS_AND_DONE);
-            cmd.num_samps = numSamps;
-            cmd.time_spec = time;
+            cmd.num_samps = num_requested_samples;
+            cmd.time_spec = timeSpec;
             cmd.stream_now = false;//dont stream now, use time spec
-            if(time < theTime.get_real_secs())
+
+            if(timeSpec < theTime.get_real_secs())
             {
                 std::cout << "timing problem!" << std::endl;
                 std::cout <<"RXTIMESPEC "<< cmd.time_spec.get_real_secs() << std::endl;
@@ -205,45 +234,64 @@ namespace tests
                 std::cout <<"USRP Capture Time(RxFunc) "<< time<< std::endl;
             }
 
-            for(int i = 0; i < result->size();i++)
-            {
-                rx_stream->issue_stream_cmd(cmd);
-                num_rx_samps = rx_stream->recv(Rxbuff[i], numSamps, rxmd,1,false); 
-                // cout <<"rx @ t= "<< rxmd.time_spec.get_real_secs()<< endl;
-                cmd.time_spec = cmd.time_spec.get_real_secs()+interval;
-                if(rxmd.error_code != 0)
-                {
-                    std::cout << "rxmd. "<< rxmd.time_spec.get_real_secs()<<std::endl;
-                    std::cout << "Stored "<< num_rx_samps << " samples."<< std::endl;
-                    std::cout << "Rx md error code: "<< rxmd.error_code << " RxMD errstr"<< rxmd.strerror()<< std::endl;
+            double numSamplesReceived=0;
+            while (numSamplesReceived<num_requested_samples){
+                double samplesForThisBlock=num_requested_samples-numSamplesReceived;
+                if (samplesForThisBlock>samps_per_buff){
+                    samplesForThisBlock=samps_per_buff;
                 }
-            }   
+                
+                size_t numNewSamples=rx_stream->recv(psampleBuffer,samplesForThisBlock,rxmd);
+
+                // append to large buffer
 
 
-            for(int i = 0; i < result->size();i++)
+                //increment num samples receieved
+                numSamplesReceived+=numNewSamples;
+
+
+            }
+            return;
+        }
+
+        void txFunc(
+            uhd::usrp::multi_usrp::sptr usrp,
+            uhd::tx_streamer::sptr tx_stream,
+            std::vector<std::complex<double>> tx_buffs,
+            double timeSpec,
+            int numSamps,
+            int reps,
+            int fs
+        )
+        {
+            int timeout = 0.5;
+            double interval = 10e-3; //10ms repetition rate
+
+            uhd::tx_metadata_t md;
+            md.time_spec = timeSpec;
+            md.has_time_spec = true;
+
+            uhd::time_spec_t theTime;
+            theTime = usrp->get_time_now();
+
+            uhd::async_metadata_t asmd;
+
+            for( int i = 0; i < reps; i++)
             {
-                (*result)[i].resize(numSamps);
-                if
+                md.start_of_burst = true;
+                md.end_of_burst = true;
+                int num_tx_samps = tx_stream->send(tx_buffs, numSamps, md, timeout);
+                while(usrp->get_time_now().get_real_secs() < (md.time_spec.get_real_secs()+(tx_buffs.size()/fs)))
                 {
-                    (usrp->get_master_clock_rate()>61.44e6)(*result)[i].Fs = 100e6;
+                    boost::this_thread::sleep(boost::posix_time::microseconds(500));
                 }
-                else
-                {
-                     (*result)[i].Fs = 30e6;
-                }
-                for(int j = 0; j < numSamps; j ++)
-                {
-                    (*result)[i][j] = std::complex<double>(buffs[i][j].real(),buffs[i][j].imag());
-                }
+                md.time_spec = md.time_spec.get_real_secs() + interval;
             }
 
+            //send a mini EOB packet
+            md.end_of_burst = true;
+            tx_stream->send(tx_buffs, 0, md, 1);
 
-            if(rxmd.error_code != 0)
-            {
-                std::cout << "rxmd. "<< rxmd.time_spec.get_real_secs()<<std::endl;
-                std::cout << "Stored "<< num_rx_samps << " samples."<< std::endl;
-                std::cout << "Rx md error code: "<< rxmd.error_code << " RxMD errstr "<<
-                rxmd.strerror()<< std::endl;
-            }
-            return
+        }
+    }
 }
