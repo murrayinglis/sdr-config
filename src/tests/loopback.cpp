@@ -77,17 +77,23 @@ namespace tests
             
             hardware::recv_to_file_doubles(usrp, "outputs/loopback_test", buffers.size(), settlingTime, true); // TODO: parametrize in config
 
-            //std::this_thread::sleep_for(std::chrono::seconds(4));
 
-            // stop transmitting
-            running = false;
+            // stop transmitting  
+            std::this_thread::sleep_for(std::chrono::seconds(2)); // TODO: parametrize in config  
+            hardware::tx_stop_flag.store(true);
 
             // wait for transmit thread to finish
             transmit_thread.join();
         }
 
-        void loopback_from_file(uhd::usrp::multi_usrp::sptr usrp, std::string waveformFilename, double secondsInFuture, double settlingTime)
+        void loopback_from_file(uhd::usrp::multi_usrp::sptr usrp, config::usrp_config usrp_config)
         {
+            // extract params from config
+            std::string waveformFilename = usrp_config.get_waveform_filename();
+            double secondsInFuture = usrp_config.get_tx_start_time();
+            double settlingTime = usrp_config.get_rx_start_time();
+            double numRequestedSamples = usrp_config.get_num_samples();
+
             // Read in file 
             // TODO: assuming csv for now
             std::cout << "Reading in: " << waveformFilename << std::endl;
@@ -126,8 +132,8 @@ namespace tests
             cv.notify_one();
             
             // start receive
-            //std::this_thread::sleep_for(std::chrono::seconds(1));
-            hardware::recv_to_file_doubles(usrp, "outputs/loopback_from_file_test", 500000, settlingTime, true); // TODO: parametrize in config
+            // TODO: boost threads
+            hardware::recv_to_file_doubles2(usrp, "outputs/loopback_from_file_test", numRequestedSamples, settlingTime, true); // TODO: parametrize in config
 
             // transmit will have started after receive (assumed?)
             // reverse order here by making receive worker I guess 

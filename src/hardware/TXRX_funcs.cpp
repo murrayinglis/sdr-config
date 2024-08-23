@@ -62,7 +62,7 @@ namespace hardware
                     }
                     std::vector<std::complex<double>> smallbuffer(buffers.begin()+numSent,buffers.begin()+numSent+smallBufferSize);
                     std::vector<std::complex<double>*> pBuffs(1,&smallbuffer.front());
-                    tx_stream->send(pBuffs,smallbuffer.size(),md);
+                    tx_stream->send(pBuffs,smallbuffer.size(),md, 0.5);
                     numSent+=smallBufferSize;
                     
                     md.has_time_spec=false; //dont want subsequent packets to wait

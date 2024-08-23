@@ -109,7 +109,7 @@ namespace tests
                     double rx_start = usrp_config.get_rx_start_time();
                     std::string waveformFilename = usrp_config.get_waveform_filename();
 
-                    tests::LOOPBACK::loopback_from_file(usrp, waveformFilename, tx_start, rx_start);
+                    tests::LOOPBACK::loopback_from_file(usrp, usrp_config);
                 }
                 break;
             case LATENCY:

@@ -17,7 +17,11 @@ namespace hardware{
         double settling_time,
         bool storeMD);
 
-
+    void recv_to_file_doubles2(uhd::usrp::multi_usrp::sptr usrp,
+        const std::string& file,
+        int num_requested_samples,
+        double settling_time,
+        bool storeMD);
 
     /**
      * TXRX CONFIG

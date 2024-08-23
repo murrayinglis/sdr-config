@@ -117,7 +117,7 @@ namespace hardware{
             {
                 //std::cout << "Full buffer length <= max transmit size" << std::endl;
                 std::vector<std::complex<double>*> pBuffs(1,&buffers.front());
-                tx_stream->send(pBuffs,buffers.size(),md);
+                tx_stream->send(pBuffs,buffers.size(),md, 0.5);
                 md.end_of_burst=true;
                 tx_stream->send("",0,md);
             }else

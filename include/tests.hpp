@@ -64,7 +64,7 @@ namespace tests{
         uhd::tx_streamer::sptr tx_stream, 
         uhd::tx_metadata_t md);
         
-        void loopback_from_file(uhd::usrp::multi_usrp::sptr usrp, std::string waveformFilename, double secondsInFuture, double settlingTime);
+        void loopback_from_file(uhd::usrp::multi_usrp::sptr usrp, config::usrp_config usrp_config);
         
         void loopback(uhd::usrp::multi_usrp::sptr usrp, std::vector<std::complex<double>> buffers, double secondsInFuture, double settlingTime);
 
