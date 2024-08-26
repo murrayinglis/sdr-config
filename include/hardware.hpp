@@ -10,14 +10,10 @@ namespace hardware{
      * -------------------------------------------------
      */
     std::vector<std::complex<double>> captureDoubles(uhd::usrp::multi_usrp::sptr rx_usrp,size_t numSamples,double settling_time);
-    
-    void recv_to_file_doubles(uhd::usrp::multi_usrp::sptr usrp,
-        const std::string& file,
-        int num_requested_samples,
-        double settling_time,
-        bool storeMD);
 
-    void recv_to_file_doubles2(uhd::usrp::multi_usrp::sptr usrp,
+
+    void recv_to_file_doubles(uhd::usrp::multi_usrp::sptr usrp,
+        uhd::rx_streamer::sptr rx_stream,
         const std::string& file,
         int num_requested_samples,
         double settling_time,

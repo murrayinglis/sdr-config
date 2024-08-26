@@ -56,7 +56,11 @@ namespace tests{
 
             // recv to file
             if (precision == "double"){
-                hardware::recv_to_file_doubles(rx_usrp,outputFile,numSamples,settling_time,true); //TODO: set up metadata dept config parameter
+            uhd::stream_args_t stream_args("fc64","sc16");
+            std::vector<size_t> rx_channel_nums(0); 
+            stream_args.channels             = rx_channel_nums;
+            uhd::rx_streamer::sptr rx_stream = rx_usrp->get_rx_stream(stream_args);
+                hardware::recv_to_file_doubles(rx_usrp,rx_stream,outputFile,numSamples,settling_time,true); //TODO: set up metadata dept config parameter
                 return 0;
                 //
             }/*else if (type == "float"){

@@ -58,6 +58,13 @@ namespace tests{
         uhd::tx_streamer::sptr tx_stream, 
         uhd::tx_metadata_t md);
 
+        void receive_worker(uhd::usrp::multi_usrp::sptr usrp,
+            const std::string& file,
+            int num_requested_samples,
+            double settling_time,
+            uhd::rx_streamer::sptr rx_stream,
+            bool storeMD);
+
         void transmit_worker_pulse(uhd::usrp::multi_usrp::sptr tx_usrp, 
         std::vector<std::complex<double>> buffers, 
         double secondsInFuture, 

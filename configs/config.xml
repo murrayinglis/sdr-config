@@ -24,8 +24,8 @@
     <test>
         <TEST_TYPE>LOOPBACK_FROM_FILE</TEST_TYPE>
         <NUM_SAMPLES>500e3</NUM_SAMPLES>
-        <RX_START_TIME>0.1</RX_START_TIME>
-        <TX_START_TIME>0.1</TX_START_TIME>
+        <RX_START_TIME>1</RX_START_TIME>
+        <TX_START_TIME>1.001</TX_START_TIME>
     </test>
     <radar>
         <RADAR_TYPE>SFCW</RADAR_TYPE>
