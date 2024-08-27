@@ -94,7 +94,7 @@ namespace tests{
 
     namespace pulsed
     {
-        void tx_rx_pulsed(uhd::usrp::multi_usrp::sptr usrp, size_t numSamples, std::string outputFile, std::string waveformFile);    
+        void tx_rx_pulsed(uhd::usrp::multi_usrp::sptr usrp, config::usrp_config usrp_config);    
     }
 
     namespace RX

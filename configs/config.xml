@@ -9,7 +9,7 @@
         <RX_SUBDEV>A:0</RX_SUBDEV>
         <TX_ANTENNA>TX/RX</TX_ANTENNA>    
         <RX_ANTENNA>RX2</RX_ANTENNA>
-        <WAVEFORM_FILE>pulse.csv</WAVEFORM_FILE>
+        <WAVEFORM_FILE>sweep.csv</WAVEFORM_FILE>
     </config>
     <frequency>
         <TX_FREQ>805e6</TX_FREQ>
@@ -22,10 +22,10 @@
         <RX_GAIN>3</RX_GAIN>
     </frequency>
     <test>
-        <TEST_TYPE>LOOPBACK_FROM_FILE</TEST_TYPE>
-        <NUM_SAMPLES>250e3</NUM_SAMPLES>
-        <RX_START_TIME>4</RX_START_TIME>
-        <TX_START_TIME>4.002</TX_START_TIME>
+        <TEST_TYPE>PULSED</TEST_TYPE>
+        <NUM_SAMPLES>500e3</NUM_SAMPLES>
+        <RX_START_TIME>0.1</RX_START_TIME>
+        <TX_START_TIME>0.1</TX_START_TIME>
     </test>
     <radar>
         <RADAR_TYPE>SFCW</RADAR_TYPE>

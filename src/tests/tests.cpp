@@ -126,11 +126,7 @@ namespace tests
             case PULSED:
                 if (usrp_config.connect(usrp) == 0)
                 {
-                    size_t num_samples = usrp_config.get_num_samples();  
-                    std::string waveformFilename = usrp_config.get_waveform_filename();
-                    std::string outputFilename = "outputs/pulsed_test";
-
-                    tests::pulsed::tx_rx_pulsed(usrp, num_samples, outputFilename, waveformFilename);
+                    tests::pulsed::tx_rx_pulsed(usrp, usrp_config);
                 }
                 break;
             default:

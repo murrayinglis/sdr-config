@@ -925,5 +925,9 @@ namespace config
     {
         return WAVEFORM_FILE;
     }
+    double usrp_config::get_tx_rate()
+    {
+        return TX_RATE;
+    }
 }
 

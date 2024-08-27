@@ -81,6 +81,8 @@ namespace config
 
         std::string get_waveform_filename();
 
+        double get_tx_rate();
+
 
     private:
         // device
