@@ -82,12 +82,12 @@ For N200 series, only the addr and port arguments are supported.
 * U - Underrun (send not called often enough for TX)
 * O - Overrun (recv not called often enough for RX)
 
-Converters: Most FPGAs use integer data types, the most common being complex 16-bit integers. This is converted casts, scales and handles endianness. The format used by the user application is coined the 'CPU Format', whereas the format used between the device and UHD is called the 'OTW Format' (Over-the-wire format). A custom converter can be defined
+Converters: Most FPGAs use integer data types, the most common being complex 16-bit integers. This is converted casts, scales and handles endianness. The format used by the user application is coined the 'CPU Format', whereas the format used between the device and UHD is called the 'OTW Format' (Over-the-wire format). A custom converter can be defined. - This is not explored, but good to mention in the report. For the purposes of this project, only `double` type is used.
 
 __Note:__ Changing the OTW format can have side effects. For example, using an OTW format with fewer bits (sc8 vs. sc16, for instance) reduces the load on the data link and allows more bandwidth, but also reduces the dynamic range of the data and increases quantization noise. 
 
 
-
+__Queuing commands:__ I want to try queueing commands in the future to set up an actual pulsed radar, instead of the pulsed CW radar I am using. I can then packetize every received frame instead of appending it to one large file.
 
 
 ## Note on RFNoc blocks
