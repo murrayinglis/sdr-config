@@ -98,4 +98,4 @@ This is therefore outside the scope here for now (using gen 2).
 
 
 ## After recording processing:
-Matched filter to get time delay 
+Matched filter to get time delay. For these parameters I am getting a delay between tx and rx threads of about 500us. By using the transmitted signal that is present in the receive channel due to the limited isolation, a timestamp of t=0 is obtained, automatically accounting for the timing offset between the Tx and Rx channels.
