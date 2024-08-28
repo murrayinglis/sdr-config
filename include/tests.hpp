@@ -27,7 +27,8 @@ namespace tests{
         LOOPBACK_FROM_FILE,
         LATENCY,
 
-        PULSED
+        PULSED,
+        PULSED2
     };
 
     namespace SFCW{
@@ -95,6 +96,8 @@ namespace tests{
     namespace pulsed
     {
         void tx_rx_pulsed(uhd::usrp::multi_usrp::sptr usrp, config::usrp_config usrp_config);    
+        void pulsed2(uhd::usrp::multi_usrp::sptr usrp, config::usrp_config usrp_config);
+        
     }
 
     namespace RX

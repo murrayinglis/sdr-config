@@ -9,14 +9,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add the executable
 file(GLOB_RECURSE SOURCES "src/*.cpp")
-add_executable(sdr-config ${SOURCES})
+add_executable(sdr-config ${SOURCES} include/easyBMP/EasyBMP.cpp)
+
+
 
 # include path
 include_directories(include/)
 include_directories(/usr/include/uhd)
 include_directories(/home/murray/boost_1_82_0)
+include_directories(/usr/include/fftw3)
 
-target_link_libraries(sdr-config /home/murray/pugixml-1.14/libpugixml.a /usr/local/lib/libuhd.so)
+target_link_libraries(sdr-config /home/murray/pugixml-1.14/libpugixml.a /usr/local/lib/libuhd.so /usr/lib/x86_64-linux-gnu/libfftw3.a)
 #target_link_libraries(sdr-config /usr/lib/x86_64-linux-gnu/libuhd.so)
 
 # Directory containing Boost libraries

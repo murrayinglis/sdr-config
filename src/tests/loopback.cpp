@@ -160,55 +160,5 @@ namespace tests
 
 
 
-        /**
-         * I think this is a stupid test but I am investigating timing.
-         * 
-         */
-        void latency(uhd::usrp::multi_usrp::sptr usrp, std::vector<std::complex<double>> buffers, double secondsInFuture, double settlingTime)
-        {
-            // here I am trying to transmit a single pulse and see it in the received data
-            // overriding tx and rx start time to be the same
-            secondsInFuture = 0.1;
-            settlingTime = 0.1;
-
-            //set up transmit streamer
-            uhd::stream_args_t stream_args("fc64","sc16");
-            uhd::tx_streamer::sptr tx_stream= usrp->get_tx_stream(stream_args);
-            uhd::tx_metadata_t md;
-            md.has_time_spec=true;
-            md.time_spec      =  uhd::time_spec_t(secondsInFuture);
-            md.start_of_burst=true;
-
-            //set up receive streamer
-            std::vector<size_t> rx_channel_nums(0); //SBX will be set up to only have 1 receive channel
-            stream_args.channels             = rx_channel_nums;
-            uhd::rx_streamer::sptr rx_stream = usrp->get_rx_stream(stream_args);
-
-            // reset usrp time to prepare for transmit/receive
-            std::cout << boost::format("Setting device timestamp to 0...") << std::endl;
-            usrp->set_time_now(uhd::time_spec_t(0.0));
-
-
-            // start tx thread with tx worker - this function creates the tx streamer
-            // tx thread is waiting for ready call
-            std::thread transmit_thread(transmit_worker_pulse,usrp, buffers, secondsInFuture, tx_stream, md);
-
-
-            // call ready to tx thread
-            {
-                std::lock_guard<std::mutex> lock(mtx);
-                ready = true;
-            }
-            cv.notify_one();
-
-
-            // start receive
-            std::vector<std::complex<double>> rx_buffers;
-            hardware::rx_doublesAtTimeAlert(usrp, 500000, secondsInFuture, rx_stream);
-
-
-            transmit_thread.join();            
-            std::cout << std::endl;
-        }
     }
 }

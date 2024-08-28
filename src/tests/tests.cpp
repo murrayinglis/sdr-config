@@ -21,7 +21,8 @@ namespace tests
         {"LOOPBACK_FROM_FILE", LOOPBACK_FROM_FILE},
         {"LATENCY", LATENCY},
 
-        {"PULSED", PULSED}
+        {"PULSED", PULSED},
+        {"PULSED2", PULSED2}
     };
 
 
@@ -112,21 +113,16 @@ namespace tests
                     tests::LOOPBACK::loopback_from_file(usrp, usrp_config);
                 }
                 break;
-            case LATENCY:
-                if (usrp_config.connect(usrp) == 0)
-                {
-                    double tx_start = usrp_config.get_tx_start_time();
-                    double rx_start = usrp_config.get_rx_start_time();
-                    size_t num_samples = usrp_config.get_num_samples();  
-                    std::vector<std::complex<double>> buffers(num_samples,std::complex<float>{0.8, 0.0});               
-
-                    tests::LOOPBACK::latency(usrp, buffers, tx_start, rx_start);
-                }
-                break;
             case PULSED:
                 if (usrp_config.connect(usrp) == 0)
                 {
                     tests::pulsed::tx_rx_pulsed(usrp, usrp_config);
+                }
+                break;
+            case PULSED2:
+                if (usrp_config.connect(usrp) == 0)
+                {
+                    tests::pulsed::pulsed2(usrp, usrp_config);
                 }
                 break;
             default:
