@@ -441,6 +441,30 @@ src/tests/pulsed.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/pulsed.cpp.s
 .PHONY : src/tests/pulsed.cpp.s
 
+src/tests/pulsed_pipeline.o: src/tests/pulsed_pipeline.cpp.o
+.PHONY : src/tests/pulsed_pipeline.o
+
+# target to build an object file
+src/tests/pulsed_pipeline.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/pulsed_pipeline.cpp.o
+.PHONY : src/tests/pulsed_pipeline.cpp.o
+
+src/tests/pulsed_pipeline.i: src/tests/pulsed_pipeline.cpp.i
+.PHONY : src/tests/pulsed_pipeline.i
+
+# target to preprocess a source file
+src/tests/pulsed_pipeline.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/pulsed_pipeline.cpp.i
+.PHONY : src/tests/pulsed_pipeline.cpp.i
+
+src/tests/pulsed_pipeline.s: src/tests/pulsed_pipeline.cpp.s
+.PHONY : src/tests/pulsed_pipeline.s
+
+# target to generate assembly for a file
+src/tests/pulsed_pipeline.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/tests/pulsed_pipeline.cpp.s
+.PHONY : src/tests/pulsed_pipeline.cpp.s
+
 src/tests/tests.o: src/tests/tests.cpp.o
 .PHONY : src/tests/tests.o
 
@@ -585,6 +609,9 @@ help:
 	@echo "... src/tests/pulsed.o"
 	@echo "... src/tests/pulsed.i"
 	@echo "... src/tests/pulsed.s"
+	@echo "... src/tests/pulsed_pipeline.o"
+	@echo "... src/tests/pulsed_pipeline.i"
+	@echo "... src/tests/pulsed_pipeline.s"
 	@echo "... src/tests/tests.o"
 	@echo "... src/tests/tests.i"
 	@echo "... src/tests/tests.s"

@@ -28,7 +28,8 @@ namespace tests{
         LATENCY,
 
         PULSED,
-        PULSED2
+        PULSED2,
+        PULSED_PIPELINE
     };
 
     namespace SFCW{
@@ -97,7 +98,7 @@ namespace tests{
     {
         void tx_rx_pulsed(uhd::usrp::multi_usrp::sptr usrp, config::usrp_config usrp_config);    
         void pulsed2(uhd::usrp::multi_usrp::sptr usrp, config::usrp_config usrp_config);
-        
+        void pulsed_pipeline(uhd::usrp::multi_usrp::sptr usrp, config::usrp_config usrp_config);
     }
 
     namespace RX

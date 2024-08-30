@@ -22,7 +22,7 @@
         <RX_GAIN>3</RX_GAIN>
     </frequency>
     <test>
-        <TEST_TYPE>PULSED</TEST_TYPE>
+        <TEST_TYPE>PULSED_PIPELINE</TEST_TYPE>
         <NUM_SAMPLES>500e3</NUM_SAMPLES>
         <RX_START_TIME>3</RX_START_TIME>
         <TX_START_TIME>3</TX_START_TIME>

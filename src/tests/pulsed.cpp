@@ -1,3 +1,24 @@
+
+// This software is modified by Murray Inglis for his final year thesis
+//
+// This software is based on the Ettus Research Benchmark rate example provided with the UHDdriver.
+// it has been heavily modified by Marko Slijepcevic to facilitate the Radar application.
+// Copyright 2011-2013 Ettus Research LLC
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+
 #include "tests.hpp"
 #include "utils.hpp"
 #include "hardware.hpp"
@@ -129,14 +150,14 @@ namespace tests
             double freq,
             double time,
             int numSamps,
-            vector<wfm>*result
+            vector<wfm>* result
         ) 
         {
             uhd::set_thread_priority_safe();
             double interval = 10e-3; //10ms capture interval for multicaps
 
             vector<vector<complex<float>>> buffs; // a vector of units of the above type(multiple buff units)
-            buffs.resize(result->size());
+            buffs.resize(result->size()); // size 1
             std::vector<complex<float> *> Rxbuff; // a vector of pointers to(arrays of) complex floats
             Rxbuff.reserve(result->size());
             for(int i = 0; i < buffs.size(); i++)
@@ -164,36 +185,65 @@ namespace tests
             }
 
             int num_rx_samps = 0;
+            int samps_per_buff = rx_stream->get_max_num_samps();
+            int numSamplesReceived=0;
+            int num_requested_samples = numSamps;
+            std::vector<std::complex<double>> sampleBuffer(samps_per_buff);
+            std::complex<double>* psampleBuffer = sampleBuffer.data();
+            std::vector<double> fileBuffers(2*num_requested_samples);
             for(int i = 0; i < result->size();i++)
             {
                 rx_stream->issue_stream_cmd(cmd);
                 // TODO: implement max num samps from prev recv
-                int max_num_samples = 363;
-                num_rx_samps = rx_stream->recv(Rxbuff[i], max_num_samples, rxmd, 1, false); // supposed to be a blocking call, may need to be separated from tx thread
+                while (numSamplesReceived<num_requested_samples)
+                {
+                    double samplesForThisBlock=num_requested_samples-numSamplesReceived;
+                    if (samplesForThisBlock>samps_per_buff){
+                        samplesForThisBlock=samps_per_buff;
+                    }
+                    
+                    size_t numNewSamples=rx_stream->recv(psampleBuffer,samplesForThisBlock,rxmd, 0.5);
+
+                    double* pfileBuffers = fileBuffers.data() + numSamplesReceived*2; // destination to copy to
+                    std::complex<double>* pSource = psampleBuffer; // received samples
+                    std::memcpy(pfileBuffers, pSource, numNewSamples * sizeof(double) * 2);
+
+                    //increment num samples receieved
+                    numSamplesReceived+=numNewSamples;
+
+                }
+
                 cout <<"rx @ t= "<< rxmd.time_spec.get_real_secs()<< endl;
                 cmd.time_spec = cmd.time_spec.get_real_secs()+interval;
+
+
                 if(rxmd.error_code != 0)
                 {
-                std::cout << "rxmd. "<< rxmd.time_spec.get_real_secs()<<std::endl;
-                std::cout << "Stored "<< num_rx_samps << " samples."<< std::endl;
-                std::cout << "Rx md error code: "<< rxmd.error_code << " RxMD errstr "<< rxmd.strerror()<< std::endl;
+                    std::cout << "rxmd. "<< rxmd.time_spec.get_real_secs()<<std::endl;
+                    std::cout << "Stored "<< num_rx_samps << " samples."<< std::endl;
+                    std::cout << "Rx md error code: "<< rxmd.error_code << " RxMD errstr "<< rxmd.strerror()<< std::endl;
                 }
             }
 
+            // for now can assume result is size 1
             for(int i = 0; i < result->size();i++)
             {
-                (*result)[i].resize(numSamps);
+                (*result)[i].resize(numSamps);  
+                
+                // ???
                 if(usrp->get_master_clock_rate()>61.44e6)(*result)[i].Fs = 100e6;
-                else (*result)[i].Fs = 25e6;
+                else (*result)[i].Fs = 30e6;
+
+
                 for(int j = 0; j < numSamps; j ++) (*result)[i][j] = complex<double>(buffs[i][j].real(),buffs[i][j].imag());
             }
+
 
             if(rxmd.error_code != 0)
             {
                 std::cout << "rxmd. "<< rxmd.time_spec.get_real_secs()<<std::endl;
                 std::cout << "Stored "<< num_rx_samps << " samples."<< std::endl;
-                std::cout << "Rx md error code: "<< rxmd.error_code << " RxMD errstr "<<
-                rxmd.strerror()<< std::endl;
+                std::cout << "Rx md error code: "<< rxmd.error_code << " RxMD errstr "<< rxmd.strerror()<< std::endl;
             }
 
             return;
