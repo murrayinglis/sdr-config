@@ -22,7 +22,6 @@ namespace tests
         {"LATENCY", LATENCY},
 
         {"PULSED", PULSED},
-        {"PULSED2", PULSED2},
         {"PULSED_PIPELINE", PULSED_PIPELINE}
     };
 
@@ -117,13 +116,7 @@ namespace tests
             case PULSED:
                 if (usrp_config.connect(usrp) == 0)
                 {
-                    tests::pulsed::tx_rx_pulsed(usrp, usrp_config);
-                }
-                break;
-            case PULSED2:
-                if (usrp_config.connect(usrp) == 0)
-                {
-                    tests::pulsed::pulsed2(usrp, usrp_config);
+                    tests::pulsed::pulsed(usrp, usrp_config);
                 }
                 break;
             case PULSED_PIPELINE:

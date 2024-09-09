@@ -42,20 +42,6 @@ namespace tests
             hardware::recv_to_file_doubles(usrp, rx_stream, file, num_requested_samples, settling_time, storeMD);
         }
 
-        void transmit_worker_pulse(uhd::usrp::multi_usrp::sptr tx_usrp, 
-        std::vector<std::complex<double>> buffers, 
-        double secondsInFuture, 
-        uhd::tx_streamer::sptr tx_stream, 
-        uhd::tx_metadata_t md)
-        {
-            // wait until ready is true
-            std::unique_lock<std::mutex> lk(mtx);
-            cv.wait(lk, [&]{ return ready; });
-            
-            hardware::tx_doublesAtTimeSpec(tx_usrp, buffers, secondsInFuture, tx_stream, md);
-
-        }
-
         void loopback(uhd::usrp::multi_usrp::sptr usrp, std::vector<std::complex<double>> buffers, double secondsInFuture, double settlingTime)
         {
             //set up transmit streamer
@@ -150,7 +136,7 @@ namespace tests
             thread_group.create_thread(boost::bind(&transmit_worker, usrp, tx_buffers, usrp_config.get_tx_start_time(), tx_stream, md));
 
             // stop transmitting  
-            //std::this_thread::sleep_for(std::chrono::microseconds((int)usrp_config.get_tx_start_time()*1000)); // have to wait at LEAST the amount of time we set commands to execute in the future
+            std::this_thread::sleep_for(std::chrono::microseconds((int)usrp_config.get_tx_start_time()*1000)); // have to wait at LEAST the amount of time we set commands to execute in the future
             hardware::tx_stop_flag.store(true);
 
             thread_group.join_all();

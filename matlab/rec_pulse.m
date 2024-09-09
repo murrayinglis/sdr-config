@@ -5,7 +5,7 @@
 % 5. Plot the doppler map
 
 
-num_samples = 5e6;
+num_samples = 500000;
 % using smaller freqs
 LO_freq = 1e6;
 BB_freq = 0;
@@ -42,10 +42,10 @@ noise_q = scale_factor * noise_scale_factor * randn(1, num_samples) * sqrt(noise
 upmixed = upmixed + noise_i + 1i * noise_q;
 upmixed_refl = LO_arr.*refl_arr + noise_i + 1i * noise_q;
 % insert echo
-d = 100000;
+d = 10000;
 td = d/c;
 idx = round(td*sample_rate);
-vel_factor = -5; % TODO: add calc
+vel_factor = 5; % TODO: add calc
 for i = pulse_length:pulse_separation:length(upmixed)
     upmixed(i+idx:i+idx+pulse_length) = scale_factor*upmixed_refl(1:pulse_length+1);
     idx = idx+vel_factor;
@@ -107,17 +107,22 @@ end
 range_bin_size = c/(2*sample_rate);
 v_bin_size = (c*prf)/(2*num_pulses);
 
-fft_data = fft2(correlation_matrix); % Range map
-response = fftshift(fft(fft_data),2); % Range-doppler map
+range_fft = fft2(correlation_matrix); % Range map
+doppler_fft = fftshift(fft(range_fft),2); % Range-doppler map
+
 range_grid = (0:num_pulses-1)/sample_rate * c/2; % Range grid
 doppler_grid = (-prf/2:prf/2-1)/num_pulses; % Doppler grid
 
+%range_bins = (0:num_samples) * range_res;
+%doppler_bins = (floor(-num_pulses/2):floor(num_pulses/2)) * vel_res;
 
-imagesc(doppler_grid, range_grid, 20*log10(abs(response)));
+
+imagesc(doppler_grid,range_bins,20*log10(abs(doppler_fft)));
 xlabel('Doppler (Hz)');
 ylabel('Range (m)');
 title('Range-Doppler Map');
 colorbar;
+axis xy;
 
 
 %imagesc(20*log10(abs(fftshift(fft(fft2(received_data))))))

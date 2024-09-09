@@ -12,7 +12,7 @@
         <WAVEFORM_FILE>sweep.csv</WAVEFORM_FILE>
     </config>
     <frequency>
-        <TX_FREQ>800e6</TX_FREQ>
+        <TX_FREQ>801e6</TX_FREQ>
         <RX_FREQ>800e6</RX_FREQ>
         <TX_RATE>25e6</TX_RATE>
         <RX_RATE>25e6</RX_RATE>
@@ -22,9 +22,9 @@
         <RX_GAIN>3</RX_GAIN>
     </frequency>
     <test>
-        <TEST_TYPE>PULSED_PIPELINE</TEST_TYPE>
+        <TEST_TYPE>PULSED</TEST_TYPE>
         <NUM_SAMPLES>500e3</NUM_SAMPLES>
-        <RX_START_TIME>3</RX_START_TIME>
+        <RX_START_TIME>3.01</RX_START_TIME>
         <TX_START_TIME>3</TX_START_TIME>
     </test>
     <radar>

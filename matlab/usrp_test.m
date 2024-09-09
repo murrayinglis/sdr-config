@@ -1,17 +1,28 @@
+% NOTE: my USRP has the spike which settles after about 75000 samples.
+
+
 % Read the Output bin file
-filename = 'outputs/loopback_from_file_test.bin';
+filename = '../outputs/pulsed_test.bin';
 fileID = fopen(filename, 'r');
 data = fread(fileID, Inf, 'double');
 fclose(fileID);
-realPart = data(1:2:end);  % Odd indices: real part
-imagPart = data(2:2:end);  % Even indices: imaginary part
+realPart = data(1:2:end)';  % Odd indices: real part
+imagPart = data(2:2:end)';  % Even indices: imaginary part
 downmixed = realPart + 1i * imagPart;
+downmixed = downmixed(75001:end);
+% Filter 
+fs = 25e6;                 % Sampling frequency in Hz
+cutoffFreq = 0.1;          % Cutoff frequency 
+d = designfilt('highpassiir', 'FilterOrder', 2, ...
+               'HalfPowerFrequency', cutoffFreq, ...
+               'SampleRate', fs);
+downmixed = filtfilt(d, downmixed);
 
 % Read the template pulse
-filename = 'sweep.csv';
+filename = '../sweep.csv';
 data = readmatrix(filename);
-realPart = data(:, 1);  % First column is the real part
-imagPart = data(:, 2);  % Second column is the imaginary part
+realPart = data(:, 1)';  % First column is the real part
+imagPart = data(:, 2)';  % Second column is the imaginary part
 BB_arr = realPart + 1i * imagPart;
 
 
@@ -22,18 +33,18 @@ BB_arr = realPart + 1i * imagPart;
 % 5. Plot the doppler map
 
 
-num_samples = 5e6;
+num_samples = 500000;
 % using smaller freqs
-LO_freq = 1e6;
-BB_freq = 0;
+LO_freq = 800e6;
 refl_freq = 0;
 sample_rate = 25e6;
 c = physconst('LightSpeed');
 
 % Pulse params
-pulse_length = 50;
-pulse_separation = 10000;
+pulse_length = 2500;
+pulse_separation = 25000;
 prf = sample_rate/pulse_separation;
+num_pulses = 17;
 range_res = (c*pulse_length)/(2*sample_rate);
 disp(['Range resolution: ', num2str(range_res)]);
 

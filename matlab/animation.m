@@ -37,6 +37,6 @@ function plot_matrix_animation(matrix)
         drawnow;
 
         % Pause for a short time
-        pause(0.01);
+        pause(0.1);
     end
 end

@@ -91,9 +91,6 @@ namespace hardware{
         //std::cout << usrp->get_pp_string();
 
 
-
-
-
         // setup streaming
         uhd::stream_cmd_t stream_cmd=uhd::stream_cmd_t::STREAM_MODE_NUM_SAMPS_AND_DONE;
         stream_cmd.num_samps  = num_requested_samples;
@@ -104,12 +101,8 @@ namespace hardware{
         rx_stream->issue_stream_cmd(stream_cmd);
 
 
-
-
         //
         uhd::rx_metadata_t rxMetaData;
-
-        
         // metadata file (good idea Stephen)
         if (storeMD){
             std::ofstream metaDataFileStream;
@@ -143,7 +136,7 @@ namespace hardware{
         
         
 
-       // write to file when ALL samples received
+        // write to file when ALL samples received
         bool time_spec_reached = false;
         while (numSamplesReceived<num_requested_samples){
             double samplesForThisBlock=num_requested_samples-numSamplesReceived;
@@ -164,7 +157,7 @@ namespace hardware{
 
             //increment num samples receieved
             numSamplesReceived+=numNewSamples;
-
+            //std::cout << numSamplesReceived << std::endl;
         }
 
         // write to file when all samples received
