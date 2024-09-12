@@ -1,21 +1,3 @@
-% Read the Output bin file
-filename = 'outputs/pulsed_test.bin';
-fileID = fopen(filename, 'r');
-data = fread(fileID, Inf, 'double');
-fclose(fileID);
-realPart = data(1:2:end);  % Odd indices: real part
-imagPart = data(2:2:end);  % Even indices: imaginary part
-downmixed = realPart + 1i * imagPart;
-%downmixed = downmixed(75000:end);
-
-% Read the template pulse
-filename = 'sweep.csv';
-data = readmatrix(filename);
-realPart = data(:, 1);  % First column is the real part
-imagPart = data(:, 2);  % Second column is the imaginary part
-BB_arr = realPart + 1i * imagPart;
-
-
 % 1. Lower signal to baseband
 % 2. For the receiving part of the n'th PRI, store the data in the n'th row of a matrix.
 % 3. For each row, Cross-correlate it with the transmitted signal
@@ -31,13 +13,57 @@ refl_freq = 0;
 sample_rate = 25e6;
 c = physconst('LightSpeed');
 
-% Pulse params
+% Pulse 
 pulse_length = 50;
 pulse_separation = 10000;
-prf = sample_rate/pulse_separation;
-range_res = (c*pulse_length)/(2*sample_rate);
-disp(['Range resolution: ', num2str(range_res)]);
 
+% and radar params
+prf = sample_rate/pulse_separation;
+pulse_length_secs = pulse_length/sample_rate;
+pulse_separation_secs = pulse_separation/sample_rate;
+range_res = (c*pulse_length_secs)/(2); % c/2B
+range_max = c*pulse_separation_secs/2; % c*PRI/2
+disp(['Range resolution: ', num2str(range_res)]);
+disp(['Max range: ', num2str(range_max)]);
+
+% UPMIXING: LO freq, BB
+LO_arr = generate_iq_at_freq(num_samples,LO_freq,1,sample_rate);
+BB_arr = generate_iq_at_freq(num_samples,BB_freq,1,sample_rate);
+refl_arr = generate_iq_at_freq(num_samples,refl_freq,1,sample_rate);
+num_pulses = 0;
+for i = pulse_length:pulse_separation:length(BB_arr)
+    BB_arr(i:i+pulse_separation-pulse_length) = 0;
+    num_pulses = num_pulses + 1;
+end
+% truncate back down to size - if full array doesn't match num pulses it
+% extends it
+BB_arr = BB_arr(1:num_samples);
+upmixed = LO_arr.*BB_arr;
+% Add noise
+noise_variance = 0.01;
+scale_factor = 0.05;
+noise_scale_factor = 0.1;
+noise_i = scale_factor * noise_scale_factor * randn(1, num_samples) * sqrt(noise_variance);
+noise_q = scale_factor * noise_scale_factor * randn(1, num_samples) * sqrt(noise_variance);
+upmixed = upmixed + noise_i + 1i * noise_q;
+upmixed_refl = LO_arr.*refl_arr + noise_i + 1i * noise_q;
+% insert echo
+d = 20000;
+target_2 = 0;
+td = 2*d/c;
+idx = round(td*sample_rate);
+vel_factor = -1; % TODO: add calc
+for i = pulse_length:pulse_separation:length(upmixed)
+    upmixed(i+idx:i+idx+pulse_length) = scale_factor*upmixed_refl(1:pulse_length+1);
+    upmixed(i+idx+pulse_length*target_2:i+idx+pulse_length*(target_2+1)) = scale_factor*upmixed_refl(1:pulse_length+1);
+    idx = idx+vel_factor;
+end
+% truncate back down
+upmixed = upmixed(1:num_samples);
+
+% DOWNMIXING
+IF_arr = upmixed;
+downmixed = IF_arr.*conj(LO_arr); % conjugate used in downmixing
 
 
 % Timestamping for first pulse (USRP will have delay between Rx and Tx startups)
@@ -58,7 +84,7 @@ correlation_seg = correlation_seg(pulse_separation-pulse_length:end);
 peak_index = find(correlation_seg == max(correlation_seg), 1); %- (length(template_pulse)-1);
 disp(['Echo pulse is at index: ', num2str(peak_index)]);
 td = peak_index/sample_rate;
-d = td*c; % /2 ???
+d = td*c/2; 
 disp(['Distance of target: ', num2str(d)]);
 
 
@@ -73,7 +99,6 @@ for n = 1:num_pulses
     received_data(:, n) = received_signal(segment_start:segment_start+pulse_separation-1-pulse_length);
     segment_start = segment_start + pulse_separation;
 end
-
 % Cross-correlate each row with the transmitted signal
 correlation_matrix = zeros(pulse_separation-pulse_length, num_pulses);
 for n = 1:num_pulses
@@ -85,19 +110,38 @@ end
 %for n = 1:num_pulses
 %    summed_pulse = summed_pulse+correlation_matrix(n,:);
 %end
-
+% Now I am going to separate the matrix into 10 pulses per frame
+num_pulses_taken = 1;
+num_frames = floor(num_pulses/num_pulses_taken); % TODO: deal with last frame
 num_bins = ceil(range_max/range_res);
 x_axis = (0:num_bins)*range_res;
 y_axis = (0:num_pulses);
 
-imagesc(x_axis,y_axis,20*log10(abs(fftshift(fft(correlation_matrix'),1))));
-ylabel('Doppler (Hz)');
-xlabel('Range (m)');
-title('Range-Doppler Map');
-axis xy;
+figure;
+ax = gca;
+axis tight;
+set(gca, 'YDir', 'normal');  % Ensure y-axis direction is normal
+img_handle = imagesc();
+colormap('jet');  % Choose a colormap, e.g., 'jet'
+colorbar;         % Add a colorbar for reference
 
+% Set up the animation loop - this one is for RANGE
+for i = 1:num_pulses_taken:num_pulses-num_pulses_taken
+    
+    % Get the matrix
+    frame = abs(correlation_matrix(:,i:i+num_pulses_taken));
+    fft_data = 20*log10(abs(fftshift(fft(correlation_matrix'),1)));
+    % Update the matrix data for the current row
+    img_handle.CData = frame';
+    img_handle.XData = x_axis;
 
-%imagesc(20*log10(abs(fftshift(fft(fft2(received_data))))))
+    % Draw the plot
+    drawnow;
+
+    % Pause for a short time
+    pause(0.01);
+end
+
 
 
 function complex_data = generate_iq_at_freq(num_samples, freq, amplitude, sample_rate)

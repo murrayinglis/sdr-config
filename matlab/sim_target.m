@@ -3,7 +3,7 @@
 % 3. For each row, Cross-correlate it with the transmitted signal
 % 4. DFT each column
 % 5. Plot the doppler map
-
+function sim_target(range,velocity)
 
 num_samples = 5e6;
 % using smaller freqs
@@ -48,11 +48,11 @@ noise_q = scale_factor * noise_scale_factor * randn(1, num_samples) * sqrt(noise
 upmixed = upmixed + noise_i + 1i * noise_q;
 upmixed_refl = LO_arr.*refl_arr + noise_i + 1i * noise_q;
 % insert echo
-d = 100000;
+d = range;
 target_2 = 0;
 td = 2*d/c;
 idx = round(td*sample_rate);
-vel_factor = 1; % TODO: add calc
+vel_factor = velocity; % TODO: add calc
 for i = pulse_length:pulse_separation:length(upmixed)
     upmixed(i+idx:i+idx+pulse_length) = scale_factor*upmixed_refl(1:pulse_length+1);
     upmixed(i+idx+pulse_length*target_2:i+idx+pulse_length*(target_2+1)) = scale_factor*upmixed_refl(1:pulse_length+1);
@@ -99,7 +99,6 @@ for n = 1:num_pulses
     received_data(:, n) = received_signal(segment_start:segment_start+pulse_separation-1-pulse_length);
     segment_start = segment_start + pulse_separation;
 end
-
 % Cross-correlate each row with the transmitted signal
 correlation_matrix = zeros(pulse_separation-pulse_length, num_pulses);
 for n = 1:num_pulses
@@ -111,32 +110,58 @@ end
 %for n = 1:num_pulses
 %    summed_pulse = summed_pulse+correlation_matrix(n,:);
 %end
-
-%range_bin_size = c/(2*sample_rate);
-%v_bin_size = (c*prf)/(2*num_pulses);
+% Now I am going to separate the matrix into x pulses per frame
+num_pulses_taken = 500;
+num_frames = floor(num_pulses/num_pulses_taken); % TODO: deal with last frame
 num_bins = ceil(range_max/range_res);
-N = size(correlation_matrix,1);
-
-fft_data = fft2(correlation_matrix); % Range map
-response = fftshift(fft(fft_data),2); % Range-doppler map
-range_grid = (0:num_bins)*range_res; % Range grid
-doppler_grid = (-prf/2:prf/2-1)/num_pulses; % Doppler grid
-doppler_grid = fliplr(doppler_grid);
-%imagesc(doppler_grid, range_grid, 20*log10(abs(response)));
-%xlabel('Doppler (Hz)');
-%ylabel('Range (m)');
-%title('Range-Doppler Map');
-%colorbar;
-%axis xy;
-
 x_axis = (0:num_bins)*range_res;
-y_axis = (0:num_pulses);
+y_axis = (-num_pulses_taken/2:num_pulses_taken/2);
+frame_arr = cell(1,num_frames);
 
-imagesc(x_axis,y_axis,20*log10(abs(fftshift(fft(correlation_matrix'),1))));
-ylabel('Doppler (Hz)');
-xlabel('Range (m)');
-title('Range-Doppler Map');
-axis xy;
+figure;
+ax = gca;
+axis tight;
+set(gca, 'YDir', 'normal');  % Ensure y-axis direction is normal
+img_handle = imagesc();
+colormap('jet');  % Choose a colormap, e.g., 'jet'
+colorbar;         % Add a colorbar for reference
+gif_filename = 'animation.gif';
+
+% Set up the animation loop - this one is for RANGE
+b = 1;
+for i = 1:num_pulses_taken:num_pulses
+    
+    % Get the matrix
+    frame = correlation_matrix(:,i:i+num_pulses_taken-1);
+    frame_arr{1,b} = frame';
+    b = b+1;
+    fft_data = 20*log10(abs(fftshift(fft(frame'),1)));
+    % Update the matrix data for the current row
+    img_handle.CData = fft_data;
+    img_handle.XData = x_axis;
+    img_handle.YData = y_axis;
+
+    % Draw the plot
+    drawnow;
+
+    % Pause for a short time
+    pause(0.1);
+
+    % Capture the current frame
+    frame = getframe(gcf);
+    im = frame2im(frame);
+    [imind, cm] = rgb2ind(im, 256);
+
+    % Write to the GIF file
+    if i == 1
+        imwrite(imind, cm, gif_filename, 'gif', 'LoopCount', inf, 'DelayTime', 0.1);
+    else
+        imwrite(imind, cm, gif_filename, 'gif', 'WriteMode', 'append', 'DelayTime', 0.1);
+    end
+end
+
+end
+
 
 function complex_data = generate_iq_at_freq(num_samples, freq, amplitude, sample_rate)
     t = linspace(0, num_samples / sample_rate, num_samples);
