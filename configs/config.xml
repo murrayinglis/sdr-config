@@ -12,7 +12,7 @@
         <WAVEFORM_FILE>sweep.csv</WAVEFORM_FILE>
     </config>
     <frequency>
-        <TX_FREQ>801e6</TX_FREQ>
+        <TX_FREQ>805e6</TX_FREQ>
         <RX_FREQ>800e6</RX_FREQ>
         <TX_RATE>25e6</TX_RATE>
         <RX_RATE>25e6</RX_RATE>

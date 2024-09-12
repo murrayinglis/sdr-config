@@ -1,15 +1,8 @@
-% Run simulation script first to load in variables
-
-upmixed_matrix = zeros(pulse_separation-pulse_length, num_pulses);
-segment_start = pulse_length;
-for n = 1:num_pulses
-    upmixed_matrix(:, n) = upmixed(segment_start:segment_start+pulse_separation-1-pulse_length);
-    segment_start = segment_start + pulse_separation;
-end
+function animation(matrix, delay)
 
 
 
-plot_matrix_animation(real(upmixed_matrix'));
+plot_matrix_animation(real(matrix));
 
 
 
@@ -37,6 +30,9 @@ function plot_matrix_animation(matrix)
         drawnow;
 
         % Pause for a short time
-        pause(0.01);
+        pause(delay);
     end
+end
+
+
 end

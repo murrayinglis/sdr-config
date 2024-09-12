@@ -40,9 +40,9 @@ end
 BB_arr = BB_arr(1:num_samples);
 upmixed = LO_arr.*BB_arr;
 % Add noise
-noise_variance = 0.01;
+noise_variance = 0.1;
 scale_factor = 0.05;
-noise_scale_factor = 0.1;
+noise_scale_factor = 1;
 noise_i = scale_factor * noise_scale_factor * randn(1, num_samples) * sqrt(noise_variance);
 noise_q = scale_factor * noise_scale_factor * randn(1, num_samples) * sqrt(noise_variance);
 upmixed = upmixed + noise_i + 1i * noise_q;
