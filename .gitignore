@@ -9,5 +9,4 @@ html/
 *.bin
 *_metadata.txt
 *.csv
-outputs/
 sdr/
