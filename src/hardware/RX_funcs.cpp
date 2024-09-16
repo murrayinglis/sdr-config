@@ -18,61 +18,6 @@ namespace hardware{
      * RX FUNCS
      * -------------------------------------------------
      */
-    std::vector<std::complex<double>> captureDoubles(uhd::usrp::multi_usrp::sptr rx_usrp,size_t numSamples,double settling_time){
-        // these should be constants
-        std::string cpu_format="fc64"; // function of doubles
-        std::string wire_format="sc16"; // https://files.ettus.com/manual/structuhd_1_1stream__args__t.html#a0ba0e946d2f83f7ac085f4f4e2ce9578
-        std::vector<size_t> rx_channel_nums(0); // SBX only has 1 rx channel
-        
-        // create a receive streamer
-        uhd::stream_args_t stream_args(cpu_format, wire_format);
-        stream_args.channels             = rx_channel_nums;
-        uhd::rx_streamer::sptr rx_stream = rx_usrp->get_rx_stream(stream_args);
-        size_t samps_per_buff=rx_stream->get_max_num_samps();
-
-        // create totalVector
-        std::vector<std::complex<double>> entireSample;
-        entireSample.reserve(numSamples);
-
-        // allocate buffers to receive with samples (one buffer per channel)
-        std::vector<std::complex<double>> sampleBuffer(samps_per_buff);
-
-        // creating a pointer to sample buffer
-        std::complex<double>* psampleBuffer = &sampleBuffer[0];
-
-
-        // setup streaming
-        uhd::stream_cmd_t stream_cmd=uhd::stream_cmd_t::STREAM_MODE_NUM_SAMPS_AND_DONE;
-        stream_cmd.num_samps  = numSamples;
-        stream_cmd.stream_now = false;
-        stream_cmd.time_spec  = uhd::time_spec_t(settling_time);
-        rx_stream->issue_stream_cmd(stream_cmd);
-
-
-        // 
-        size_t numSamplesReceived=0;
-        uhd::rx_metadata_t rxMetaData;
-        
-
-        while (numSamplesReceived<numSamples){
-            double samplesForThisBlock=numSamples-numSamplesReceived;
-            if (samplesForThisBlock>samps_per_buff){
-                samplesForThisBlock=samps_per_buff;
-            }
-            
-            size_t numNewSamples=rx_stream->recv(psampleBuffer,samplesForThisBlock,rxMetaData);
-
-            //append received data to rest of buffer
-            entireSample.insert(entireSample.begin()+numSamplesReceived, sampleBuffer.begin(), sampleBuffer.begin()+numNewSamples);
-            //increment num samples receieved
-            numSamplesReceived+=numNewSamples;
-        }
-        return entireSample;
-    } // captureDoubles
-
-
-
-
     void recv_to_file_doubles(uhd::usrp::multi_usrp::sptr usrp,
         uhd::rx_streamer::sptr rx_stream,
         const std::string& file,
@@ -143,7 +88,11 @@ namespace hardware{
             if (samplesForThisBlock>samps_per_buff){
                 samplesForThisBlock=samps_per_buff;
             }
-            
+            else {
+                // Change time spec to accomodate multiple recvs?
+
+            }
+
             size_t numNewSamples=rx_stream->recv(psampleBuffer,samplesForThisBlock,rxMetaData, 0.5);
             if (numNewSamples > 0 && !time_spec_reached)
             {

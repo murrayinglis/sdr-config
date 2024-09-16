@@ -21,8 +21,7 @@ namespace tests
         {"LOOPBACK_FROM_FILE", LOOPBACK_FROM_FILE},
         {"LATENCY", LATENCY},
 
-        {"PULSED", PULSED},
-        {"PULSED_PIPELINE", PULSED_PIPELINE}
+        {"PULSED", PULSED}
     };
 
 
@@ -117,12 +116,6 @@ namespace tests
                 if (usrp_config.connect(usrp) == 0)
                 {
                     tests::pulsed::pulsed(usrp, usrp_config);
-                }
-                break;
-            case PULSED_PIPELINE:
-                if (usrp_config.connect(usrp) == 0)
-                {
-                    tests::pulsed::pulsed_pipeline(usrp, usrp_config);
                 }
                 break;
             default:
