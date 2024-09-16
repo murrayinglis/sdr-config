@@ -129,54 +129,6 @@ sdr-config/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/build
 .PHONY : sdr-config/fast
 
-include/easyBMP/EasyBMP.o: include/easyBMP/EasyBMP.cpp.o
-.PHONY : include/easyBMP/EasyBMP.o
-
-# target to build an object file
-include/easyBMP/EasyBMP.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/include/easyBMP/EasyBMP.cpp.o
-.PHONY : include/easyBMP/EasyBMP.cpp.o
-
-include/easyBMP/EasyBMP.i: include/easyBMP/EasyBMP.cpp.i
-.PHONY : include/easyBMP/EasyBMP.i
-
-# target to preprocess a source file
-include/easyBMP/EasyBMP.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/include/easyBMP/EasyBMP.cpp.i
-.PHONY : include/easyBMP/EasyBMP.cpp.i
-
-include/easyBMP/EasyBMP.s: include/easyBMP/EasyBMP.cpp.s
-.PHONY : include/easyBMP/EasyBMP.s
-
-# target to generate assembly for a file
-include/easyBMP/EasyBMP.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/include/easyBMP/EasyBMP.cpp.s
-.PHONY : include/easyBMP/EasyBMP.cpp.s
-
-src/MTimer.o: src/MTimer.cpp.o
-.PHONY : src/MTimer.o
-
-# target to build an object file
-src/MTimer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/MTimer.cpp.o
-.PHONY : src/MTimer.cpp.o
-
-src/MTimer.i: src/MTimer.cpp.i
-.PHONY : src/MTimer.i
-
-# target to preprocess a source file
-src/MTimer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/MTimer.cpp.i
-.PHONY : src/MTimer.cpp.i
-
-src/MTimer.s: src/MTimer.cpp.s
-.PHONY : src/MTimer.s
-
-# target to generate assembly for a file
-src/MTimer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/MTimer.cpp.s
-.PHONY : src/MTimer.cpp.s
-
 src/hardware/RX_funcs.o: src/hardware/RX_funcs.cpp.o
 .PHONY : src/hardware/RX_funcs.o
 
@@ -537,30 +489,6 @@ src/utilities/utils.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/utilities/utils.cpp.s
 .PHONY : src/utilities/utils.cpp.s
 
-src/wfm.o: src/wfm.cpp.o
-.PHONY : src/wfm.o
-
-# target to build an object file
-src/wfm.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/wfm.cpp.o
-.PHONY : src/wfm.cpp.o
-
-src/wfm.i: src/wfm.cpp.i
-.PHONY : src/wfm.i
-
-# target to preprocess a source file
-src/wfm.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/wfm.cpp.i
-.PHONY : src/wfm.cpp.i
-
-src/wfm.s: src/wfm.cpp.s
-.PHONY : src/wfm.s
-
-# target to generate assembly for a file
-src/wfm.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sdr-config.dir/build.make CMakeFiles/sdr-config.dir/src/wfm.cpp.s
-.PHONY : src/wfm.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -570,12 +498,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... sdr-config"
-	@echo "... include/easyBMP/EasyBMP.o"
-	@echo "... include/easyBMP/EasyBMP.i"
-	@echo "... include/easyBMP/EasyBMP.s"
-	@echo "... src/MTimer.o"
-	@echo "... src/MTimer.i"
-	@echo "... src/MTimer.s"
 	@echo "... src/hardware/RX_funcs.o"
 	@echo "... src/hardware/RX_funcs.i"
 	@echo "... src/hardware/RX_funcs.s"
@@ -621,9 +543,6 @@ help:
 	@echo "... src/utilities/utils.o"
 	@echo "... src/utilities/utils.i"
 	@echo "... src/utilities/utils.s"
-	@echo "... src/wfm.o"
-	@echo "... src/wfm.i"
-	@echo "... src/wfm.s"
 .PHONY : help
 
 

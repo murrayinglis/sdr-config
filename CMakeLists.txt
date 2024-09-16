@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add the executable
 file(GLOB_RECURSE SOURCES "src/*.cpp")
-add_executable(sdr-config ${SOURCES} include/easyBMP/EasyBMP.cpp)
+add_executable(sdr-config ${SOURCES})
 
 
 
