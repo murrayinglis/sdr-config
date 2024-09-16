@@ -19,7 +19,7 @@
         <TX_BW>400e5</TX_BW>
         <RX_BW>400e5</RX_BW>
         <TX_GAIN>3</TX_GAIN>
-        <RX_GAIN>3</RX_GAIN>
+        <RX_GAIN>0</RX_GAIN>
     </frequency>
     <test>
         <TEST_TYPE>PULSED</TEST_TYPE>
