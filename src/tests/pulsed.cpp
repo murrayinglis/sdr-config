@@ -54,51 +54,57 @@ namespace tests
             double settlingTime = usrp_config.get_rx_start_time();
             double numRequestedSamples = usrp_config.get_num_samples();
 
-            // Read in file 
-            // TODO: assuming csv for now
-            std::cout << "Reading in: " << waveformFilename << std::endl;
 
 
-            std::vector<std::complex<double>> tx_buffers = utils::read_in_complex_csv(waveformFilename);
+            while (true)
+            {
+                // Read in file 
+                // TODO: assuming csv for now
+                std::cout << "Reading in: " << waveformFilename << std::endl;
 
 
-            //set up transmit streamer
-            uhd::stream_args_t stream_args("fc64","sc16");
-            std::vector<size_t> tx_channel_nums(0);
-            stream_args.channels = tx_channel_nums;
-            uhd::tx_streamer::sptr tx_stream= usrp->get_tx_stream(stream_args);
+                std::vector<std::complex<double>> tx_buffers = utils::read_in_complex_csv(waveformFilename);
 
-            // create a receive streamer - use same cpu and wire format
-            std::vector<size_t> rx_channel_nums(0); 
-            stream_args.channels             = rx_channel_nums;
-            uhd::rx_streamer::sptr rx_stream = usrp->get_rx_stream(stream_args);
-            
-            uhd::tx_metadata_t md;
-            md.has_time_spec=true;
-            md.time_spec      =  uhd::time_spec_t(secondsInFuture);
-            md.start_of_burst=true;
+                //set up transmit streamer
+                uhd::stream_args_t stream_args("fc64","sc16");
+                std::vector<size_t> tx_channel_nums(0);
+                stream_args.channels = tx_channel_nums;
+                uhd::tx_streamer::sptr tx_stream= usrp->get_tx_stream(stream_args);
 
-            // reset usrp time to prepare for transmit/receive
-            std::cout << boost::format("Setting device timestamp to 0...") << std::endl;
-            usrp->set_time_now(uhd::time_spec_t(0.0));
+                // create a receive streamer - use same cpu and wire format
+                std::vector<size_t> rx_channel_nums(0); 
+                stream_args.channels             = rx_channel_nums;
+                uhd::rx_streamer::sptr rx_stream = usrp->get_rx_stream(stream_args);
+                
+                uhd::tx_metadata_t md;
+                md.has_time_spec=true;
+                md.time_spec      =  uhd::time_spec_t(secondsInFuture);
+                md.start_of_burst=true;
+
+                // reset usrp time to prepare for transmit/receive
+                std::cout << boost::format("Setting device timestamp to 0...") << std::endl;
+                usrp->set_time_now(uhd::time_spec_t(0.0));
 
 
-            // start tx thread with tx worker - this function creates the tx streamer
-            // tx thread is waiting for ready call
-            std::cout << "TX seconds in future: " << secondsInFuture << std::endl;
-            std::cout << "RX settling time: " << settlingTime << std::endl;
-            std::cout << "Writing results to: " << outputFilename << std::endl;
-            boost::thread_group thread_group;
-            thread_group.create_thread(boost::bind(&receive_worker, usrp, outputFilename, usrp_config.get_num_samples(),
-            usrp_config.get_rx_start_time(), rx_stream, true));
-            thread_group.create_thread(boost::bind(&transmit_worker, usrp, tx_buffers, usrp_config.get_tx_start_time(), tx_stream, md));
+                // start tx thread with tx worker - this function creates the tx streamer
+                // tx thread is waiting for ready call
+                std::cout << "TX seconds in future: " << secondsInFuture << std::endl;
+                std::cout << "RX settling time: " << settlingTime << std::endl;
+                std::cout << "Writing results to: " << outputFilename << std::endl;
+                boost::thread_group thread_group;
+                thread_group.create_thread(boost::bind(&receive_worker, usrp, outputFilename, usrp_config.get_num_samples(),
+                usrp_config.get_rx_start_time(), rx_stream, true));
+                thread_group.create_thread(boost::bind(&transmit_worker, usrp, tx_buffers, usrp_config.get_tx_start_time(), tx_stream, md));
 
-            // stop transmitting  
-            std::this_thread::sleep_for(std::chrono::milliseconds((int)usrp_config.get_tx_start_time()*1000 + 1000)); // have to wait at LEAST the amount of time we set commands to execute in the future
-            //std::this_thread::sleep_for(std::chrono::seconds(4));
-            hardware::tx_stop_flag.store(true);
+                // stop transmitting  
+                std::this_thread::sleep_for(std::chrono::milliseconds((int)usrp_config.get_tx_start_time()*1000 + 1000)); // have to wait at LEAST the amount of time we set commands to execute in the future
+                //std::this_thread::sleep_for(std::chrono::seconds(4));
+                hardware::tx_stop_flag.store(true);
 
-            thread_group.join_all();
+                thread_group.join_all();
+                hardware::tx_stop_flag.store(false);
+            }
+
         }
     }
 }

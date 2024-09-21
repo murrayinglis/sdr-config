@@ -135,6 +135,7 @@ namespace hardware{
                     std::vector<std::complex<double>*> pBuffs(1,&smallbuffer.front());
                     tx_stream->send(pBuffs,smallbuffer.size(),md);
                     numSent+=smallBufferSize;
+                    //std::cout << "txed " << numSent << " at" << tx_usrp->get_time_now().get_frac_secs() << std::endl;
                     
                     md.has_time_spec=false; //dont want subsequent packets to wait
                     md.start_of_burst=false;

@@ -12,20 +12,20 @@
         <WAVEFORM_FILE>sweep.csv</WAVEFORM_FILE>
     </config>
     <frequency>
-        <TX_FREQ>805e6</TX_FREQ>
-        <RX_FREQ>800e6</RX_FREQ>
+        <TX_FREQ>3e9</TX_FREQ>
+        <RX_FREQ>3e9</RX_FREQ>
         <TX_RATE>25e6</TX_RATE>
         <RX_RATE>25e6</RX_RATE>
         <TX_BW>400e5</TX_BW>
         <RX_BW>400e5</RX_BW>
-        <TX_GAIN>3</TX_GAIN>
-        <RX_GAIN>0</RX_GAIN>
+        <TX_GAIN>25</TX_GAIN>
+        <RX_GAIN>10</RX_GAIN>
     </frequency>
     <test>
         <TEST_TYPE>PULSED</TEST_TYPE>
-        <NUM_SAMPLES>500e3</NUM_SAMPLES>
-        <RX_START_TIME>3.01</RX_START_TIME>
-        <TX_START_TIME>3</TX_START_TIME>
+        <NUM_SAMPLES>50000</NUM_SAMPLES>
+        <RX_START_TIME>4.01</RX_START_TIME>
+        <TX_START_TIME>4</TX_START_TIME>
     </test>
     <radar>
         <RADAR_TYPE>SFCW</RADAR_TYPE>
