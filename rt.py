@@ -10,12 +10,40 @@ c = 3e8
 
 # PARAMS
 fs = 25e6
-pulse_width = 2500
+pulse_width = 250
 pulse_sep = 2500
 
 # File path to the data file
 file_path_bin = 'outputs/pulsed_test.bin'
 file_path_csv = 'sweep.csv'
+
+def append_signal_to_bin(file_path, signal):
+    if (len(signal<500)):
+        return
+    # Ensure the signal is a numpy array
+    signal = np.array(signal)
+    # Open the file in append mode and write the data
+    with open(file_path, 'ab') as f:  # 'ab' mode to append as binary
+        signal.tofile(f)
+
+def extract_signals_from_bin(file_path, N):
+    # Check if file exists
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"File {file_path} does not exist.")
+
+    # Read the file in binary mode
+    with open(file_path, 'rb') as f:
+        data = np.fromfile(f, dtype=np.float64)
+
+    # Split into chunks of size N
+    offset = len(data) % N
+    if offset != 0:
+        data = data[0:-offset]
+
+    num_chunks = len(data) // N
+    data = data.reshape((num_chunks, N))
+
+    return data
 
 def read_complex_csv(file_path):
     complex_data = []
@@ -86,19 +114,21 @@ def update_plot_data(data):
         axs[2,0].autoscale_view(True, True, True)  # Rescale the plot based on new data
 
         # PLOT EXTRACTED POWER
-        max_idx = np.argmax(xcorr_data)
-        xcorr_extracted = xcorr_data[max_idx:max_idx+pulse_width+pulse_sep]
-        xcorr_extracted = np.abs(xcorr_extracted)**2
+        max_idx = np.argmax(np.abs(xcorr_data))
+        xcorr_extracted = np.abs(xcorr_data[max_idx:max_idx+pulse_width+pulse_sep])
+        #xcorr_extracted = np.abs(xcorr_extracted)**2
         time_delays = np.arange(len(xcorr_extracted)) / fs  # Time delay for each sample
         ranges = c * time_delays / 2  # Range in meters
-        end = 100
+        end = 500
         ranges = ranges[0:end] # trying to see around 100/200m
         xcorr_extracted = xcorr_extracted[0:end]
-        line_xcorr_argmax.set_xdata(ranges)
-        #line_xcorr_argmax.set_xdata(np.arange(len(xcorr_extracted)))
+        #append_signal_to_bin("masked.bin",xcorr_extracted)
+        #line_xcorr_argmax.set_xdata(ranges)
+        line_xcorr_argmax.set_xdata(np.arange(len(xcorr_extracted)))
         line_xcorr_argmax.set_ydata(xcorr_extracted)
         axs[3,0].relim()  # Recompute limits
         axs[3,0].autoscale_view(True, True, True)  # Rescale the plot based on new data
+
 
         # PLOT EXTRACTED FMCW PULSE
         pulse_extracted = data[max_idx-pulse_width:max_idx]
@@ -113,7 +143,17 @@ def update_plot_data(data):
         axs[1,1].relim()  # Recompute limits
         axs[1,1].autoscale_view(True, True, True)  # Rescale the plot based on new data
 
+        # PLOT AVERAGE CROSSTALK
+        crosstalk_mat = extract_signals_from_bin("crosstalk.bin", end)
+        ave_crosstalk = np.mean(crosstalk_mat, axis=0)
+        line_21.set_xdata(np.arange(len(ave_crosstalk)))
+        line_21.set_ydata(ave_crosstalk)
+        axs[2,1].relim()  # Recompute limits
+        axs[2,1].autoscale_view(True, True, True)  # Rescale the plot based on new data
 
+
+
+        '''
         # PLOT FFT
         fft_data = 20*np.log10(np.fft.fft(pulse_extracted))
         fft_freq_axis = np.fft.fftfreq(len(fft_data),d=1/fs)
@@ -129,7 +169,7 @@ def update_plot_data(data):
         N = len(pulse_mixed)
         fft_result = 20*np.log10(np.abs(np.fft.fft(pulse_mixed)))
         frequencies = np.fft.fftfreq(N, 1/fs)
-        cutoff = 500
+        cutoff = 0
         frequencies = frequencies[:N//2-cutoff]
         fft_result = fft_result[:N//2-cutoff]
         beat_freq = frequencies[np.argmax(fft_result)]
@@ -140,7 +180,7 @@ def update_plot_data(data):
         line_mixed.set_ydata(fft_result)
         axs[3,1].relim()  # Recompute limits
         axs[3,1].autoscale_view(True, True, True)  # Rescale the plot based on new data
-
+        '''
         
 
 # Initialize plot
@@ -153,7 +193,7 @@ line_xcorr, = axs[2,0].plot([], [], 'b-')
 line_xcorr_argmax, = axs[3,0].plot([], [], 'b-') 
 line_pulse, = axs[0,1].plot([], [], 'b-') 
 line_template, = axs[1,1].plot([], [], 'b-') 
-line_fft_pulse, = axs[2,1].plot([], [], 'b-') 
+line_21, = axs[2,1].plot([], [], 'b-') 
 line_mixed, = axs[3,1].plot([], [], 'b-') 
 
 
