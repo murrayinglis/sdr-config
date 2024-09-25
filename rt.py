@@ -29,7 +29,9 @@ def append_signal_to_bin(file_path, signal):
 def extract_signals_from_bin(file_path, N):
     # Check if file exists
     if not os.path.exists(file_path):
-        raise FileNotFoundError(f"File {file_path} does not exist.")
+        print(f"{file_path} does not exist. Making empty .bin")
+        with open(file_path, 'wb') as f:
+            pass
 
     # Read the file in binary mode
     with open(file_path, 'rb') as f:
@@ -122,7 +124,7 @@ def update_plot_data(data):
         end = 500
         ranges = ranges[0:end] # trying to see around 100/200m
         xcorr_extracted = xcorr_extracted[0:end]
-        #append_signal_to_bin("masked.bin",xcorr_extracted)
+        append_signal_to_bin("masked.bin",xcorr_extracted)
         #line_xcorr_argmax.set_xdata(ranges)
         line_xcorr_argmax.set_xdata(np.arange(len(xcorr_extracted)))
         line_xcorr_argmax.set_ydata(xcorr_extracted)

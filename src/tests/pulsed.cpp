@@ -103,7 +103,11 @@ namespace tests
 
                 thread_group.join_all();
                 hardware::tx_stop_flag.store(false);
-                return;
+
+                if (!usrp_config.get_cont()) {
+                    return;
+                }
+
             }
 
         }

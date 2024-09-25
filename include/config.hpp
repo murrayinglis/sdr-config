@@ -83,6 +83,7 @@ namespace config
 
         double get_tx_rate();
 
+        bool get_cont();
 
     private:
         // device
@@ -106,6 +107,7 @@ namespace config
         double RX_DC_OFFSET;
         // test
         std::string TEST_TYPE;
+        bool CONT;
         double RX_START_TIME;    
         double TX_START_TIME;
         size_t NUM_SAMPLES;

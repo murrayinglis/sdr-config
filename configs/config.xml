@@ -23,6 +23,7 @@
     </frequency>
     <test>
         <TEST_TYPE>PULSED</TEST_TYPE>
+        <CONT>TRUE</CONT>
         <NUM_SAMPLES>50000</NUM_SAMPLES>
         <RX_START_TIME>2</RX_START_TIME>
         <TX_START_TIME>2</TX_START_TIME>

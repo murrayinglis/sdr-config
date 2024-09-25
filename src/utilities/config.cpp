@@ -75,6 +75,20 @@ namespace config
                 return default_value;
             }
         };
+        auto get_node_value_as_bool = [](const pugi::xml_node& node, const std::string& name, bool default_value = false) {
+            const pugi::xml_node child = node.child(name.c_str());
+            std::string lowerStr = child.child_value();
+            // Convert string to lowercase for case-insensitive comparison
+            std::transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
+            
+            if (lowerStr == "true" || lowerStr == "1") {
+                return true;
+            } else if (lowerStr == "false" || lowerStr == "0") {
+                return false;
+            } else {
+                throw std::invalid_argument("Invalid boolean string");
+            }
+        };
         auto get_node_value_as_double = [](const pugi::xml_node& node, const std::string& name, double default_value = 0.0f) {
             const pugi::xml_node child = node.child(name.c_str());
             std::string value_str = child ? child.child_value() : "";
@@ -114,6 +128,7 @@ namespace config
         // Test
         pugi::xml_node testNode = root.child("test");
         TEST_TYPE = get_node_value(testNode, "TEST_TYPE");
+        CONT = get_node_value_as_bool(testNode, "CONT");
         RX_START_TIME = get_node_value_as_double(testNode, "RX_START_TIME");
         TX_START_TIME = get_node_value_as_double(testNode, "TX_START_TIME");
         NUM_SAMPLES = get_node_value_as_double(testNode,"NUM_SAMPLES");
@@ -928,6 +943,10 @@ namespace config
     double usrp_config::get_tx_rate()
     {
         return TX_RATE;
+    }
+    bool usrp_config::get_cont()
+    {
+        return CONT;
     }
 }
 
