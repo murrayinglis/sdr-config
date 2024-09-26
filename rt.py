@@ -10,18 +10,20 @@ c = 3e8
 
 # PARAMS
 fs = 25e6
-pulse_width = 250
-pulse_sep = 2500
+pulse_width = 500
+pulse_sep = 5000
 
 # File path to the data file
 file_path_bin = 'outputs/pulsed_test.bin'
 file_path_csv = 'sweep.csv'
 
 def append_signal_to_bin(file_path, signal):
-    if (len(signal<500)):
+    if (len(signal)<500):
+        print(f"Length of signal {len(signal)} is less than 500")
         return
     # Ensure the signal is a numpy array
     signal = np.array(signal)
+
     # Open the file in append mode and write the data
     with open(file_path, 'ab') as f:  # 'ab' mode to append as binary
         signal.tofile(f)
@@ -29,9 +31,9 @@ def append_signal_to_bin(file_path, signal):
 def extract_signals_from_bin(file_path, N):
     # Check if file exists
     if not os.path.exists(file_path):
-        print(f"{file_path} does not exist. Making empty .bin")
-        with open(file_path, 'wb') as f:
-            pass
+        print(f"{file_path} does not exist.")
+        return []
+
 
     # Read the file in binary mode
     with open(file_path, 'rb') as f:
@@ -124,9 +126,9 @@ def update_plot_data(data):
         end = 500
         ranges = ranges[0:end] # trying to see around 100/200m
         xcorr_extracted = xcorr_extracted[0:end]
-        append_signal_to_bin("masked.bin",xcorr_extracted)
-        #line_xcorr_argmax.set_xdata(ranges)
-        line_xcorr_argmax.set_xdata(np.arange(len(xcorr_extracted)))
+        append_signal_to_bin("crosstalk.bin",xcorr_extracted)
+        line_xcorr_argmax.set_xdata(ranges)
+        #line_xcorr_argmax.set_xdata(np.arange(len(xcorr_extracted)))
         line_xcorr_argmax.set_ydata(xcorr_extracted)
         axs[3,0].relim()  # Recompute limits
         axs[3,0].autoscale_view(True, True, True)  # Rescale the plot based on new data
@@ -147,11 +149,12 @@ def update_plot_data(data):
 
         # PLOT AVERAGE CROSSTALK
         crosstalk_mat = extract_signals_from_bin("crosstalk.bin", end)
-        ave_crosstalk = np.mean(crosstalk_mat, axis=0)
-        line_21.set_xdata(np.arange(len(ave_crosstalk)))
-        line_21.set_ydata(ave_crosstalk)
-        axs[2,1].relim()  # Recompute limits
-        axs[2,1].autoscale_view(True, True, True)  # Rescale the plot based on new data
+        if (len(crosstalk_mat) > 0):
+            ave_crosstalk = np.mean(crosstalk_mat, axis=0)
+            line_21.set_xdata(np.arange(len(ave_crosstalk)))
+            line_21.set_ydata(ave_crosstalk)
+            axs[2,1].relim()  # Recompute limits
+            axs[2,1].autoscale_view(True, True, True)  # Rescale the plot based on new data
 
 
 
