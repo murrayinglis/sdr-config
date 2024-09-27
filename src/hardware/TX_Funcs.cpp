@@ -133,8 +133,9 @@ namespace hardware{
                     }
                     std::vector<std::complex<double>> smallbuffer(buffers.begin()+numSent,buffers.begin()+numSent+smallBufferSize);
                     std::vector<std::complex<double>*> pBuffs(1,&smallbuffer.front());
-                    tx_stream->send(pBuffs,smallbuffer.size(),md);
-                    numSent+=smallBufferSize;
+                    size_t numSentNow = tx_stream->send(pBuffs,smallbuffer.size(),md);
+                    //std::cout << numSentNow << std::endl;
+                    numSent+=numSentNow;
                     //std::cout << "txed " << numSent << " at" << tx_usrp->get_time_now().get_frac_secs() << std::endl;
                     
                     md.has_time_spec=false; //dont want subsequent packets to wait
