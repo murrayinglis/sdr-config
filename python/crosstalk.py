@@ -10,8 +10,8 @@ c = 3e8
 
 # PARAMS
 fs = 25e6
-pulse_width = 500
-pulse_sep = 5000
+pulse_width = 5000
+pulse_sep = 50000
 
 # File path to the data file
 file_path_bin = 'outputs/pulsed_test.bin'
