@@ -1,0 +1,55 @@
+#!/bin/bash
+set -e
+
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+echo "You may need to set LD_LIBRARY_PATH to run the application:"
+echo "export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH"
+
+# Function to check and install UHD dependencies
+check_and_install_dependencies() {
+    # Check if UHD is already installed
+    if ! dpkg -s uhd-host > /dev/null 2>&1; then
+        echo "UHD is not installed. Please install UHD manually."
+        echo "You can do this by running: sudo apt-get install uhd-host"
+    else
+        echo "UHD is already installed."
+    fi
+}
+
+set -e
+
+# Function to check if a specific Boost library is installed
+check_boost_installed() {
+    local lib_name=$1
+    dpkg -s "$lib_name" &> /dev/null
+}
+
+# Post-install script to install UHD (USRP Hardware Driver)
+echo "Running post-installation script for sdr-config..."
+
+# Optionally check for other dependencies or perform other setup tasks
+check_and_install_dependencies
+
+# Optional: Run UHD setup (if needed)
+#if [ -x "$(command -v uhd_images_downloader)" ]; then
+#    echo "Downloading UHD images..."
+#    uhd_images_downloader
+#else
+#    echo "uhd_images_downloader not found, skipping FPGA image download."
+#fi
+
+echo "sdr-config setup completed."
+
+# Check for Boost libraries
+BOOST_LIBS=(libboost-system-dev libboost-filesystem-dev libboost-chrono-dev)
+
+for lib in "${BOOST_LIBS[@]}"; do
+    if ! check_boost_installed "$lib"; then
+        echo "Error: Required Boost library '$lib' is not installed."
+        echo "Please install it using: sudo apt install $lib"
+        exit 1
+    fi
+done
+
+# Continue with the rest of your post-installation script
+echo "All required Boost libraries are installed."
