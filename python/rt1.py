@@ -11,7 +11,7 @@ c = 3e8
 # PARAMS
 fs = 25e6
 pulse_width = 5000
-pulse_sep = 50000
+pulse_sep = 5000
 
 # File path to the data file
 file_path_bin = 'outputs/pulsed_test.bin'
@@ -111,6 +111,8 @@ def update_plot_data(data):
             max_idx = np.argmax(np.abs(xcorr_data[0:pulse_width+pulse_sep]))
             xcorr_data_plot = xcorr_data[max_idx:max_idx+pulse_width]
             y_data = 20*np.log10(np.abs(xcorr_data_plot[0:500]))
+            if (len(y_data)<500):
+                break
             line_30.set_xdata(ranges)
             line_30.set_ydata(y_data) 
             xcorr_data = xcorr_data[pulse_width+pulse_sep:]

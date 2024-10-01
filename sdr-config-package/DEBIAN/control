@@ -1,0 +1,8 @@
+Package: sdr-config
+Version: 1.0
+Section: base
+Priority: optional
+Architecture: amd64
+Maintainer: Your Name <your.email@example.com>
+Description: A brief description of your application.
+ A longer description that explains what the application does.
