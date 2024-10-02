@@ -106,7 +106,7 @@ namespace hardware{
 
             //increment num samples receieved
             numSamplesReceived+=numNewSamples;
-            //std::cout << numSamplesReceived << std::endl;
+            std::cout << numSamplesReceived << std::endl;
         }
 
         // write to file when all samples received
