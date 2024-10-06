@@ -97,21 +97,18 @@ def extract_signals_from_bin(file_path, N):
 
     return data
 
-def gen_chirp_to_csv(file_path, start, stop, length, separation, amplitude, fs):
-    result = []
-
-    for i in range(int(length)):
-        t = i / fs
-        frequency = start + (stop - start) * i / length
-        phase = 2.0 * np.pi * frequency * t
-        sample = amplitude * np.exp(1j * phase) + 0j 
-        result.append(sample)
+def gen_chirp_to_csv(file_path, start, stop, width, separation, amplitude, fs):
+    t = np.arange(0,width)/fs
+    duration = width / fs  # Total signal duration
+    k = (stop - start) / duration  # Chirp rate (Hz per second)
+    phase = 2 * np.pi * (start * t + 0.5 * k * t**2)  # Phase calculation
+    I = amplitude * np.cos(phase)  # In-phase signal (I)
+    Q = amplitude * np.sin(phase)  # Quadrature signal (Q)
+    result = I + 1j * Q
 
     # appending zeros so transmitting is "turned off"
-    num_zeros = int(separation)
-    for i in range(num_zeros):
-        result.append(0)
-    result = np.array(result)
+    zeros = np.zeros(separation)
+    result = np.append(result,zeros)
 
     # Write to CSV file
     with open(file_path, 'w', newline='') as csvfile:
