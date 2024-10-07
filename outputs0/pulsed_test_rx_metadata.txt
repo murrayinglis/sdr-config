@@ -1,3 +1,0 @@
-System time at start: Fri Oct  4 14:20:50 2024
-
-Clock Reference: gpsdo

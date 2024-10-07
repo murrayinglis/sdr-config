@@ -18,7 +18,7 @@ include_directories(include/)
 include_directories(/usr/include/uhd)
 include_directories(/home/murray/boost_1_82_0)
 
-target_link_libraries(sdr-config /home/murray/pugixml-1.14/libpugixml.a /usr/local/lib/libuhd.so)
+target_link_libraries(sdr-config /home/murray/pugixml-1.14/libpugixml.a /usr/local/lib/libuhd.so.4.7.0)
 #target_link_libraries(sdr-config /usr/lib/x86_64-linux-gnu/libuhd.so)
 
 # Directory containing Boost libraries

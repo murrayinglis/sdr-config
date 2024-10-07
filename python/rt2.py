@@ -4,6 +4,7 @@ import time
 import os
 import csv
 from scipy.signal import fftconvolve
+from scipy.signal.windows import hamming, blackman
 
 # CONSTS
 c = 3e8
@@ -123,21 +124,24 @@ def update_plot_data(data):
         axs[2].autoscale_view(True, True, True)  # Rescale the plot based on new data
 
         # PLOT EXTRACTED POWER
-        max_idx = np.argmax(np.abs(xcorr_data))
-        xcorr_extracted = np.abs(xcorr_data[max_idx:max_idx+pulse_width+pulse_sep])
-        #xcorr_extracted = np.abs(xcorr_extracted)**2
-        time_delays = np.arange(len(xcorr_extracted)) / fs  # Time delay for each sample
-        ranges = 0.8 * c * time_delays / 2  # Range in meters
-        end = 500
-        ranges = ranges[0:end] # trying to see around 100/200m
-        xcorr_extracted = xcorr_extracted[0:end]
-        append_signal_to_bin(file_path_res,xcorr_extracted)
+        xcorr_matrix = []
+        ranges = np.arange(len(template_signal)) * c / (2*25e6)
+        ranges = ranges[0:500]
+        while (len(xcorr_data)>0):
+            max_idx = np.argmax(np.abs(xcorr_data[0:pulse_width+pulse_sep]))
+            xcorr_data_plot = xcorr_data[max_idx:max_idx+pulse_width]
+            xcorr_data_plot = xcorr_data_plot[0:500]
+            if (len(xcorr_data_plot)==500):
+                xcorr_data = xcorr_data[pulse_width+pulse_sep:]
+                xcorr_matrix.append(xcorr_data_plot)
+            else:
+                break
         line_xcorr_argmax.set_xdata(ranges)
-        #line_xcorr_argmax.set_xdata(np.arange(len(xcorr_extracted)))
-        line_xcorr_argmax.set_ydata(20*np.log10(xcorr_extracted))
+        xcorr_mean = np.mean(xcorr_matrix, axis=0)
+        line_xcorr_argmax.set_ydata(20*np.log10(np.abs(xcorr_mean)))
         axs[3].relim()  # Recompute limits
         axs[3].autoscale_view(True, True, True)  # Rescale the plot based on new data
-
+        axs[3].minorticks_on()
 
         
 
@@ -180,6 +184,9 @@ last_modified_time = 0
 template_signal = read_complex_csv(file_path_csv)
 template_signal = template_signal[0:pulse_width]
 matched_filter = np.conjugate(template_signal[::-1])
+#indow = hamming(len(matched_filter))  # Choose the appropriate window function
+#matched_filter = matched_filter * window  # Apply the window
+
 
 end = 500
 crosstalk_mat = extract_signals_from_bin("outputs/crosstalk.bin", end)

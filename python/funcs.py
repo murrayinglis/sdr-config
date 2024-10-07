@@ -117,6 +117,26 @@ def gen_chirp_to_csv(file_path, start, stop, width, separation, amplitude, fs):
             csvwriter.writerow([sample.real, sample.imag])
     return result
 
+def gen_nlfm_to_csv(file_path, start, stop, width, separation, amplitude, fs):
+    t = np.arange(0,width)/fs
+    duration = width / fs  # Total signal duration
+    k = (stop - start) / duration  # Chirp rate (Hz per second)
+    phase = 2 * np.pi * (start * t + 0.5 * k * t**3)  # Phase calculation
+    I = amplitude * np.cos(phase)  # In-phase signal (I)
+    Q = amplitude * np.sin(phase)  # Quadrature signal (Q)
+    result = I + 1j * Q
+
+    # appending zeros so transmitting is "turned off"
+    zeros = np.zeros(separation)
+    result = np.append(result,zeros)
+
+    # Write to CSV file
+    with open(file_path, 'w', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        for sample in result:
+            csvwriter.writerow([sample.real, sample.imag])
+    return result
+
 def gen_chirp_to_csv_rep(file_path, start, stop, width, separation, amplitude, fs, num_pulses):
     result = []
 
