@@ -59,11 +59,8 @@ namespace tests{
             tx_usrp->set_time_now(uhd::time_spec_t(1.0));
 
             //send
-            int i=5;
-            while(i>0){
+            while(true){
                 tx_stream->send(pBuffs,buff.size(),md);
-                i--;
-                std::cout<<i<<std::endl;
             }
 
             md.end_of_burst = true;
@@ -94,7 +91,43 @@ namespace tests{
             std::cout << boost::format("Setting device timestamp to 0...") << std::endl;
             tx_usrp->set_time_now(uhd::time_spec_t(0.0)); // TODO: use config
 
-            hardware::transmitDoublesAtTime(tx_usrp, buffers, secondsInFuture, tx_stream, md);
+
+            size_t maxTransmitSize=tx_stream->get_max_num_samps(); //not entirely sure where this comes from
+            //std::cout<<"Max Transmit Buffer Size: "<<maxTransmitSize<<"\n";
+            size_t fullBufferLength=buffers.size();
+            
+            while(true)
+            {
+                if(fullBufferLength<=maxTransmitSize){
+                    //std::cout << "Full buffer length <= max transmit size" << std::endl;
+                    std::vector<std::complex<double>*> pBuffs(1,&buffers.front());
+                    tx_stream->send(pBuffs,buffers.size(),md);
+                    md.end_of_burst=true;
+                    tx_stream->send("",0,md);
+                }else{
+                    //std::cout << "Full buffer length >= max transmit size" << std::endl;    
+                    size_t numSent=0;
+                    // Split buffer into segments based on the max transmit size
+                    while (numSent<fullBufferLength)
+                    {
+                        size_t smallBufferSize=fullBufferLength-numSent;
+                        if(smallBufferSize>maxTransmitSize){
+                            smallBufferSize=maxTransmitSize;
+                        }
+                        std::vector<std::complex<double>> smallbuffer(buffers.begin()+numSent,buffers.begin()+numSent+smallBufferSize);
+                        std::vector<std::complex<double>*> pBuffs(1,&smallbuffer.front());
+                        tx_stream->send(pBuffs,smallbuffer.size(),md);
+                        numSent+=smallBufferSize;
+                        
+                        md.has_time_spec=false; //dont want subsequent packets to wait
+                        md.start_of_burst=false;
+                    }
+
+                    // Send end of burst packet
+                    md.end_of_burst=true;
+                    tx_stream->send("",0,md);
+                }
+            }
 
             return 0;
         }

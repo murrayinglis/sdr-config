@@ -555,6 +555,8 @@ namespace config
     // SETUP RECEIVER ---------------------------------------------------------------------------------------------
     int usrp_config::setupReceiever(uhd::usrp::multi_usrp::sptr& rx_usrp){
         // clock should already be set up for whole device
+        //rx_usrp->set_rx_power_reference(0,0);
+
         rx_usrp->set_rx_subdev_spec(RX_SUBDEV);
         rx_usrp->set_rx_antenna(RX_ANTENNA);
         
@@ -769,7 +771,7 @@ namespace config
 
     int usrp_config::setupTransmitter(uhd::usrp::multi_usrp::sptr& tx_usrp){
         //ref clock already set up
-
+        //tx_usrp->set_tx_power_reference(0,0);
         
         tx_usrp->set_tx_subdev_spec(TX_SUBDEV);
         tx_usrp->set_tx_antenna(TX_ANTENNA);

@@ -84,6 +84,7 @@ namespace hardware{
         // write to file when ALL samples received
         bool time_spec_reached = false;
         while (numSamplesReceived<num_requested_samples){
+            //std::cout << usrp->get_time_now().get_tick_count(25e6) << std::endl;
             double samplesForThisBlock=num_requested_samples-numSamplesReceived;
             if (samplesForThisBlock>samps_per_buff){
                 samplesForThisBlock=samps_per_buff;
@@ -97,6 +98,7 @@ namespace hardware{
             if (numNewSamples > 0 && !time_spec_reached)
             {
                 std::cout << "\nRX time spec reached, receiving started: " << usrp->get_time_now().get_real_secs() << std::endl;
+                std::cout << usrp->get_time_now().get_tick_count(25e6) << std::endl;
                 time_spec_reached = true;
             }
 
@@ -106,7 +108,7 @@ namespace hardware{
 
             //increment num samples receieved
             numSamplesReceived+=numNewSamples;
-            std::cout << numSamplesReceived << std::endl;
+            //std::cout << numSamplesReceived << std::endl;
         }
 
         // write to file when all samples received

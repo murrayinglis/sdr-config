@@ -4,7 +4,7 @@ import time
 import os
 import csv
 from scipy.signal import fftconvolve
-from scipy.signal.windows import hamming, blackman
+from scipy.signal.windows import hamming, blackman, kaiser
 
 # CONSTS
 c = 3e8
@@ -12,7 +12,7 @@ c = 3e8
 # PARAMS
 fs = 25e6
 pulse_width = 5000
-pulse_sep = 5000
+pulse_sep = 0
 
 # File path to the data file
 file_path_bin = 'outputs/pulsed_test.bin'
@@ -126,19 +126,21 @@ def update_plot_data(data):
         # PLOT EXTRACTED POWER
         xcorr_matrix = []
         ranges = np.arange(len(template_signal)) * c / (2*25e6)
-        ranges = ranges[0:500]
+        ranges = ranges[0:50]
+        pulses_sum = np.zeros(50).astype(np.complex128)
         while (len(xcorr_data)>0):
             max_idx = np.argmax(np.abs(xcorr_data[0:pulse_width+pulse_sep]))
             xcorr_data_plot = xcorr_data[max_idx:max_idx+pulse_width]
-            xcorr_data_plot = xcorr_data_plot[0:500]
-            if (len(xcorr_data_plot)==500):
+            xcorr_data_plot = xcorr_data_plot[0:50]
+            if (len(xcorr_data_plot)==50):
                 xcorr_data = xcorr_data[pulse_width+pulse_sep:]
                 xcorr_matrix.append(xcorr_data_plot)
+                pulses_sum += xcorr_data_plot
             else:
                 break
         line_xcorr_argmax.set_xdata(ranges)
         xcorr_mean = np.mean(xcorr_matrix, axis=0)
-        line_xcorr_argmax.set_ydata(20*np.log10(np.abs(xcorr_mean)))
+        line_xcorr_argmax.set_ydata(20*np.log10(np.abs(pulses_sum/np.max(pulses_sum))))
         axs[3].relim()  # Recompute limits
         axs[3].autoscale_view(True, True, True)  # Rescale the plot based on new data
         axs[3].minorticks_on()
@@ -184,8 +186,9 @@ last_modified_time = 0
 template_signal = read_complex_csv(file_path_csv)
 template_signal = template_signal[0:pulse_width]
 matched_filter = np.conjugate(template_signal[::-1])
-#indow = hamming(len(matched_filter))  # Choose the appropriate window function
-#matched_filter = matched_filter * window  # Apply the window
+window = hamming(len(matched_filter))  # Choose the appropriate window function
+window = kaiser(len(matched_filter), 10, sym=True)
+matched_filter = matched_filter * window  # Apply the window
 
 
 end = 500

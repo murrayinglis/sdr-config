@@ -12,14 +12,14 @@
         <WAVEFORM_FILE>sweep.csv</WAVEFORM_FILE>
     </config>
     <frequency>
-        <TX_FREQ>1e9</TX_FREQ>
-        <RX_FREQ>1e9</RX_FREQ>
+        <TX_FREQ>2500e6</TX_FREQ>
+        <RX_FREQ>2500e6</RX_FREQ>
         <TX_RATE>25e6</TX_RATE>
         <RX_RATE>25e6</RX_RATE>
         <TX_BW>30e6</TX_BW>
         <RX_BW>30e6</RX_BW>
-        <TX_GAIN>2</TX_GAIN>
-        <RX_GAIN>38</RX_GAIN>
+        <TX_GAIN>31</TX_GAIN>
+        <RX_GAIN>0</RX_GAIN>
     </frequency>
     <test>
         <TEST_TYPE>PULSED</TEST_TYPE>
