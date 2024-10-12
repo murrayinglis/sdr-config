@@ -8,6 +8,5 @@ latex/
 html/
 doc/
 venv
-*.csv
 sdr/
 python/__pycache__
