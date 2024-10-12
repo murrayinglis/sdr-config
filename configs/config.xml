@@ -7,23 +7,23 @@
     <config>
         <TX_SUBDEV>A:0</TX_SUBDEV>
         <RX_SUBDEV>A:0</RX_SUBDEV>
-        <TX_ANTENNA>TX/RX</TX_ANTENNA>    
+        <TX_ANTENNA>TX/RX</TX_ANTENNA>
         <RX_ANTENNA>RX2</RX_ANTENNA>
         <WAVEFORM_FILE>sweep.csv</WAVEFORM_FILE>
     </config>
     <frequency>
-        <TX_FREQ>2500e6</TX_FREQ>
-        <RX_FREQ>2500e6</RX_FREQ>
+        <TX_FREQ>2700e6</TX_FREQ>
+        <RX_FREQ>2700e6</RX_FREQ>
         <TX_RATE>25e6</TX_RATE>
         <RX_RATE>25e6</RX_RATE>
         <TX_BW>30e6</TX_BW>
         <RX_BW>30e6</RX_BW>
-        <TX_GAIN>31</TX_GAIN>
+        <TX_GAIN>30</TX_GAIN>
         <RX_GAIN>0</RX_GAIN>
     </frequency>
     <test>
         <TEST_TYPE>PULSED</TEST_TYPE>
-        <CONT>FALSE</CONT>
+        <CONT>TRUE</CONT>
         <NUM_SAMPLES>500000</NUM_SAMPLES>
         <RX_START_TIME>2</RX_START_TIME>
         <TX_START_TIME>2</TX_START_TIME>
