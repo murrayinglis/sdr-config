@@ -130,7 +130,7 @@ def update_plot_data(data):
         pulses_sum = np.zeros(50).astype(np.complex128)
         while (len(xcorr_data)>0):
             max_idx = np.argmax(np.abs(xcorr_data[0:pulse_width+pulse_sep]))
-            xcorr_data_plot = xcorr_data[max_idx:max_idx+pulse_width]
+            xcorr_data_plot = xcorr_data[max_idx-20:max_idx+pulse_width]
             xcorr_data_plot = xcorr_data_plot[0:50]
             if (len(xcorr_data_plot)==50):
                 xcorr_data = xcorr_data[pulse_width+pulse_sep:]
@@ -187,7 +187,7 @@ template_signal = read_complex_csv(file_path_csv)
 template_signal = template_signal[0:pulse_width]
 matched_filter = np.conjugate(template_signal[::-1])
 window = hamming(len(matched_filter))  # Choose the appropriate window function
-window = kaiser(len(matched_filter), 10, sym=True)
+window = kaiser(len(matched_filter), 20, sym=True)
 matched_filter = matched_filter * window  # Apply the window
 
 
