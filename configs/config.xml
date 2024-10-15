@@ -18,11 +18,11 @@
         <RX_RATE>25e6</RX_RATE>
         <TX_BW>30e6</TX_BW>
         <RX_BW>30e6</RX_BW>
-        <TX_GAIN>0</TX_GAIN>
+        <TX_GAIN>30</TX_GAIN>
         <RX_GAIN>0</RX_GAIN>
     </frequency>
     <test>
-        <TEST_TYPE>TX_SINGLE_FREQ</TEST_TYPE>
+        <TEST_TYPE>PULSED</TEST_TYPE>
         <CONT>false</CONT>
         <NUM_SAMPLES>500000</NUM_SAMPLES>
         <RX_START_TIME>2</RX_START_TIME>
