@@ -1,3 +1,3 @@
-System time at start: Sun Oct 13 17:59:44 2024
+System time at start: Tue Oct 22 09:59:53 2024
 
-Clock Reference: internal
+Clock Reference: gpsdo
